@@ -4679,10 +4679,8 @@ async function downloadCloudSave(confirmFirst = true) {
     wordbookFilter = state.wordbookFilter;
     wordbookIndex = state.wordbookIndex;
     $("#wordbook-filter").value = wordbookFilter;
-    renderDaily();
     renderWordbook();
     renderVocab();
-    renderQuestion();
     renderStats();
     setCloudStatus("云端进度已恢复。", "ok");
   } catch (error) {
@@ -4877,23 +4875,17 @@ function trainingMeaning(item) {
 }
 
 function renderStats() {
-  const latest = state.scores.at(-1);
-  $("#latest-score").textContent = latest ? latest.total : "未记录";
-  $("#study-days").textContent = state.studyDays.length;
-  $("#tasks-done").textContent = Object.values(state.tasks).filter(Boolean).length;
+  $("#seen-count").textContent = state.seenWords.length;
   $("#known-count").textContent = state.known.length;
-  $("#mistake-count").textContent = state.mistakes.length + state.wordMistakes.length;
+  $("#word-mistake-dashboard-count").textContent = state.wordMistakes.length;
+  $("#custom-count").textContent = state.customVocab.length;
   $("#word-known-count").textContent = state.known.length;
   $("#word-unknown-count").textContent = state.wordMistakes.length;
-  renderHistory();
-  renderMistakes();
   renderWordMistakes();
 }
-
 function renderTimeline() {
-  $("#timeline").innerHTML = phases.map((p) => `<article class="phase"><span>${p[0]}</span><div><strong>${p[1]}</strong><p>${p[2]}</p></div><button data-jump="daily">去训练</button></article>`).join("");
+  $("#timeline").innerHTML = phases.map((p) => `<article class="phase"><span>${p[0]}</span><div><strong>${p[1]}</strong><p>${p[2]}</p></div><button data-jump="wordbook">去背词</button></article>`).join("");
 }
-
 function renderDaily() {
   const day = today();
   $("#daily-tasks").innerHTML = dailyTasks.map((task, index) => {
@@ -5096,8 +5088,6 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("change", (event) => {
-  if (event.target.matches("[data-task]")) { state.tasks[event.target.dataset.task] = event.target.checked; if (!state.studyDays.includes(today())) state.studyDays.push(today()); save(); }
-  if (event.target.id === "practice-type") { currentType = event.target.value; questionIndex = 0; renderQuestion(); }
   if (event.target.id === "word-training-mode") { wordTrainingMode = event.target.value; renderVocab(); }
   if (event.target.id === "word-training-kind") {
     wordTrainingKind = event.target.value;
@@ -5113,8 +5103,6 @@ document.addEventListener("change", (event) => {
   }
   if (event.target.id === "wordbook-filter") { wordbookFilter = event.target.value; wordbookIndex = 0; saveWordbookPosition(); renderWordbook(); }
 });
-
-$("#reset-day").addEventListener("click", () => { Object.keys(state.tasks).forEach((key) => { if (key.startsWith(today())) delete state.tasks[key]; }); renderDaily(); save(); });
 $("#refresh-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex + 1) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#prev-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex - 1 + list.length) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#speak-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (!list.length) return; const item = list[wordbookIndex % list.length]; speakEnglish(`${item.phrase || item.word}. ${item.example || ""}`); });
@@ -5136,11 +5124,6 @@ $("#import-gold").addEventListener("click", () => { const imported = parseGoldIm
 $("#clear-gold").addEventListener("click", () => { state.customVocab = []; renderWordbook(); renderVocab(); save(); });
 $("#practice-word-mistakes").addEventListener("click", () => { if (!state.wordMistakes.length) return; $("#vocab-filter").value = "wordMistakes"; vocabFilter = "wordMistakes"; vocabIndex = 0; renderVocab(); switchTab("vocab"); });
 $("#clear-word-mistakes").addEventListener("click", () => { state.wordMistakes = []; state.unknown = []; save(); });
-$("#next-question").addEventListener("click", () => { questionIndex = (questionIndex + 1) % questions[currentType].length; renderQuestion(); });
-$("#speak-question").addEventListener("click", () => { speakEnglish($("#question-text").textContent); });
-$("#start-mock").addEventListener("click", () => { clearInterval(timerId); remainingSeconds = 120 * 60; tick(); timerId = setInterval(tick, 1000); });
-$("#score-form").addEventListener("submit", (event) => { event.preventDefault(); const listen = Number($("#listen-score").value || 0); const read = Number($("#read-score").value || 0); if (!listen || !read) return; state.scores.push({ time: new Date().toLocaleString(), listen, read, total: listen + read }); $("#listen-score").value = ""; $("#read-score").value = ""; save(); });
-$("#clear-mistakes").addEventListener("click", () => { state.mistakes = []; save(); });
 $("#save-cloud-sync").addEventListener("click", () => { saveCloudSettingsFromInputs(); setCloudStatus("同步设置已保存。", "ok"); });
 $("#create-cloud-save").addEventListener("click", connectCloudSave);
 $("#upload-cloud-save").addEventListener("click", () => { saveCloudSettingsFromInputs(); uploadCloudSave(true); });
@@ -5148,12 +5131,10 @@ $("#download-cloud-save").addEventListener("click", downloadCloudSave);
 $("#cloud-auto").addEventListener("change", () => { saveCloudSettingsFromInputs(); if (cloudSync.auto) queueCloudUpload(); });
 
 renderTimeline();
-renderDaily();
 updateCloudInputs();
 $("#wordbook-filter").value = wordbookFilter;
 $("#vocab-filter").value = vocabFilter;
 $("#word-training-kind").value = wordTrainingKind;
 $("#word-training-mode").value = wordTrainingMode;
 renderVocab();
-renderQuestion();
 renderStats();
