@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TOEIC 700 离线训练程序</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">700</span>
+        <div>
+          <strong>TOEIC 700</strong>
+          <span>12 周离线训练</span>
+        </div>
+      </div>
+      <nav class="tabs" aria-label="主导航">
+        <button class="tab active" data-tab="dashboard">总览</button>
+        <button class="tab" data-tab="daily">今日训练</button>
+        <button class="tab" data-tab="wordbook">单词本</button>
+        <button class="tab" data-tab="vocab">单词训练</button>
+        <button class="tab" data-tab="word-mistakes">单词错题</button>
+        <button class="tab" data-tab="practice">专项练习</button>
+        <button class="tab" data-tab="mock">模拟考试</button>
+        <button class="tab" data-tab="mistakes">错题本</button>
+      </nav>
+    </aside>
+
+    <main class="app">
+      <section class="panel active" id="dashboard">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">目标分数</p>
+            <h1>从基础训练到 TOEIC 700 分</h1>
+          </div>
+          <div class="score-card">
+            <span>当前模拟分</span>
+            <strong id="latest-score">未记录</strong>
+          </div>
+        </header>
+
+        <div class="metrics">
+          <article>
+            <span>训练天数</span>
+            <strong id="study-days">0</strong>
+          </article>
+          <article>
+            <span>完成任务</span>
+            <strong id="tasks-done">0</strong>
+          </article>
+          <article>
+            <span>掌握词汇</span>
+            <strong id="known-count">0</strong>
+          </article>
+          <article>
+            <span>错题数量</span>
+            <strong id="mistake-count">0</strong>
+          </article>
+        </div>
+
+        <section class="band">
+          <div class="section-title">
+            <h2>12 周路线</h2>
+            <p>按阶段推进，目标是稳定进入 650-750 区间。</p>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </section>
+      </section>
+
+      <section class="panel" id="daily">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">每日节奏</p>
+            <h1>今天只需要完成这几件事</h1>
+          </div>
+          <button class="primary" id="reset-day">重置今日</button>
+        </header>
+        <div class="task-list" id="daily-tasks"></div>
+      </section>
+
+      <section class="panel" id="wordbook">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">词汇浏览</p>
+            <h1>单词本</h1>
+          </div>
+          <div class="actions">
+            <select id="wordbook-filter" aria-label="单词本分类">
+              <option value="all">全部</option>
+              <option value="word">只看单词</option>
+              <option value="phrase">只看短语</option>
+              <option value="grammar">固定搭配</option>
+              <option value="office">办公室</option>
+              <option value="meeting">会议</option>
+              <option value="finance">财务</option>
+              <option value="travel">差旅</option>
+              <option value="hiring">招聘</option>
+              <option value="logistics">物流</option>
+              <option value="photo">照片词库</option>
+            </select>
+            <button id="prev-wordbook">上一条</button>
+            <button id="refresh-wordbook">下一条</button>
+            <button id="speak-wordbook">朗读</button>
+            <button id="toggle-import" aria-expanded="false">导入词库</button>
+          </div>
+        </header>
+        <div class="wordbook-summary">
+          <strong id="wordbook-count">0</strong>
+          <span>条词汇和短语</span>
+        </div>
+        <div class="flashcard wordbook-card" id="wordbook-card">
+          <span id="wordbook-tag">Business</span>
+          <p class="word-mode-label" id="wordbook-kind">单词</p>
+          <h2 id="wordbook-word">invoice</h2>
+          <p id="wordbook-meaning">发票</p>
+          <blockquote id="wordbook-example">Please send the invoice by Friday.</blockquote>
+          <p class="token-translation" id="wordbook-token-translation">点击例句中的单词查看翻译</p>
+          <p class="translation" id="wordbook-translation">请在周五前发送发票。</p>
+          <div class="word-meta">
+            <strong id="wordbook-phrase">send an invoice</strong>
+            <span id="wordbook-note">TOEIC 常见搭配。</span>
+          </div>
+        </div>
+        <div class="import-box collapsed" id="import-box">
+          <div>
+            <strong>导入自己的词库</strong>
+            <p>每行一个词，格式：单词,中文意思,英文例句,例句中文翻译,搭配/短语</p>
+          </div>
+          <textarea id="gold-import" rows="6" placeholder="例如：
+invoice,发票,Please send the invoice by Friday.,请在周五前发送发票。,send an invoice
+decide to do sth,决定做某事,The director decided to postpone the meeting.,主管决定推迟会议。,decide to do sth"></textarea>
+          <div class="actions">
+            <button class="primary" id="import-gold">导入到我的词库</button>
+            <button id="clear-gold">清空已导入</button>
+            <span id="gold-count">内置 0 个，已导入 0 个</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="vocab">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">高频商务词</p>
+            <h1>单词训练</h1>
+          </div>
+          <div class="actions">
+            <select id="vocab-filter" aria-label="词汇分类">
+              <option value="all">全部场景</option>
+              <option value="highfreq">1000+ 高频词库</option>
+              <option value="office">办公室</option>
+              <option value="meeting">会议</option>
+              <option value="finance">财务</option>
+              <option value="travel">差旅</option>
+              <option value="hiring">招聘</option>
+              <option value="logistics">物流</option>
+              <option value="grammar">固定搭配</option>
+              <option value="photo">照片词库</option>
+              <option value="wordMistakes">不熟词复习</option>
+              <option value="gold">我的金フレ词库</option>
+            </select>
+            <select id="word-training-mode" aria-label="训练模式">
+              <option value="enToCn">英文选中文</option>
+              <option value="cnToEn">中文选英文</option>
+            </select>
+            <select id="word-training-kind" aria-label="训练对象">
+              <option value="allKinds">全部</option>
+              <option value="word">单词</option>
+              <option value="phrase">短语</option>
+              <option value="grammar">固定搭配</option>
+            </select>
+            <button id="speak-vocab">朗读</button>
+          </div>
+        </header>
+        <div class="flashcard training-card" id="flashcard">
+          <div class="training-content">
+            <span id="vocab-tag">Business</span>
+            <p class="word-mode-label" id="word-question-type">英文选中文</p>
+            <h2 id="vocab-word">invoice</h2>
+            <p id="vocab-meaning">选择正确答案</p>
+            <div class="word-choice-grid" id="word-options"></div>
+            <div class="feedback" id="word-feedback"></div>
+          </div>
+          <button class="training-next-zone" id="training-next-zone" aria-label="下一题">下一题</button>
+        </div>
+        <div class="word-stats">
+          <article>
+            <span>当前词库</span>
+            <strong id="current-word-count">0</strong>
+          </article>
+          <article>
+            <span>已掌握</span>
+            <strong id="word-known-count">0</strong>
+          </article>
+          <article>
+            <span>不熟单词</span>
+            <strong id="word-unknown-count">0</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="word-mistakes">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">单词复盘</p>
+            <h1>单词错题本</h1>
+          </div>
+          <div class="actions">
+            <button id="practice-word-mistakes">只练不熟词</button>
+            <button id="clear-word-mistakes">清空单词错题</button>
+          </div>
+        </header>
+        <div class="mistakes" id="word-mistake-list"></div>
+      </section>
+
+      <section class="panel" id="practice">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Part 2 / 5 / 7</p>
+            <h1>专项练习</h1>
+          </div>
+          <select id="practice-type" aria-label="练习类型">
+            <option value="listening">听力问答</option>
+            <option value="grammar">语法词汇</option>
+            <option value="reading">阅读定位</option>
+          </select>
+        </header>
+        <div class="quiz">
+          <div class="quiz-top">
+            <span id="question-index">1 / 1</span>
+            <button id="speak-question">播放/朗读</button>
+          </div>
+          <h2 id="question-text"></h2>
+          <p class="passage" id="question-passage"></p>
+          <div class="options" id="options"></div>
+          <div class="feedback" id="feedback"></div>
+          <button class="primary" id="next-question">下一题</button>
+        </div>
+      </section>
+
+      <section class="panel" id="mock">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">计时模拟</p>
+            <h1>按考试节奏训练</h1>
+          </div>
+          <button class="primary" id="start-mock">开始 120 分钟</button>
+        </header>
+        <div class="mock-grid">
+          <article class="timer">
+            <span>剩余时间</span>
+            <strong id="timer">120:00</strong>
+          </article>
+          <form class="score-form" id="score-form">
+            <label>
+              听力估分
+              <input id="listen-score" type="number" min="5" max="495" placeholder="例如 360" />
+            </label>
+            <label>
+              阅读估分
+              <input id="read-score" type="number" min="5" max="495" placeholder="例如 340" />
+            </label>
+            <button class="primary" type="submit">记录成绩</button>
+          </form>
+        </div>
+        <div class="history" id="score-history"></div>
+      </section>
+
+      <section class="panel" id="mistakes">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">复盘</p>
+            <h1>错题本</h1>
+          </div>
+          <button id="clear-mistakes">清空错题</button>
+        </header>
+        <div class="mistakes" id="mistake-list"></div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

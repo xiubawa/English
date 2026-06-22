@@ -1,0 +1,55 @@
+TOEIC 700 程序上线到 GitHub Pages
+
+要上传的文件夹：
+C:\Users\fuzil\Documents\面试\toeic-700-github-pages
+
+重要提醒：
+GitHub Pages 上线后网页是公网可访问的。
+即使仓库是 Private，GitHub Pages 页面本身也可能公开访问。
+这个文件夹里放了 robots.txt，可以尽量阻止搜索引擎收录，但不是密码保护。
+
+一、创建 GitHub 仓库
+1. 打开 https://github.com/
+2. 登录你的 GitHub 账号。
+3. 右上角点 +，选择 New repository。
+4. Repository name 填 toeic-700-private 或 toeic-700。
+5. 如果你是免费账号，建议选 Public，因为 GitHub Free 的 Pages 通常需要公开仓库。
+6. 勾选 Add a README file 也可以，不勾也可以。
+7. 点击 Create repository。
+
+二、上传程序文件
+1. 进入刚创建的仓库。
+2. 点击 Add file。
+3. 点击 Upload files。
+4. 打开本机文件夹：
+   C:\Users\fuzil\Documents\面试\toeic-700-github-pages
+5. 把里面所有文件拖到 GitHub 上传区：
+   index.html
+   styles.css
+   app.js
+   .nojekyll
+   robots.txt
+   README.md
+6. 页面底部点击 Commit changes。
+
+三、开启 GitHub Pages
+1. 进入仓库的 Settings。
+2. 左侧找到 Pages。
+3. Build and deployment 里的 Source 选择 Deploy from a branch。
+4. Branch 选择 main。
+5. 文件夹选择 /(root)。
+6. 点击 Save。
+
+四、打开网页
+等待 1-10 分钟。
+回到 Settings > Pages，页面上会出现网址，一般是：
+https://你的用户名.github.io/仓库名/
+
+比如：
+https://fuzil.github.io/toeic-700-private/
+
+五、关于学习进度
+GitHub 上线后，电脑和 iPad 都能打开同一个网址。
+但目前进度仍保存在每个设备自己的浏览器里，不会自动同步。
+如果要电脑和 iPad 同步进度，需要以后再加登录和云端数据库。
+
