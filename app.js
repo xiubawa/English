@@ -4538,6 +4538,19 @@ function cloudPayload() {
   };
 }
 
+function hasStudyProgress() {
+  return Boolean(
+    Object.keys(state.tasks || {}).length
+    || state.known.length
+    || state.wordMistakes.length
+    || state.seenWords.length
+    || state.customVocab.length
+    || state.mistakes.length
+    || state.scores.length
+    || state.studyDays.length
+  );
+}
+
 async function githubGistRequest(path, options = {}) {
   const token = (cloudSync.token || "").trim();
   if (!token) throw new Error("请先填写 GitHub Token。");
@@ -4556,6 +4569,11 @@ async function githubGistRequest(path, options = {}) {
     throw new Error(text || `GitHub 请求失败：${response.status}`);
   }
   return response.status === 204 ? null : response.json();
+}
+
+async function findCloudSave() {
+  const gists = await githubGistRequest("/gists?per_page=100");
+  return (Array.isArray(gists) ? gists : []).find((gist) => gist.files && gist.files[cloudFileName]);
 }
 
 async function createCloudSave() {
@@ -4584,9 +4602,40 @@ async function createCloudSave() {
   }
 }
 
+async function connectCloudSave() {
+  saveCloudSettingsFromInputs();
+  if (!(cloudSync.token || "").trim()) {
+    setCloudStatus("请先填写 GitHub Token。", "error");
+    return;
+  }
+  setCloudStatus("正在连接云端...");
+  try {
+    if (!cloudSync.gistId) {
+      const existing = await findCloudSave();
+      if (existing?.id) {
+        cloudSync.gistId = existing.id;
+        persistCloudSync();
+        updateCloudInputs();
+        if (!hasStudyProgress()) {
+          await downloadCloudSave(false);
+          return;
+        }
+        setCloudStatus("已找到云端档案。需要时点“恢复进度”或“上传进度”。", "ok");
+        return;
+      }
+      await createCloudSave();
+      return;
+    }
+    await githubGistRequest(`/gists/${encodeURIComponent(cloudSync.gistId)}`);
+    setCloudStatus("云端已连接。", "ok");
+  } catch (error) {
+    setCloudStatus(error.message || "连接失败。", "error");
+  }
+}
+
 async function uploadCloudSave(manual = true) {
   if (!hasCloudConfig() || isCloudSyncing) {
-    if (manual && !hasCloudConfig()) setCloudStatus("请先填写 Token 和 Gist ID，或点击创建云端档案。", "error");
+    if (manual && !hasCloudConfig()) setCloudStatus("请先填写 Token，或点击连接云端。", "error");
     return;
   }
   isCloudSyncing = true;
@@ -4612,13 +4661,13 @@ async function uploadCloudSave(manual = true) {
   }
 }
 
-async function downloadCloudSave() {
+async function downloadCloudSave(confirmFirst = true) {
   saveCloudSettingsFromInputs();
   if (!hasCloudConfig()) {
     setCloudStatus("请先填写 Token 和 Gist ID。", "error");
     return;
   }
-  if (!confirm("恢复云端进度会覆盖当前浏览器里的进度，确定继续吗？")) return;
+  if (confirmFirst && !confirm("恢复云端进度会覆盖当前浏览器里的进度，确定继续吗？")) return;
   setCloudStatus("正在恢复云端进度...");
   try {
     const gist = await githubGistRequest(`/gists/${encodeURIComponent(cloudSync.gistId)}`);
@@ -5093,7 +5142,7 @@ $("#start-mock").addEventListener("click", () => { clearInterval(timerId); remai
 $("#score-form").addEventListener("submit", (event) => { event.preventDefault(); const listen = Number($("#listen-score").value || 0); const read = Number($("#read-score").value || 0); if (!listen || !read) return; state.scores.push({ time: new Date().toLocaleString(), listen, read, total: listen + read }); $("#listen-score").value = ""; $("#read-score").value = ""; save(); });
 $("#clear-mistakes").addEventListener("click", () => { state.mistakes = []; save(); });
 $("#save-cloud-sync").addEventListener("click", () => { saveCloudSettingsFromInputs(); setCloudStatus("同步设置已保存。", "ok"); });
-$("#create-cloud-save").addEventListener("click", createCloudSave);
+$("#create-cloud-save").addEventListener("click", connectCloudSave);
 $("#upload-cloud-save").addEventListener("click", () => { saveCloudSettingsFromInputs(); uploadCloudSave(true); });
 $("#download-cloud-save").addEventListener("click", downloadCloudSave);
 $("#cloud-auto").addEventListener("change", () => { saveCloudSettingsFromInputs(); if (cloudSync.auto) queueCloudUpload(); });

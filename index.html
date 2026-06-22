@@ -62,7 +62,7 @@
         <section class="band cloud-sync">
           <div class="section-title">
             <h2>云端进度</h2>
-            <p>用 GitHub Gist 保存学习记录，电脑和 iPad 可手动同步。</p>
+            <p>粘贴一次 GitHub Token，程序会自动查找或创建云端档案。</p>
           </div>
           <div class="cloud-sync-card">
             <label>
@@ -70,8 +70,8 @@
               <input id="cloud-token" type="password" autocomplete="off" placeholder="只保存在当前浏览器" />
             </label>
             <label>
-              Gist ID
-              <input id="cloud-gist-id" type="text" autocomplete="off" placeholder="创建后自动填写" />
+              Gist ID（可选）
+              <input id="cloud-gist-id" type="text" autocomplete="off" placeholder="通常不用填，连接后自动填写" />
             </label>
             <label class="check-row">
               <input id="cloud-auto" type="checkbox" />
@@ -79,7 +79,7 @@
             </label>
             <div class="cloud-actions">
               <button id="save-cloud-sync" type="button">保存设置</button>
-              <button id="create-cloud-save" type="button">创建云端档案</button>
+              <button id="create-cloud-save" type="button">连接云端</button>
               <button id="upload-cloud-save" type="button">上传进度</button>
               <button id="download-cloud-save" type="button">恢复进度</button>
             </div>
