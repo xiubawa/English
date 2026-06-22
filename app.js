@@ -327,6 +327,1392 @@ const grammarPhrases = [
   kind: "phrase"
 }));
 
+const grammarPairGroups = [
+  {
+    word: "remember",
+    variants: [
+      ["remember to do sth", "记得要去做某事", "Please remember to submit the expense report by Friday.", "请记得在周五前提交费用报告。"],
+      ["remember doing sth", "记得做过某事", "I remember submitting the expense report yesterday.", "我记得昨天提交过费用报告。"]
+    ]
+  },
+  {
+    word: "forget",
+    variants: [
+      ["forget to do sth", "忘记要去做某事", "The assistant forgot to attach the receipt to the email.", "助理忘记把收据附在邮件里。"],
+      ["forget doing sth", "忘记做过某事", "He forgot sending the updated schedule to the team.", "他忘记自己已经把更新后的日程发给了团队。"]
+    ]
+  },
+  {
+    word: "try",
+    variants: [
+      ["try to do sth", "努力/设法做某事", "The technician tried to repair the printer before the meeting.", "技术员试图在会议前修好打印机。"],
+      ["try doing sth", "试着做某事看看效果", "The technician tried restarting the printer before calling support.", "技术员在联系支持前试着重启了打印机。"]
+    ]
+  },
+  {
+    word: "stop",
+    variants: [
+      ["stop to do sth", "停下来去做另一件事", "The manager stopped to answer a client call.", "经理停下来接了一个客户电话。"],
+      ["stop doing sth", "停止正在做的事", "The staff stopped using the old software after the update.", "更新后员工停止使用旧软件。"]
+    ]
+  },
+  {
+    word: "regret",
+    variants: [
+      ["regret to do sth", "遗憾地要做某事/通知某事", "We regret to inform you that the seminar has been canceled.", "我们很遗憾地通知您研讨会已取消。"],
+      ["regret doing sth", "后悔做过某事", "The supervisor regretted approving the order without checking the budget.", "主管后悔没有核对预算就批准了订单。"]
+    ]
+  },
+  {
+    word: "mean",
+    variants: [
+      ["mean to do sth", "打算做某事", "I meant to call the supplier before lunch.", "我本打算午餐前给供应商打电话。"],
+      ["mean doing sth", "意味着做某事", "Changing the delivery date means updating every customer notice.", "更改配送日期意味着要更新每一份客户通知。"]
+    ]
+  },
+  {
+    word: "go on",
+    variants: [
+      ["go on to do sth", "接着去做另一件事", "After reviewing the proposal, the team went on to discuss the budget.", "审查提案后，团队接着讨论了预算。"],
+      ["go on doing sth", "继续做同一件事", "The team went on reviewing the proposal after a short break.", "短暂休息后，团队继续审查提案。"]
+    ]
+  },
+  {
+    word: "need",
+    variants: [
+      ["need to do sth", "需要去做某事", "Employees need to complete the form before orientation.", "员工需要在入职培训前填写表格。"],
+      ["need doing sth", "某事需要被做", "The conference room needs cleaning before the guests arrive.", "客人到达前，会议室需要打扫。"]
+    ]
+  },
+  {
+    word: "used",
+    variants: [
+      ["used to do sth", "过去常常做某事", "The company used to hold training sessions every Friday.", "这家公司过去常常每周五举办培训。"],
+      ["be used to doing sth", "习惯于做某事", "The new staff are used to working with overseas clients.", "新员工习惯与海外客户合作。"],
+      ["be used to do sth", "被用来做某事", "The software is used to track monthly expenses.", "这个软件被用来追踪每月费用。"]
+    ]
+  },
+  {
+    word: "propose",
+    variants: [
+      ["propose to do sth", "打算/提议亲自做某事", "The consultant proposed to review the contract first.", "顾问提议先亲自审查合同。"],
+      ["propose doing sth", "建议做某事", "The consultant proposed reviewing the contract first.", "顾问建议先审查合同。"]
+    ]
+  },
+  {
+    word: "allow",
+    variants: [
+      ["allow sb to do sth", "允许某人做某事", "The policy allows employees to work from home twice a week.", "该政策允许员工每周在家办公两次。"],
+      ["allow doing sth", "允许做某事", "The new policy allows working from home twice a week.", "新政策允许每周在家办公两次。"]
+    ]
+  },
+  {
+    word: "permit",
+    variants: [
+      ["permit sb to do sth", "允许某人做某事", "The pass permits visitors to enter the building after 6 p.m.", "这张通行证允许访客晚上六点后进入大楼。"],
+      ["permit doing sth", "允许做某事", "The rules permit entering the building after 6 p.m. with a pass.", "规定允许持通行证在晚上六点后进入大楼。"]
+    ]
+  },
+  {
+    word: "forbid",
+    variants: [
+      ["forbid sb to do sth", "禁止某人做某事", "The company forbids employees to share confidential files.", "公司禁止员工共享机密文件。"],
+      ["forbid doing sth", "禁止做某事", "The company forbids sharing confidential files.", "公司禁止共享机密文件。"]
+    ]
+  },
+  {
+    word: "advise",
+    variants: [
+      ["advise sb to do sth", "建议某人做某事", "The manager advised us to reserve the room early.", "经理建议我们早点预订房间。"],
+      ["advise doing sth", "建议做某事", "The manager advised reserving the room early.", "经理建议早点预订房间。"]
+    ]
+  },
+  {
+    word: "begin",
+    variants: [
+      ["begin to do sth", "开始做某事", "The team began to prepare the annual report in March.", "团队三月开始准备年度报告。"],
+      ["begin doing sth", "开始做某事", "The team began preparing the annual report in March.", "团队三月开始准备年度报告。"]
+    ]
+  },
+  {
+    word: "start",
+    variants: [
+      ["start to do sth", "开始做某事", "The printer started to make a strange noise.", "打印机开始发出奇怪的声音。"],
+      ["start doing sth", "开始做某事", "The printer started making a strange noise.", "打印机开始发出奇怪的声音。"]
+    ]
+  },
+  {
+    word: "continue",
+    variants: [
+      ["continue to do sth", "继续做某事", "The staff continued to process orders during the system update.", "系统更新期间员工继续处理订单。"],
+      ["continue doing sth", "继续做某事", "The staff continued processing orders during the system update.", "系统更新期间员工继续处理订单。"]
+    ]
+  },
+  {
+    word: "cease",
+    variants: [
+      ["cease to do sth", "停止做某事/不再做某事", "The old system will cease to operate next month.", "旧系统将在下个月停止运行。"],
+      ["cease doing sth", "停止做某事", "The factory ceased producing the item last year.", "工厂去年停止生产该商品。"]
+    ]
+  },
+  {
+    word: "prefer",
+    variants: [
+      ["prefer to do sth", "更喜欢做某事", "Many customers prefer to receive digital receipts.", "许多客户更喜欢接收电子收据。"],
+      ["prefer doing sth", "更喜欢做某事", "Many customers prefer receiving digital receipts.", "许多客户更喜欢接收电子收据。"],
+      ["prefer doing A to doing B", "比起做B更喜欢做A", "The team prefers meeting online to traveling for short updates.", "比起为了简短更新而出差，团队更喜欢线上开会。"]
+    ]
+  },
+  {
+    word: "like",
+    variants: [
+      ["like to do sth", "喜欢/愿意做某事，常指选择或习惯", "I like to check the schedule before leaving the office.", "我喜欢在离开办公室前查看日程。"],
+      ["like doing sth", "喜欢做某事，常指享受某个活动", "I like checking the schedule before leaving the office.", "我喜欢在离开办公室前查看日程。"]
+    ]
+  },
+  {
+    word: "hate",
+    variants: [
+      ["hate to do sth", "不愿意/很遗憾要做某事", "I hate to interrupt the meeting, but the client is waiting.", "我不愿打断会议，但客户正在等。"],
+      ["hate doing sth", "讨厌做某事", "She hates commuting during rush hour.", "她讨厌在高峰时段通勤。"]
+    ]
+  },
+  {
+    word: "bother",
+    variants: [
+      ["bother to do sth", "费心去做某事", "Please bother to read the instructions before installing the software.", "安装软件前请费心阅读说明。"],
+      ["bother doing sth", "费心做某事", "Few employees bothered checking the old notice after the update.", "更新后很少有员工费心查看旧通知。"]
+    ]
+  },
+  {
+    word: "decide",
+    variants: [
+      ["decide to do sth", "决定做某事", "The director decided to postpone the meeting.", "主管决定推迟会议。"],
+      ["decide against doing sth", "决定不做某事", "The company decided against opening a new branch this year.", "公司决定今年不开设新分店。"]
+    ]
+  },
+  {
+    word: "plan",
+    variants: [
+      ["plan to do sth", "计划做某事", "We plan to launch the product in July.", "我们计划在七月发布产品。"],
+      ["plan on doing sth", "打算做某事", "The sales team plans on visiting the client next week.", "销售团队打算下周拜访客户。"]
+    ]
+  },
+  {
+    word: "help",
+    variants: [
+      ["help (to) do sth", "帮助做某事", "The new software helps process invoices more quickly.", "新软件帮助更快地处理发票。"],
+      ["cannot help doing sth", "忍不住做某事", "The manager could not help noticing the error in the report.", "经理忍不住注意到了报告里的错误。"]
+    ]
+  },
+  {
+    word: "require",
+    variants: [
+      ["require sb to do sth", "要求某人做某事", "The policy requires visitors to wear ID badges.", "该政策要求访客佩戴身份牌。"],
+      ["require doing sth", "需要被做某事", "The storage room requires cleaning before the inspection.", "检查前储藏室需要清洁。"]
+    ]
+  },
+  {
+    word: "encourage",
+    variants: [
+      ["encourage sb to do sth", "鼓励某人做某事", "The supervisor encouraged employees to attend the workshop.", "主管鼓励员工参加研讨会。"],
+      ["encourage doing sth", "鼓励做某事", "The new policy encourages sharing ideas during meetings.", "新政策鼓励在会议中分享想法。"]
+    ]
+  },
+  {
+    word: "recommend",
+    variants: [
+      ["recommend doing sth", "建议做某事", "We recommend booking a room early.", "我们建议尽早预订房间。"],
+      ["recommend that sb do sth", "建议某人做某事", "The consultant recommended that the company reduce costs.", "顾问建议公司降低成本。"]
+    ]
+  },
+  {
+    word: "suggest",
+    variants: [
+      ["suggest doing sth", "建议做某事", "He suggested changing the delivery date.", "他建议更改送货日期。"],
+      ["suggest that sb do sth", "建议某人做某事", "The manager suggested that we review the contract again.", "经理建议我们再次审查合同。"]
+    ]
+  },
+  {
+    word: "remind",
+    variants: [
+      ["remind sb to do sth", "提醒某人去做某事", "Please remind staff to submit receipts.", "请提醒员工提交收据。"],
+      ["remind sb of doing sth", "使某人想起做过某事", "The notice reminded employees of signing the policy form last year.", "这则通知让员工想起去年签过政策表格。"]
+    ]
+  },
+  {
+    word: "lead",
+    variants: [
+      ["lead sb to do sth", "导致/引导某人做某事", "The survey led managers to change the training schedule.", "这项调查促使经理们更改培训日程。"],
+      ["lead to doing sth", "导致做某事/导致某结果", "The delay led to rescheduling the shipment.", "延误导致重新安排发货。"]
+    ]
+  },
+  {
+    word: "proceed",
+    variants: [
+      ["proceed to do sth", "接着做下一件事", "After the presentation, the speaker proceeded to answer questions.", "演示结束后，演讲者接着回答问题。"],
+      ["proceed with doing sth", "继续进行某事", "The team proceeded with testing the new system.", "团队继续测试新系统。"]
+    ]
+  },
+  {
+    word: "attempt",
+    variants: [
+      ["attempt to do sth", "试图做某事", "The technician attempted to repair the machine before noon.", "技术员试图在中午前修好机器。"],
+      ["attempt doing sth", "尝试做某事", "The technician attempted restarting the machine before replacing it.", "技术员在更换机器前尝试重启它。"]
+    ]
+  },
+  {
+    word: "love",
+    variants: [
+      ["love to do sth", "喜欢/愿意做某事", "Many customers love to receive updates by email.", "许多客户喜欢通过邮件接收更新。"],
+      ["love doing sth", "喜欢做某事", "Many customers love receiving updates by email.", "许多客户喜欢通过邮件接收更新。"]
+    ]
+  },
+  {
+    word: "bear",
+    variants: [
+      ["cannot bear to do sth", "无法忍受去做某事", "The client could not bear to wait another week for the replacement.", "客户无法忍受再等一周更换品。"],
+      ["cannot bear doing sth", "无法忍受做某事", "The client could not bear waiting another week for the replacement.", "客户无法忍受再等一周更换品。"]
+    ]
+  },
+  {
+    word: "approve",
+    variants: [
+      ["approve sth", "批准某事", "The director approved the revised budget yesterday.", "主管昨天批准了修订后的预算。"],
+      ["approve of doing sth", "赞成做某事", "The director approved of reducing travel expenses.", "主管赞成减少差旅费用。"]
+    ]
+  },
+  {
+    word: "admit",
+    variants: [
+      ["admit doing sth", "承认做过某事", "The clerk admitted making a mistake on the invoice.", "职员承认在发票上犯了错误。"],
+      ["admit to doing sth", "承认做过某事", "The clerk admitted to making a mistake on the invoice.", "职员承认在发票上犯了错误。"]
+    ]
+  },
+  {
+    word: "deny",
+    variants: [
+      ["deny doing sth", "否认做过某事", "The supplier denied receiving the payment.", "供应商否认收到付款。"],
+      ["deny that sb did sth", "否认某事发生", "The supplier denied that it had received the payment.", "供应商否认已经收到付款。"]
+    ]
+  },
+  {
+    word: "object",
+    variants: [
+      ["object to doing sth", "反对做某事", "Some residents objected to renovating the lobby.", "一些住户反对翻新大厅。"],
+      ["object that S V", "提出反对意见说...", "Several employees objected that the schedule was too tight.", "几名员工提出反对意见，说日程太紧。"]
+    ]
+  },
+  {
+    word: "be afraid",
+    variants: [
+      ["be afraid to do sth", "不敢/害怕去做某事", "The trainee was afraid to ask the client a direct question.", "实习生不敢直接问客户问题。"],
+      ["be afraid of doing sth", "担心做某事会产生后果", "The trainee was afraid of making a mistake during the call.", "实习生担心在电话中犯错。"]
+    ]
+  },
+  {
+    word: "be interested",
+    variants: [
+      ["be interested to do sth", "对得知/看到某事感兴趣", "We were interested to learn that sales had increased.", "我们很有兴趣得知销售额已经增长。"],
+      ["be interested in doing sth", "对做某事感兴趣", "Several employees are interested in attending the seminar.", "几名员工有兴趣参加研讨会。"]
+    ]
+  },
+  {
+    word: "be sure",
+    variants: [
+      ["be sure to do sth", "一定会做某事/务必做某事", "Be sure to check the figures before sending the report.", "发送报告前务必核对数字。"],
+      ["be sure of doing sth", "确信能做成某事", "The team is sure of completing the project on schedule.", "团队确信能按计划完成项目。"]
+    ]
+  },
+  {
+    word: "be worth",
+    variants: [
+      ["be worth doing sth", "值得做某事", "The proposal is worth reviewing before the meeting.", "会议前这份提案值得审查。"],
+      ["be worthy of being done", "值得被做/值得被讨论", "The issue is worthy of being discussed at the next meeting.", "这个问题值得在下次会议上讨论。"]
+    ]
+  },
+  {
+    word: "see",
+    variants: [
+      ["see sb do sth", "看见某人做了某事的全过程", "The guard saw the visitor enter the building.", "保安看见访客进入了大楼。"],
+      ["see sb doing sth", "看见某人正在做某事", "The guard saw the visitor waiting in the lobby.", "保安看见访客正在大厅等候。"],
+      ["be seen to do sth", "被看见做某事", "The visitor was seen to enter the building.", "访客被看见进入了大楼。"]
+    ]
+  },
+  {
+    word: "hear",
+    variants: [
+      ["hear sb do sth", "听见某人做了某事", "I heard the manager announce the new policy.", "我听见经理宣布了新政策。"],
+      ["hear sb doing sth", "听见某人正在做某事", "I heard the manager discussing the new policy.", "我听见经理正在讨论新政策。"],
+      ["be heard to do sth", "被听见做某事", "The manager was heard to announce the new policy.", "有人听见经理宣布新政策。"]
+    ]
+  },
+  {
+    word: "watch",
+    variants: [
+      ["watch sb do sth", "观看某人完成某事", "The trainer watched the clerk process the order.", "培训师看着职员处理完订单。"],
+      ["watch sb doing sth", "观看某人正在做某事", "The trainer watched the clerk processing the order.", "培训师看着职员正在处理订单。"]
+    ]
+  },
+  {
+    word: "notice",
+    variants: [
+      ["notice sb do sth", "注意到某人做了某事", "The supervisor noticed the assistant leave early.", "主管注意到助理早退了。"],
+      ["notice sb doing sth", "注意到某人正在做某事", "The supervisor noticed the assistant checking the inventory.", "主管注意到助理正在核对库存。"]
+    ]
+  }
+];
+
+grammarPairGroups.push(
+  ...[
+    {
+      word: "agree",
+      variants: [
+        ["agree to do sth", "同意做某事", "The supplier agreed to reduce the price.", "供应商同意降低价格。"],
+        ["agree with sb", "同意某人的意见", "The manager agreed with the consultant.", "经理同意顾问的意见。"],
+        ["agree on sth", "就某事达成一致", "Both departments agreed on the new schedule.", "两个部门就新日程达成一致。"]
+      ]
+    },
+    {
+      word: "expect",
+      variants: [
+        ["expect to do sth", "预计/期望做某事", "The company expects to hire more staff.", "公司预计会招聘更多员工。"],
+        ["expect sb to do sth", "期望某人做某事", "The manager expects employees to arrive on time.", "经理期望员工准时到达。"],
+        ["be expected to do sth", "被期待/预计做某事", "All visitors are expected to sign in at reception.", "所有访客都应在前台签到。"]
+      ]
+    },
+    {
+      word: "offer",
+      variants: [
+        ["offer to do sth", "主动提出做某事", "She offered to prepare the report.", "她主动提出准备报告。"],
+        ["offer sb sth", "提供某人某物", "The company offered employees additional training.", "公司为员工提供了额外培训。"],
+        ["offer sth to sb", "向某人提供某物", "The hotel offered a discount to conference guests.", "酒店向会议客人提供了折扣。"]
+      ]
+    },
+    {
+      word: "fail",
+      variants: [
+        ["fail to do sth", "未能做某事", "The team failed to meet the deadline.", "团队未能赶上截止日期。"],
+        ["fail in sth", "在某事上失败", "The company failed in its attempt to reduce costs.", "公司降低成本的尝试失败了。"]
+      ]
+    },
+    {
+      word: "manage",
+      variants: [
+        ["manage to do sth", "设法做成某事", "We managed to complete the order on time.", "我们设法按时完成订单。"],
+        ["manage doing sth", "处理/应对做某事", "The supervisor managed scheduling interviews for the new branch.", "主管负责安排新分店的面试。"]
+      ]
+    },
+    {
+      word: "afford",
+      variants: [
+        ["afford to do sth", "负担得起做某事", "The company cannot afford to replace all the equipment this year.", "公司今年负担不起更换所有设备。"],
+        ["afford sb sth", "给予某人某物/机会", "The new policy affords employees more flexibility.", "新政策给予员工更多灵活性。"]
+      ]
+    },
+    {
+      word: "choose",
+      variants: [
+        ["choose to do sth", "选择做某事", "Several employees chose to attend the afternoon session.", "几名员工选择参加下午的课程。"],
+        ["choose between A and B", "在A和B之间选择", "The client must choose between standard shipping and express delivery.", "客户必须在普通配送和快递之间选择。"]
+      ]
+    },
+    {
+      word: "hope",
+      variants: [
+        ["hope to do sth", "希望做某事", "We hope to open the new office in September.", "我们希望九月开设新办公室。"],
+        ["hope that S V", "希望某事发生", "We hope that the new schedule will reduce delays.", "我们希望新日程能减少延误。"]
+      ]
+    },
+    {
+      word: "promise",
+      variants: [
+        ["promise to do sth", "承诺做某事", "The vendor promised to deliver the order by Monday.", "供应商承诺周一前交付订单。"],
+        ["promise sb sth", "向某人承诺某物", "The manager promised the team extra support.", "经理承诺给团队额外支持。"]
+      ]
+    },
+    {
+      word: "learn",
+      variants: [
+        ["learn to do sth", "学会做某事", "New employees learn to use the system during orientation.", "新员工在入职培训中学习使用系统。"],
+        ["learn about sth", "了解某事", "The staff learned about the updated policy.", "员工了解了更新后的政策。"]
+      ]
+    },
+    {
+      word: "prepare",
+      variants: [
+        ["prepare to do sth", "准备做某事", "The team prepared to present the proposal.", "团队准备展示提案。"],
+        ["prepare for doing sth", "为做某事做准备", "The staff prepared for welcoming overseas visitors.", "员工为接待海外访客做准备。"],
+        ["prepare sth for sb", "为某人准备某物", "The assistant prepared a packet for each attendee.", "助理为每位参会者准备了一份资料包。"]
+      ]
+    },
+    {
+      word: "arrange",
+      variants: [
+        ["arrange to do sth", "安排做某事", "The client arranged to meet the manager at noon.", "客户安排中午见经理。"],
+        ["arrange for sb to do sth", "安排某人做某事", "The company arranged for a technician to inspect the equipment.", "公司安排技术员检查设备。"]
+      ]
+    },
+    {
+      word: "ask",
+      variants: [
+        ["ask to do sth", "请求做某事", "The visitor asked to speak with the manager.", "访客请求与经理交谈。"],
+        ["ask sb to do sth", "要求某人做某事", "The manager asked us to revise the proposal.", "经理要求我们修改提案。"],
+        ["ask about sth", "询问某事", "The client asked about the delivery schedule.", "客户询问了配送日程。"]
+      ]
+    },
+    {
+      word: "request",
+      variants: [
+        ["request to do sth", "请求做某事", "The employee requested to attend the training session.", "员工请求参加培训课程。"],
+        ["request that sb do sth", "要求某人做某事", "The client requested that the order be delivered early.", "客户要求订单提前送达。"],
+        ["request permission to do sth", "请求允许做某事", "The vendor requested permission to enter the warehouse.", "供应商请求允许进入仓库。"]
+      ]
+    },
+    {
+      word: "urge",
+      variants: [
+        ["urge sb to do sth", "敦促某人做某事", "The supervisor urged employees to complete the survey.", "主管敦促员工完成调查。"],
+        ["urge that sb do sth", "敦促/强烈建议某人做某事", "The report urged that the company improve safety procedures.", "报告敦促公司改进安全流程。"]
+      ]
+    },
+    {
+      word: "persuade",
+      variants: [
+        ["persuade sb to do sth", "说服某人做某事", "The consultant persuaded the client to renew the contract.", "顾问说服客户续签合同。"],
+        ["persuade sb of sth", "使某人相信某事", "The data persuaded the board of the plan's value.", "数据使董事会相信该计划的价值。"]
+      ]
+    },
+    {
+      word: "convince",
+      variants: [
+        ["convince sb to do sth", "说服某人做某事", "The results convinced the manager to expand the program.", "结果说服经理扩大该项目。"],
+        ["convince sb that S V", "使某人相信某事", "The report convinced us that demand was increasing.", "报告使我们相信需求正在增加。"]
+      ]
+    },
+    {
+      word: "enable",
+      variants: [
+        ["enable sb to do sth", "使某人能够做某事", "The update enables users to export reports.", "此次更新使用户能够导出报告。"],
+        ["enable doing sth", "使做某事成为可能", "The new system enables tracking expenses in real time.", "新系统使实时追踪费用成为可能。"]
+      ]
+    },
+    {
+      word: "cause",
+      variants: [
+        ["cause sb to do sth", "导致某人做某事", "The delay caused customers to complain.", "延误导致客户投诉。"],
+        ["cause sth to happen", "导致某事发生", "The storm caused several flights to be canceled.", "暴风雨导致几趟航班取消。"]
+      ]
+    },
+    {
+      word: "force",
+      variants: [
+        ["force sb to do sth", "迫使某人做某事", "The shortage forced the company to change suppliers.", "短缺迫使公司更换供应商。"],
+        ["be forced to do sth", "被迫做某事", "The store was forced to close early.", "商店被迫提前关门。"]
+      ]
+    },
+    {
+      word: "order",
+      variants: [
+        ["order sb to do sth", "命令/要求某人做某事", "The supervisor ordered staff to leave the building.", "主管命令员工离开大楼。"],
+        ["order sth from sb", "从某处订购某物", "The office ordered supplies from a local vendor.", "办公室从本地供应商订购了用品。"]
+      ]
+    },
+    {
+      word: "instruct",
+      variants: [
+        ["instruct sb to do sth", "指示某人做某事", "The manual instructs users to restart the device.", "手册指示用户重启设备。"],
+        ["instructions for doing sth", "做某事的说明", "The packet includes instructions for installing the software.", "资料包包含安装软件的说明。"]
+      ]
+    },
+    {
+      word: "invite",
+      variants: [
+        ["invite sb to do sth", "邀请某人做某事", "The organizer invited guests to register online.", "组织者邀请客人在线注册。"],
+        ["invite sb to sth", "邀请某人参加某活动", "The company invited clients to the opening ceremony.", "公司邀请客户参加开幕式。"]
+      ]
+    },
+    {
+      word: "warn",
+      variants: [
+        ["warn sb to do sth", "警告/提醒某人做某事", "The sign warns drivers to slow down.", "标志提醒司机减速。"],
+        ["warn sb against doing sth", "警告某人不要做某事", "The manager warned employees against sharing passwords.", "经理警告员工不要共享密码。"],
+        ["warn sb of sth", "提醒某人注意某事", "The notice warned residents of a water outage.", "通知提醒住户将停水。"]
+      ]
+    },
+    {
+      word: "teach",
+      variants: [
+        ["teach sb to do sth", "教某人做某事", "The trainer taught new employees to use the database.", "培训师教新员工使用数据库。"],
+        ["teach sb about sth", "向某人讲解某事", "The seminar taught staff about workplace safety.", "研讨会向员工讲解了工作场所安全。"]
+      ]
+    },
+    {
+      word: "train",
+      variants: [
+        ["train sb to do sth", "培训某人做某事", "The company trained staff to handle customer complaints.", "公司培训员工处理客户投诉。"],
+        ["train sb in doing sth", "在某方面培训某人", "The company trained staff in handling customer complaints.", "公司在处理客户投诉方面培训员工。"]
+      ]
+    },
+    {
+      word: "prevent",
+      variants: [
+        ["prevent sb from doing sth", "阻止某人做某事", "The delay prevented us from shipping the order.", "延误使我们无法发货。"],
+        ["prevent sth from happening", "防止某事发生", "The new rule prevents errors from occurring.", "新规定防止错误发生。"]
+      ]
+    },
+    {
+      word: "prohibit",
+      variants: [
+        ["prohibit sb from doing sth", "禁止某人做某事", "The policy prohibits employees from using personal devices.", "该政策禁止员工使用个人设备。"],
+        ["prohibit doing sth", "禁止做某事", "The policy prohibits using personal devices.", "该政策禁止使用个人设备。"]
+      ]
+    },
+    {
+      word: "discourage",
+      variants: [
+        ["discourage sb from doing sth", "劝阻某人做某事", "The manager discouraged staff from working overtime.", "经理劝员工不要加班。"],
+        ["discourage doing sth", "不鼓励做某事", "The company discourages working overtime without approval.", "公司不鼓励未经批准加班。"]
+      ]
+    },
+    {
+      word: "keep",
+      variants: [
+        ["keep doing sth", "持续做某事", "The team kept reviewing the figures until noon.", "团队一直审查数字到中午。"],
+        ["keep sb from doing sth", "阻止某人做某事", "Bad weather kept the shipment from arriving on time.", "恶劣天气使货物未能准时到达。"],
+        ["keep sb doing sth", "让某人一直做某事", "The issue kept the technicians working late.", "这个问题让技术员一直工作到很晚。"]
+      ]
+    },
+    {
+      word: "spend",
+      variants: [
+        ["spend time doing sth", "花时间做某事", "She spent an hour preparing the presentation.", "她花了一小时准备演示。"],
+        ["spend money on sth", "在某物上花钱", "The company spent money on new equipment.", "公司在新设备上花了钱。"]
+      ]
+    },
+    {
+      word: "waste",
+      variants: [
+        ["waste time doing sth", "浪费时间做某事", "The staff wasted time looking for the missing file.", "员工浪费时间寻找丢失的文件。"],
+        ["waste money on sth", "在某事上浪费钱", "The company wasted money on unused software.", "公司在未使用的软件上浪费了钱。"]
+      ]
+    },
+    {
+      word: "have difficulty",
+      variants: [
+        ["have difficulty doing sth", "做某事有困难", "Users had difficulty installing the software.", "用户安装软件时遇到困难。"],
+        ["have trouble doing sth", "做某事有麻烦/困难", "Visitors had trouble finding the entrance.", "访客很难找到入口。"],
+        ["have a problem doing sth", "做某事有问题", "The team had a problem completing the form online.", "团队在线填写表格时遇到问题。"]
+      ]
+    },
+    {
+      word: "be busy",
+      variants: [
+        ["be busy doing sth", "忙于做某事", "The assistants were busy preparing name tags.", "助理们忙着准备名牌。"],
+        ["be busy with sth", "忙于某事", "The assistants were busy with conference preparations.", "助理们忙于会议准备。"]
+      ]
+    },
+    {
+      word: "look forward",
+      variants: [
+        ["look forward to doing sth", "期待做某事", "We look forward to working with you.", "我们期待与您合作。"],
+        ["look forward to sth", "期待某事", "We look forward to your reply.", "我们期待您的回复。"]
+      ]
+    },
+    {
+      word: "be accustomed",
+      variants: [
+        ["be accustomed to doing sth", "习惯做某事", "The team is accustomed to working under tight deadlines.", "团队习惯在紧期限下工作。"],
+        ["be accustomed to sth", "习惯某事", "The team is accustomed to tight deadlines.", "团队习惯紧期限。"]
+      ]
+    },
+    {
+      word: "be opposed",
+      variants: [
+        ["be opposed to doing sth", "反对做某事", "Several residents are opposed to renovating the lobby.", "几名住户反对翻新大厅。"],
+        ["be opposed to sth", "反对某事", "Several residents are opposed to the renovation plan.", "几名住户反对翻新计划。"]
+      ]
+    },
+    {
+      word: "be committed",
+      variants: [
+        ["be committed to doing sth", "致力于做某事", "The company is committed to reducing waste.", "公司致力于减少浪费。"],
+        ["be committed to sth", "致力于某事", "The company is committed to environmental protection.", "公司致力于环境保护。"]
+      ]
+    },
+    {
+      word: "be devoted",
+      variants: [
+        ["be devoted to doing sth", "致力于做某事", "The team is devoted to improving customer service.", "团队致力于改善客户服务。"],
+        ["be devoted to sth", "致力于某事", "The team is devoted to customer service.", "团队致力于客户服务。"]
+      ]
+    },
+    {
+      word: "be dedicated",
+      variants: [
+        ["be dedicated to doing sth", "专注于/致力于做某事", "The department is dedicated to improving safety.", "该部门致力于改善安全。"],
+        ["be dedicated to sth", "专用于/致力于某事", "This room is dedicated to staff training.", "这个房间专用于员工培训。"]
+      ]
+    },
+    {
+      word: "contribute",
+      variants: [
+        ["contribute to doing sth", "促成做某事", "The new system contributed to reducing errors.", "新系统促成了错误减少。"],
+        ["contribute to sth", "促成/贡献于某事", "The new system contributed to fewer errors.", "新系统促成了更少错误。"]
+      ]
+    },
+    {
+      word: "adjust",
+      variants: [
+        ["adjust to doing sth", "适应做某事", "Employees adjusted to using the new software.", "员工适应了使用新软件。"],
+        ["adjust sth to sth", "把某物调整到某状态", "The technician adjusted the screen to a brighter setting.", "技术员把屏幕调到更亮的设置。"]
+      ]
+    },
+    {
+      word: "adapt",
+      variants: [
+        ["adapt to doing sth", "适应做某事", "The staff adapted to working with the new system.", "员工适应了使用新系统工作。"],
+        ["adapt sth for sth", "为某用途改编/改造某物", "The company adapted the room for online meetings.", "公司把房间改造成线上会议室。"]
+      ]
+    },
+    {
+      word: "be subject",
+      variants: [
+        ["be subject to doing sth", "可能会被做某事/受做某事影响", "The schedule is subject to changing without notice.", "日程可能会在不通知的情况下更改。"],
+        ["be subject to sth", "受某事约束/可能遭受某事", "The offer is subject to manager approval.", "该报价须经经理批准。"]
+      ]
+    },
+    {
+      word: "in addition",
+      variants: [
+        ["in addition to doing sth", "除了做某事之外", "In addition to reviewing invoices, the clerk updates records.", "除了审查发票，职员还更新记录。"],
+        ["in addition to sth", "除某事之外", "In addition to the invoice, please send the receipt.", "除了发票，请也发送收据。"]
+      ]
+    },
+    {
+      word: "when it comes",
+      variants: [
+        ["when it comes to doing sth", "说到做某事", "When it comes to handling complaints, speed is important.", "说到处理投诉，速度很重要。"],
+        ["when it comes to sth", "说到某事", "When it comes to customer service, speed is important.", "说到客户服务，速度很重要。"]
+      ]
+    },
+    {
+      word: "be close",
+      variants: [
+        ["be close to doing sth", "快要做某事", "The team is close to completing the project.", "团队快要完成项目了。"],
+        ["be close to sth", "接近某事/某地", "The hotel is close to the convention center.", "酒店离会议中心很近。"]
+      ]
+    },
+    {
+      word: "make",
+      variants: [
+        ["make sb do sth", "让某人做某事", "The new rule made employees update their passwords.", "新规定让员工更新密码。"],
+        ["be made to do sth", "被迫/被要求做某事", "Employees were made to update their passwords.", "员工被要求更新密码。"],
+        ["make it possible to do sth", "使做某事成为可能", "The new system makes it possible to track orders online.", "新系统使在线追踪订单成为可能。"]
+      ]
+    },
+    {
+      word: "let",
+      variants: [
+        ["let sb do sth", "让某人做某事", "The manager let employees leave early.", "经理允许员工提前离开。"],
+        ["be allowed to do sth", "被允许做某事", "Employees are allowed to leave early on Friday.", "员工周五可以提前离开。"]
+      ]
+    },
+    {
+      word: "have",
+      variants: [
+        ["have sb do sth", "让某人做某事", "The manager had the assistant send the agenda.", "经理让助理发送议程。"],
+        ["have sth done", "请人/让人完成某事", "The company had the equipment repaired.", "公司让人修好了设备。"],
+        ["have sb doing sth", "让某人一直做某事", "The delay had customers waiting for hours.", "延误让客户等了几个小时。"]
+      ]
+    },
+    {
+      word: "get",
+      variants: [
+        ["get sb to do sth", "让/说服某人做某事", "The supervisor got the team to finish the report.", "主管让团队完成了报告。"],
+        ["get sth done", "把某事做完/请人做某事", "The assistant got the forms printed before noon.", "助理在中午前把表格打印好了。"],
+        ["get used to doing sth", "逐渐习惯做某事", "New employees got used to using the online portal.", "新员工逐渐习惯使用在线门户。"]
+      ]
+    },
+    {
+      word: "feel",
+      variants: [
+        ["feel sb do sth", "感觉到某人/某物做了某事", "The technician felt the machine shake once.", "技术员感觉机器震了一下。"],
+        ["feel sb/sth doing sth", "感觉到某人/某物正在做某事", "The technician felt the machine shaking during the test.", "测试期间技术员感觉机器正在震动。"]
+      ]
+    },
+    {
+      word: "observe",
+      variants: [
+        ["observe sb do sth", "观察到某人做了某事", "The supervisor observed the clerk complete the form.", "主管观察到职员完成了表格。"],
+        ["observe sb doing sth", "观察到某人正在做某事", "The supervisor observed the clerk completing the form.", "主管观察到职员正在填写表格。"]
+      ]
+    },
+    {
+      word: "find",
+      variants: [
+        ["find sb doing sth", "发现某人正在做某事", "The manager found the assistant updating the schedule.", "经理发现助理正在更新时间表。"],
+        ["find it adj to do sth", "发现做某事很...", "Employees found it easy to use the new software.", "员工发现新软件很容易使用。"],
+        ["find sth adj", "发现某事/某物很...", "Employees found the new software easy to use.", "员工发现新软件很容易使用。"]
+      ]
+    },
+    {
+      word: "leave",
+      variants: [
+        ["leave sb doing sth", "让某人继续处于做某事的状态", "The delay left customers waiting in the lobby.", "延误让客户一直在大厅等候。"],
+        ["leave sth done", "让某事保持被完成状态", "Please leave the documents signed on the desk.", "请把签好的文件留在桌上。"],
+        ["leave sth to sb", "把某事留给某人处理", "The manager left the decision to the finance team.", "经理把决定交给财务团队。"]
+      ]
+    },
+    {
+      word: "catch",
+      variants: [
+        ["catch sb doing sth", "撞见某人正在做某事", "The supervisor caught an employee using the wrong form.", "主管撞见一名员工正在使用错误表格。"],
+        ["be caught doing sth", "被撞见正在做某事", "The employee was caught using the wrong form.", "员工被撞见正在使用错误表格。"]
+      ]
+    },
+    {
+      word: "be likely",
+      variants: [
+        ["be likely to do sth", "可能做某事", "The shipment is likely to arrive tomorrow.", "货物可能明天到达。"],
+        ["be unlikely to do sth", "不太可能做某事", "The shipment is unlikely to arrive today.", "货物今天不太可能到达。"]
+      ]
+    },
+    {
+      word: "be able",
+      variants: [
+        ["be able to do sth", "能够做某事", "The team was able to finish the report before noon.", "团队能够在中午前完成报告。"],
+        ["be capable of doing sth", "有能力做某事", "The system is capable of processing large orders.", "该系统能够处理大订单。"]
+      ]
+    },
+    {
+      word: "be ready",
+      variants: [
+        ["be ready to do sth", "准备好做某事", "The staff are ready to welcome the guests.", "员工准备好迎接客人。"],
+        ["be ready for doing sth", "为做某事准备好", "The staff are ready for welcoming the guests.", "员工为迎接客人做好了准备。"]
+      ]
+    },
+    {
+      word: "be willing",
+      variants: [
+        ["be willing to do sth", "愿意做某事", "The supplier is willing to offer a discount.", "供应商愿意提供折扣。"],
+        ["be unwilling to do sth", "不愿意做某事", "The supplier is unwilling to change the delivery date.", "供应商不愿更改配送日期。"]
+      ]
+    },
+    {
+      word: "be eager",
+      variants: [
+        ["be eager to do sth", "渴望做某事", "The interns are eager to learn about the project.", "实习生渴望了解这个项目。"],
+        ["be eager for sth", "渴望某事", "The interns are eager for more training.", "实习生渴望更多培训。"]
+      ]
+    },
+    {
+      word: "be reluctant",
+      variants: [
+        ["be reluctant to do sth", "不情愿做某事", "The client was reluctant to sign the contract.", "客户不愿签合同。"],
+        ["be reluctant about doing sth", "对做某事不情愿", "The client was reluctant about signing the contract.", "客户对签合同不情愿。"]
+      ]
+    },
+    {
+      word: "be scheduled",
+      variants: [
+        ["be scheduled to do sth", "预定做某事", "The CEO is scheduled to speak at noon.", "首席执行官预定中午发言。"],
+        ["be scheduled for sth", "被安排在某时间/某活动", "The meeting is scheduled for Monday.", "会议安排在周一。"]
+      ]
+    },
+    {
+      word: "be required",
+      variants: [
+        ["be required to do sth", "被要求做某事", "Visitors are required to wear badges.", "访客被要求佩戴胸牌。"],
+        ["require doing sth", "需要被做某事", "The documents require checking before submission.", "文件提交前需要检查。"]
+      ]
+    },
+    {
+      word: "be eligible",
+      variants: [
+        ["be eligible to do sth", "有资格做某事", "Full-time employees are eligible to apply for the program.", "全职员工有资格申请该项目。"],
+        ["be eligible for sth", "有资格获得某物/参加某事", "Full-time employees are eligible for health benefits.", "全职员工有资格获得健康福利。"]
+      ]
+    },
+    {
+      word: "be responsible",
+      variants: [
+        ["be responsible for doing sth", "负责做某事", "The assistant is responsible for scheduling interviews.", "助理负责安排面试。"],
+        ["be responsible for sth", "负责某事", "The assistant is responsible for interview schedules.", "助理负责面试日程。"]
+      ]
+    },
+    {
+      word: "be good",
+      variants: [
+        ["be good at doing sth", "擅长做某事", "The clerk is good at handling customer requests.", "职员擅长处理客户请求。"],
+        ["be good for sth", "对某事有益/有效", "The discount is good for one month.", "折扣有效期为一个月。"]
+      ]
+    },
+    {
+      word: "be tired",
+      variants: [
+        ["be tired of doing sth", "厌倦做某事", "Employees were tired of entering the same data twice.", "员工厌倦了重复输入同样的数据。"],
+        ["be tired from doing sth", "因做某事而疲惫", "Employees were tired from preparing the exhibition.", "员工因准备展会而疲惫。"]
+      ]
+    },
+    {
+      word: "be known",
+      variants: [
+        ["be known to do sth", "被认为会做某事", "The supplier is known to deliver orders quickly.", "该供应商以快速交付订单而闻名。"],
+        ["be known for doing sth", "因做某事而闻名", "The hotel is known for providing excellent service.", "这家酒店以提供优质服务而闻名。"],
+        ["be known as sth", "作为某身份/名称而闻名", "The company is known as a reliable vendor.", "该公司以可靠供应商著称。"]
+      ]
+    },
+    {
+      word: "it is important",
+      variants: [
+        ["it is important for sb to do sth", "某人做某事很重要", "It is important for employees to read the safety rules.", "员工阅读安全规则很重要。"],
+        ["it is important that sb do sth", "某人做某事很重要", "It is important that employees read the safety rules.", "员工阅读安全规则很重要。"]
+      ]
+    },
+    {
+      word: "it is necessary",
+      variants: [
+        ["it is necessary for sb to do sth", "某人有必要做某事", "It is necessary for visitors to sign in.", "访客有必要签到。"],
+        ["it is necessary that sb do sth", "某人有必要做某事", "It is necessary that visitors sign in.", "访客有必要签到。"]
+      ]
+    },
+    {
+      word: "it is advisable",
+      variants: [
+        ["it is advisable for sb to do sth", "某人最好做某事", "It is advisable for travelers to confirm reservations.", "旅客最好确认预订。"],
+        ["it is advisable that sb do sth", "建议某人做某事", "It is advisable that travelers confirm reservations.", "建议旅客确认预订。"]
+      ]
+    },
+    {
+      word: "too/enough",
+      variants: [
+        ["too adj to do sth", "太...而不能做某事", "The file is too large to send by email.", "文件太大，无法通过邮件发送。"],
+        ["adj enough to do sth", "足够...可以做某事", "The room is large enough to hold fifty people.", "房间足够大，可以容纳五十人。"],
+        ["enough n to do sth", "足够的某物去做某事", "We have enough time to review the contract.", "我们有足够时间审查合同。"]
+      ]
+    },
+    {
+      word: "no use/point",
+      variants: [
+        ["it is no use doing sth", "做某事没有用", "It is no use calling the office after hours.", "下班后给办公室打电话没有用。"],
+        ["there is no point in doing sth", "做某事没有意义", "There is no point in printing the old schedule.", "打印旧日程没有意义。"]
+      ]
+    }
+  ]
+);
+
+grammarPairGroups.push(
+  ...[
+    {
+      word: "apply",
+      variants: [
+        ["apply for sth", "申请某物/职位", "Several candidates applied for the marketing position.", "几名候选人申请了市场营销职位。"],
+        ["apply to sb/sth", "适用于某人/某事", "The discount applies to online orders only.", "该折扣只适用于线上订单。"],
+        ["apply A to B", "把A应用于B", "The team applied the new rule to all refund requests.", "团队把新规定应用于所有退款请求。"]
+      ]
+    },
+    {
+      word: "belong",
+      variants: [
+        ["belong to sb/sth", "属于某人/某物", "The laptop belongs to the accounting department.", "这台笔记本电脑属于会计部门。"],
+        ["belong in/on/at a place", "应该放在某处", "The safety manual belongs on the front desk.", "安全手册应该放在前台。"]
+      ]
+    },
+    {
+      word: "consist",
+      variants: [
+        ["consist of sth", "由某物组成", "The training package consists of three online lessons.", "培训包由三节线上课程组成。"],
+        ["consist in sth", "在于某事", "The main challenge consists in reducing delivery delays.", "主要挑战在于减少配送延误。"]
+      ]
+    },
+    {
+      word: "depend/rely",
+      variants: [
+        ["depend on sth/sb", "取决于/依靠某事或某人", "The final schedule depends on room availability.", "最终日程取决于房间可用情况。"],
+        ["rely on sth/sb", "依靠某事或某人", "The sales team relies on accurate inventory data.", "销售团队依靠准确的库存数据。"],
+        ["depend on sb to do sth", "指望某人做某事", "We depend on the courier to deliver the samples today.", "我们指望快递员今天送达样品。"]
+      ]
+    },
+    {
+      word: "result",
+      variants: [
+        ["result from sth", "由某事造成", "The delay resulted from a problem at the warehouse.", "延误是由仓库问题造成的。"],
+        ["result in sth/doing sth", "导致某事/导致做某事", "The policy resulted in fewer billing errors.", "该政策导致账单错误减少。"]
+      ]
+    },
+    {
+      word: "compare",
+      variants: [
+        ["compare A with B", "把A和B作比较", "The analyst compared this quarter's sales with last year's figures.", "分析师把本季度销售额和去年的数据作了比较。"],
+        ["compare A to B", "把A比作B", "The trainer compared the new system to a digital filing cabinet.", "培训师把新系统比作数字文件柜。"],
+        ["compared with/to sth", "与某事相比", "Compared with last month, website traffic increased sharply.", "与上月相比，网站访问量大幅增加。"]
+      ]
+    },
+    {
+      word: "contrast",
+      variants: [
+        ["contrast A with B", "把A和B作对比", "The report contrasts online sales with store sales.", "报告对比了线上销售和门店销售。"],
+        ["in contrast to sth", "与某事形成对比", "In contrast to last year, attendance was much higher.", "与去年相比，出席人数高得多。"],
+        ["by contrast", "相比之下", "The downtown branch was busy; by contrast, the airport branch was quiet.", "市中心分店很忙；相比之下，机场分店很安静。"]
+      ]
+    },
+    {
+      word: "respond/reply",
+      variants: [
+        ["respond to sth/sb", "回应某事/某人", "The supplier responded to the complaint within an hour.", "供应商在一小时内回复了投诉。"],
+        ["reply to sth/sb", "回复某事/某人", "Please reply to the invitation by Wednesday.", "请在周三前回复邀请。"],
+        ["response to sth", "对某事的回应", "The response to the new menu was positive.", "对新菜单的反应是积极的。"]
+      ]
+    },
+    {
+      word: "refer",
+      variants: [
+        ["refer to sth", "提到/参考某事", "Please refer to the attached schedule for details.", "详情请参考附件中的日程。"],
+        ["refer sb to sb/sth", "把某人转给某人/某处", "The receptionist referred the visitor to the human resources office.", "接待员把访客转到人力资源办公室。"],
+        ["reference to sth", "对某事的提及/参考", "The email includes a reference to the revised contract.", "邮件中提到了修订后的合同。"]
+      ]
+    },
+    {
+      word: "apologize",
+      variants: [
+        ["apologize to sb", "向某人道歉", "The airline apologized to passengers for the delay.", "航空公司因延误向乘客道歉。"],
+        ["apologize for doing sth", "因做某事而道歉", "The hotel apologized for overcharging several guests.", "酒店因向几位客人多收费而道歉。"],
+        ["apology for sth", "因某事的道歉", "The manager issued an apology for the billing error.", "经理为账单错误发布了道歉声明。"]
+      ]
+    },
+    {
+      word: "thank",
+      variants: [
+        ["thank sb for sth", "因某事感谢某人", "The director thanked the staff for their hard work.", "主管感谢员工的辛勤工作。"],
+        ["thank sb for doing sth", "感谢某人做某事", "We thanked the client for sending the documents early.", "我们感谢客户提前发送文件。"],
+        ["be thankful for sth", "对某事感到感激", "The team was thankful for the extra support.", "团队对额外支持感到感激。"]
+      ]
+    },
+    {
+      word: "charge",
+      variants: [
+        ["charge sb for sth", "向某人收取某项费用", "The hotel charged guests for parking.", "酒店向客人收取停车费。"],
+        ["charge sth to an account", "把费用记到账户上", "Please charge the meal to the company account.", "请把餐费记到公司账户上。"],
+        ["be in charge of sth", "负责某事", "Ms. Lee is in charge of the training program.", "李女士负责培训项目。"]
+      ]
+    },
+    {
+      word: "provide",
+      variants: [
+        ["provide sb with sth", "向某人提供某物", "The hotel provided guests with shuttle passes.", "酒店向客人提供接驳车票。"],
+        ["provide sth for sb", "为某人提供某物", "The company provided laptops for remote employees.", "公司为远程员工提供笔记本电脑。"],
+        ["provide that S V", "规定/如果", "The contract provides that payment is due within thirty days.", "合同规定付款应在三十天内完成。"]
+      ]
+    },
+    {
+      word: "supply",
+      variants: [
+        ["supply sb with sth", "向某人供应某物", "The vendor supplied the office with new chairs.", "供应商向办公室供应了新椅子。"],
+        ["supply sth to sb", "把某物供应给某人", "The warehouse supplies parts to several branches.", "仓库向几家分店供应零件。"],
+        ["supply of sth", "某物的供应量", "The supply of printer paper is running low.", "打印纸供应量快不足了。"]
+      ]
+    },
+    {
+      word: "present",
+      variants: [
+        ["present sth to sb", "向某人展示/提交某物", "The consultant presented the findings to the board.", "顾问向董事会展示了调查结果。"],
+        ["present sb with sth", "向某人提供/颁发某物", "The organizer presented each speaker with a certificate.", "组织者向每位演讲者颁发了一张证书。"],
+        ["be present at sth", "出席某活动", "All supervisors must be present at the safety briefing.", "所有主管必须出席安全说明会。"]
+      ]
+    },
+    {
+      word: "inform/notify",
+      variants: [
+        ["inform sb of sth", "通知某人某事", "The airline informed passengers of the gate change.", "航空公司通知乘客登机口变更。"],
+        ["inform sb that S V", "通知某人某事", "The manager informed us that the deadline had changed.", "经理通知我们截止日期已变更。"],
+        ["notify sb of sth", "通知某人某事", "Please notify customers of the new pickup time.", "请通知客户新的取货时间。"]
+      ]
+    },
+    {
+      word: "assure",
+      variants: [
+        ["assure sb that S V", "向某人保证某事", "The supplier assured us that the shipment would arrive today.", "供应商向我们保证货物今天会到。"],
+        ["assure sb of sth", "使某人确信某事", "The inspection assured the manager of the product's quality.", "检查让经理确信产品质量。"],
+        ["be assured of sth", "确信能得到某事", "Members are assured of prompt service.", "会员确信能得到迅速服务。"]
+      ]
+    },
+    {
+      word: "blame/accuse",
+      variants: [
+        ["blame sb for sth", "因某事责备某人", "The client blamed the courier for the delay.", "客户因延误责备快递员。"],
+        ["blame sth on sb/sth", "把某事归咎于某人/某物", "The company blamed the outage on a software error.", "公司把停机归咎于软件错误。"],
+        ["accuse sb of doing sth", "指责某人做了某事", "The customer accused the store of charging twice.", "客户指责商店重复收费。"]
+      ]
+    },
+    {
+      word: "replace/substitute",
+      variants: [
+        ["replace A with B", "用B替换A", "The technician replaced the old battery with a new one.", "技术员用新电池替换了旧电池。"],
+        ["substitute A for B", "用A代替B", "The chef substituted olive oil for butter.", "厨师用橄榄油代替黄油。"],
+        ["be substituted for sth", "被用来替代某物", "A digital pass was substituted for the paper ticket.", "电子通行证被用来替代纸质票。"]
+      ]
+    },
+    {
+      word: "exchange",
+      variants: [
+        ["exchange A for B", "把A换成B", "The customer exchanged the shirt for a larger size.", "客户把衬衫换成了更大尺码。"],
+        ["exchange sth with sb", "与某人交换某物", "The two departments exchanged data with each other.", "两个部门互相交换了数据。"],
+        ["in exchange for sth", "作为交换", "The store gave a coupon in exchange for feedback.", "商店用优惠券换取反馈。"]
+      ]
+    },
+    {
+      word: "distinguish",
+      variants: [
+        ["distinguish A from B", "把A和B区分开", "The label helps customers distinguish original products from copies.", "标签帮助客户区分正品和仿品。"],
+        ["distinguish between A and B", "区分A和B", "The software distinguishes between paid and unpaid invoices.", "软件区分已付款和未付款发票。"],
+        ["be distinguished for sth", "因某事而著名", "The restaurant is distinguished for its service.", "这家餐厅因服务而著名。"]
+      ]
+    },
+    {
+      word: "congratulate",
+      variants: [
+        ["congratulate sb on sth", "因某事祝贺某人", "The CEO congratulated the team on its success.", "首席执行官祝贺团队取得成功。"],
+        ["congratulate sb on doing sth", "祝贺某人做成某事", "We congratulated her on receiving the award.", "我们祝贺她获奖。"]
+      ]
+    },
+    {
+      word: "participate",
+      variants: [
+        ["participate in sth", "参加某事", "Employees are encouraged to participate in the workshop.", "公司鼓励员工参加研讨会。"],
+        ["participate in doing sth", "参与做某事", "Several branches participated in testing the new system.", "几家分店参与测试新系统。"]
+      ]
+    },
+    {
+      word: "succeed",
+      variants: [
+        ["succeed in doing sth", "成功做成某事", "The team succeeded in reducing delivery errors.", "团队成功减少了配送错误。"],
+        ["succeed sb as sth", "接替某人成为某职位", "Ms. Kim succeeded Mr. Jones as branch manager.", "Kim 女士接替 Jones 先生成为分店经理。"]
+      ]
+    },
+    {
+      word: "specialize",
+      variants: [
+        ["specialize in sth/doing sth", "专门从事某事", "The agency specializes in arranging business travel.", "这家代理机构专门安排商务旅行。"],
+        ["be specialized in sth", "专门研究/从事某事", "The technician is specialized in network security.", "这名技术员专精网络安全。"]
+      ]
+    },
+    {
+      word: "access",
+      variants: [
+        ["access to sth", "使用/进入某物的权限", "Employees need access to the shared database.", "员工需要共享数据库的访问权限。"],
+        ["have access to sth", "可以使用/进入某物", "Guests have access to the fitness center.", "客人可以使用健身中心。"],
+        ["accessible to sb", "某人可使用/可进入", "The online form is accessible to all applicants.", "所有申请人都可以使用在线表格。"]
+      ]
+    },
+    {
+      word: "approach",
+      variants: [
+        ["approach to sth/doing sth", "处理某事的方法", "The manager explained a new approach to scheduling shifts.", "经理解释了一种新的排班方法。"],
+        ["approach sb about sth", "就某事找某人商量", "The assistant approached the supervisor about the delay.", "助理就延误问题找主管商量。"]
+      ]
+    },
+    {
+      word: "attention",
+      variants: [
+        ["pay attention to sth", "注意某事", "Please pay attention to the revised deadline.", "请注意修订后的截止日期。"],
+        ["draw attention to sth", "使人注意某事", "The memo drew attention to the new safety rule.", "备忘录让大家注意新的安全规定。"],
+        ["attention to detail", "对细节的关注", "The position requires strong attention to detail.", "该职位要求高度关注细节。"]
+      ]
+    },
+    {
+      word: "attitude",
+      variants: [
+        ["attitude toward sth", "对某事的态度", "The survey measured customer attitudes toward the new service.", "调查衡量了客户对新服务的态度。"],
+        ["attitude to sth", "对某事的态度", "Her attitude to workplace training is positive.", "她对职场培训的态度很积极。"]
+      ]
+    },
+    {
+      word: "reason",
+      variants: [
+        ["reason for sth", "某事的原因", "The reason for the delay was a missing document.", "延误的原因是一份文件缺失。"],
+        ["reason to do sth", "做某事的理由", "Customers have a good reason to keep their receipts.", "客户有充分理由保留收据。"],
+        ["reasonable for sb to do sth", "某人做某事是合理的", "It is reasonable for guests to request a refund.", "客人要求退款是合理的。"]
+      ]
+    },
+    {
+      word: "solution/key",
+      variants: [
+        ["solution to sth", "某事的解决办法", "The technician found a solution to the network problem.", "技术员找到了网络问题的解决办法。"],
+        ["key to sth/doing sth", "某事/做某事的关键", "Clear communication is the key to avoiding delays.", "清晰沟通是避免延误的关键。"],
+        ["answer to sth", "某事的答案", "The answer to the customer's question is in the brochure.", "客户问题的答案在宣传册里。"]
+      ]
+    },
+    {
+      word: "increase/decrease",
+      variants: [
+        ["increase in sth", "某事的增长", "There was an increase in online reservations.", "线上预订量有所增长。"],
+        ["decrease in sth", "某事的减少", "The store reported a decrease in returns.", "商店报告退货量有所减少。"],
+        ["increase by/to", "增加了/增加到", "Sales increased by ten percent to a record high.", "销售额增长了百分之十，达到历史新高。"]
+      ]
+    },
+    {
+      word: "preference",
+      variants: [
+        ["preference for sth", "对某事的偏好", "Many customers showed a preference for digital receipts.", "许多客户表现出对电子收据的偏好。"],
+        ["prefer A to B", "比起B更喜欢A", "The client prefers email to phone calls.", "比起电话，客户更喜欢邮件。"],
+        ["prefer doing A to doing B", "比起做B更喜欢做A", "The team prefers meeting online to traveling for updates.", "团队比起为更新事项出差，更喜欢线上开会。"]
+      ]
+    },
+    {
+      word: "exception",
+      variants: [
+        ["exception to sth", "某事的例外", "There is one exception to the refund policy.", "退款政策有一个例外。"],
+        ["except for sth", "除了某事之外", "Except for one missing receipt, the report is complete.", "除了一张缺失的收据外，报告已经完整。"],
+        ["with the exception of sth", "除了某事之外", "All offices are open with the exception of the downtown branch.", "除市中心分店外，所有办公室都开放。"]
+      ]
+    },
+    {
+      word: "advantage",
+      variants: [
+        ["advantage of sth", "某事的优势", "One advantage of the new system is faster reporting.", "新系统的一个优势是报告速度更快。"],
+        ["take advantage of sth", "利用某事", "Members can take advantage of the discount this week.", "会员本周可以利用该折扣。"],
+        ["advantage over sth", "相对于某物的优势", "The new model has an advantage over older machines.", "新型号相对于旧机器有优势。"]
+      ]
+    },
+    {
+      word: "shortage/lack",
+      variants: [
+        ["shortage of sth", "某物短缺", "A shortage of drivers delayed deliveries.", "司机短缺导致配送延误。"],
+        ["lack of sth", "缺乏某物", "A lack of clear instructions caused confusion.", "缺乏清晰说明造成了混乱。"],
+        ["be short of sth", "缺少某物", "The office is short of printer paper.", "办公室缺少打印纸。"]
+      ]
+    },
+    {
+      word: "opportunity/ability",
+      variants: [
+        ["opportunity to do sth", "做某事的机会", "Employees had an opportunity to ask questions.", "员工有机会提问。"],
+        ["opportunity for sth", "某事的机会", "The event created opportunities for networking.", "这场活动创造了交流机会。"],
+        ["ability to do sth", "做某事的能力", "The device has the ability to scan receipts quickly.", "该设备具备快速扫描收据的能力。"]
+      ]
+    },
+    {
+      word: "aware/familiar",
+      variants: [
+        ["be aware of sth", "意识到某事", "Managers should be aware of the new deadline.", "经理们应该意识到新的截止日期。"],
+        ["be familiar with sth", "熟悉某事", "New employees are familiar with the online portal.", "新员工熟悉在线门户。"],
+        ["be unfamiliar with sth", "不熟悉某事", "Some guests were unfamiliar with the check-in system.", "一些客人不熟悉入住系统。"]
+      ]
+    },
+    {
+      word: "similar/different",
+      variants: [
+        ["be similar to sth", "与某物相似", "The new form is similar to the previous version.", "新表格与上一版相似。"],
+        ["be different from sth", "与某物不同", "The online price is different from the store price.", "线上价格与门店价格不同。"],
+        ["differ from sth", "与某物不同", "The final invoice differs from the estimate.", "最终发票与估价单不同。"]
+      ]
+    },
+    {
+      word: "suitable/appropriate",
+      variants: [
+        ["be suitable for sth", "适合某事/某物", "The room is suitable for small meetings.", "这个房间适合小型会议。"],
+        ["be appropriate for sth", "适合某事/某物", "Business attire is appropriate for the dinner.", "商务着装适合这次晚宴。"],
+        ["be appropriate to do sth", "做某事是合适的", "It is appropriate to confirm the price in writing.", "以书面形式确认价格是合适的。"]
+      ]
+    },
+    {
+      word: "available",
+      variants: [
+        ["be available to do sth", "有空/可用于做某事", "A technician is available to inspect the copier.", "有技术员可以检查复印机。"],
+        ["be available for sth", "可用于/有空参加某事", "The conference room is available for interviews.", "会议室可用于面试。"],
+        ["be available to sb", "某人可获得/可使用", "The report is available to all managers.", "所有经理都可以查看这份报告。"]
+      ]
+    },
+    {
+      word: "satisfied/pleased",
+      variants: [
+        ["be satisfied with sth", "对某事满意", "Customers were satisfied with the quick service.", "客户对快速服务感到满意。"],
+        ["be pleased with sth", "对某事满意", "The director was pleased with the final design.", "主管对最终设计感到满意。"],
+        ["be pleased to do sth", "很高兴做某事", "We are pleased to announce the new opening date.", "我们很高兴宣布新的开业日期。"]
+      ]
+    },
+    {
+      word: "concerned",
+      variants: [
+        ["be concerned about sth", "担心某事", "The manager is concerned about rising costs.", "经理担心成本上升。"],
+        ["be concerned with sth", "与某事有关/关注某事", "The report is concerned with employee safety.", "这份报告关注员工安全。"],
+        ["concerning sth", "关于某事", "The email concerning the schedule was sent yesterday.", "关于日程的邮件昨天已发送。"]
+      ]
+    },
+    {
+      word: "related/relevant",
+      variants: [
+        ["be related to sth", "与某事有关", "The delay was related to a customs inspection.", "延误与海关检查有关。"],
+        ["be relevant to sth", "与某事相关", "Only information relevant to the claim is required.", "只需要与索赔相关的信息。"],
+        ["in relation to sth", "关于/涉及某事", "The question was asked in relation to the new policy.", "这个问题是关于新政策提出的。"]
+      ]
+    },
+    {
+      word: "absent/present",
+      variants: [
+        ["be absent from sth", "缺席某事", "Several employees were absent from the training session.", "几名员工缺席了培训课。"],
+        ["be present at sth", "出席某事", "All team leaders were present at the briefing.", "所有组长都出席了说明会。"],
+        ["absence from sth", "缺席某事", "Her absence from the meeting was unexpected.", "她缺席会议出乎意料。"]
+      ]
+    },
+    {
+      word: "full/filled",
+      variants: [
+        ["be full of sth", "充满某物", "The storage room is full of unused boxes.", "储藏室里满是未使用的箱子。"],
+        ["be filled with sth", "装满某物/充满某物", "The folder was filled with receipts.", "文件夹里装满了收据。"],
+        ["fill out a form", "填写表格", "Applicants must fill out the form online.", "申请人必须在线填写表格。"]
+      ]
+    },
+    {
+      word: "not only",
+      variants: [
+        ["not only A but also B", "不仅A而且B", "The update is not only faster but also easier to use.", "这次更新不仅更快，而且更容易使用。"],
+        ["not only do/does/did S V, but S also V", "倒装形式：不仅...而且...", "Not only did sales increase, but customer ratings also improved.", "不仅销售额增加了，客户评分也提高了。"]
+      ]
+    },
+    {
+      word: "either/neither",
+      variants: [
+        ["either A or B", "要么A要么B", "Guests may choose either a refund or a credit.", "客人可以选择退款或抵用金。"],
+        ["neither A nor B", "既不A也不B", "Neither the invoice nor the receipt was attached.", "发票和收据都没有附上。"],
+        ["both A and B", "A和B两者都", "Both the manager and the assistant attended the call.", "经理和助理都参加了电话会议。"]
+      ]
+    },
+    {
+      word: "whether",
+      variants: [
+        ["whether A or B", "无论A还是B/是否A或B", "The policy applies whether the order is online or in-store.", "无论订单是线上还是店内下单，该政策都适用。"],
+        ["whether to do sth", "是否做某事", "The team discussed whether to postpone the launch.", "团队讨论是否推迟发布。"],
+        ["whether or not", "是否/不管是否", "Please confirm whether or not you can attend.", "请确认你是否能参加。"]
+      ]
+    },
+    {
+      word: "between/from",
+      variants: [
+        ["between A and B", "在A和B之间", "The interview is scheduled between two and three.", "面试安排在两点到三点之间。"],
+        ["from A to B", "从A到B", "The shuttle runs from the hotel to the airport.", "接驳车从酒店开往机场。"],
+        ["range from A to B", "范围从A到B", "Prices range from twenty to fifty dollars.", "价格从二十美元到五十美元不等。"]
+      ]
+    },
+    {
+      word: "rather/instead",
+      variants: [
+        ["rather than do/doing sth", "而不是做某事", "The team sent an email rather than calling each client.", "团队发送了邮件，而不是逐个给客户打电话。"],
+        ["instead of doing sth", "代替做某事/而不是做某事", "The company held an online meeting instead of renting a hall.", "公司举行线上会议，而不是租大厅。"],
+        ["would rather do A than do B", "宁愿做A也不做B", "The client would rather wait than accept a damaged item.", "客户宁愿等待，也不愿接受损坏的商品。"]
+      ]
+    },
+    {
+      word: "because/due",
+      variants: [
+        ["because of sth", "因为某事", "The flight was delayed because of heavy rain.", "航班因大雨延误。"],
+        ["due to sth", "由于某事", "The cancellation was due to low attendance.", "取消是由于出席人数少。"],
+        ["owing to sth", "由于某事", "Owing to maintenance, the elevator is unavailable.", "由于维护，电梯无法使用。"]
+      ]
+    },
+    {
+      word: "despite",
+      variants: [
+        ["despite sth/doing sth", "尽管某事/尽管做某事", "Despite receiving many orders, the team shipped everything on time.", "尽管收到许多订单，团队仍按时发出了所有货物。"],
+        ["in spite of sth/doing sth", "尽管某事/尽管做某事", "In spite of the delay, the meeting began on time.", "尽管有延误，会议仍准时开始。"],
+        ["although S V", "尽管某事发生", "Although the store was busy, service was quick.", "尽管商店很忙，服务仍然很快。"]
+      ]
+    },
+    {
+      word: "so/such",
+      variants: [
+        ["so adj that S V", "如此...以至于...", "The room was so crowded that some guests stood outside.", "房间太挤了，以至于一些客人站在外面。"],
+        ["such a/an adj n that S V", "如此...的一个...以至于...", "It was such a popular event that tickets sold out quickly.", "这场活动如此受欢迎，以至于票很快售罄。"],
+        ["so that S can/could V", "以便/为了", "The notice was posted early so that everyone could read it.", "通知早早张贴出来，以便每个人都能看到。"]
+      ]
+    },
+    {
+      word: "condition",
+      variants: [
+        ["provided that S V", "只要/条件是", "The refund is available provided that the receipt is shown.", "只要出示收据，就可以退款。"],
+        ["as long as S V", "只要", "You may use the room as long as you reserve it first.", "只要先预订，你就可以使用这个房间。"],
+        ["unless S V", "除非", "The order will ship tomorrow unless the address is incorrect.", "除非地址不正确，否则订单明天发出。"]
+      ]
+    },
+    {
+      word: "given/considering",
+      variants: [
+        ["given that S V", "鉴于/考虑到", "Given that demand is high, the store ordered more stock.", "鉴于需求很高，商店订购了更多库存。"],
+        ["considering that S V", "考虑到", "Considering that the deadline is near, the team worked late.", "考虑到截止日期临近，团队加班了。"],
+        ["given sth", "考虑到某事", "Given the weather, the outdoor event was moved inside.", "考虑到天气，户外活动移到了室内。"]
+      ]
+    },
+    {
+      word: "whereas/while",
+      variants: [
+        ["whereas S V", "而/然而", "The old printer is slow, whereas the new one is much faster.", "旧打印机很慢，而新打印机快得多。"],
+        ["while S V", "虽然/而", "While the price is high, the quality is excellent.", "虽然价格高，但质量很好。"],
+        ["while doing sth", "做某事期间", "While reviewing the report, she noticed an error.", "审查报告时，她注意到一个错误。"]
+      ]
+    },
+    {
+      word: "as soon as",
+      variants: [
+        ["as soon as S V", "一...就...", "Please call me as soon as the package arrives.", "包裹一到，请马上给我打电话。"],
+        ["once S V", "一旦", "Once the payment is confirmed, the order will ship.", "一旦付款确认，订单就会发出。"],
+        ["until S V", "直到", "The office will stay open until the last guest leaves.", "办公室会一直开放到最后一位客人离开。"]
+      ]
+    },
+    {
+      word: "as...as",
+      variants: [
+        ["as adj/adv as", "和...一样...", "The new copier is as fast as the old one.", "新复印机和旧复印机一样快。"],
+        ["not as adj/adv as", "不如...那么...", "The second proposal is not as detailed as the first.", "第二份提案不如第一份详细。"],
+        ["as much/many as", "多达", "The hall can seat as many as three hundred guests.", "大厅最多可容纳三百名客人。"]
+      ]
+    },
+    {
+      word: "comparative",
+      variants: [
+        ["more/less adj than", "比...更/更不...", "The new process is more efficient than the old one.", "新流程比旧流程更高效。"],
+        ["the more S V, the more S V", "越...越...", "The more feedback we collect, the better the service becomes.", "我们收集的反馈越多，服务就越好。"],
+        ["one of the most adj n", "最...的...之一", "This is one of the most popular products in the catalog.", "这是目录中最受欢迎的产品之一。"]
+      ]
+    },
+    {
+      word: "regardless/according",
+      variants: [
+        ["regardless of sth", "不管某事", "The policy applies regardless of membership level.", "无论会员等级如何，该政策都适用。"],
+        ["according to sth", "根据某事", "According to the schedule, the tour begins at nine.", "根据日程，参观九点开始。"],
+        ["in accordance with sth", "按照某事", "The refund was processed in accordance with company policy.", "退款按照公司政策处理。"]
+      ]
+    }
+  ]
+);
+
+const grammarPairEntries = grammarPairGroups.flatMap((group) => group.variants.map(([phrase, meaning, example, translation]) => ({
+  word: phrase,
+  meaning: `${meaning}（${phrase.replace(" sth", "")}）`,
+  phrase,
+  example,
+  translation,
+  note: `TOEIC Reading Part 5 易混搭配：${group.word} 的不同接法。`,
+  tag: "Part 5 对比",
+  category: "grammar",
+  kind: "phrase"
+})));
+
+const grammarPairEntryKeys = new Set(grammarPairEntries.map((item) => `${item.kind}:${item.word}`.toLowerCase()));
+
+const grammarPairCards = grammarPairGroups.map((group) => ({
+  word: group.word,
+  variants: group.variants.map(([phrase, meaning, example, translation]) => ({ phrase, meaning, example, translation })),
+  meaning: group.variants.map(([phrase, meaning]) => `${phrase}：${meaning}`).join("\n"),
+  phrase: group.word,
+  example: group.variants.map(([phrase, , example]) => `${phrase}: ${example}`).join("\n"),
+  translation: group.variants.map(([phrase, , , translation]) => `${phrase}: ${translation}`).join("\n"),
+  note: "同一个词或结构的不同接法会改变意思；TOEIC Part 5 常考这种差别。",
+  tag: "Part 5 对比",
+  category: "grammar",
+  kind: "phrase",
+  isGrammarPairCard: true
+}));
+
 const photoIndexRaw = `
 a bit of
 a couple of
@@ -4733,7 +6119,7 @@ function dedupeVocab(entries) {
 }
 
 function allVocab() {
-  return dedupeVocab([...state.customVocab, ...generatedWords, ...generatedPhrases, ...grammarPhrases, ...photoIndexWords]);
+  return dedupeVocab([...state.customVocab, ...generatedWords, ...generatedPhrases, ...grammarPhrases, ...grammarPairEntries, ...photoIndexWords]);
 }
 
 function hasPendingMeaning(item) {
@@ -4828,7 +6214,10 @@ function lookupExampleWord(rawWord) {
 }
 
 function filteredWordbook() {
-  const list = allVocab();
+  const list = dedupeVocab([
+    ...allVocab().filter((item) => !grammarPairEntryKeys.has(wordKey(item).toLowerCase())),
+    ...grammarPairCards
+  ]);
   if (wordbookFilter === "all") return list;
   if (wordbookFilter === "word" || wordbookFilter === "phrase") return list.filter((item) => item.kind === wordbookFilter);
   return list.filter((item) => item.category === wordbookFilter);
@@ -4902,6 +6291,24 @@ function markSeen(item) {
   }
 }
 
+function renderGrammarPairMeaning(item) {
+  return (item.variants || []).map((variant, index) => (
+    `<span class="grammar-pair-row"><strong>${index + 1}. ${escapeHtml(variant.phrase)}</strong><span>${escapeHtml(variant.meaning)}</span></span>`
+  )).join("");
+}
+
+function renderGrammarPairExamples(item) {
+  return (item.variants || []).map((variant) => (
+    `<span class="grammar-pair-example"><strong>${escapeHtml(variant.phrase)}</strong>${renderClickableExample(variant.example)}</span>`
+  )).join("");
+}
+
+function renderGrammarPairTranslations(item) {
+  return (item.variants || []).map((variant) => (
+    `<span class="grammar-pair-translation"><strong>${escapeHtml(variant.phrase)}</strong>${escapeHtml(variant.translation)}</span>`
+  )).join("");
+}
+
 function renderWordbook() {
   const list = filteredWordbook();
   $("#wordbook-count").textContent = list.length;
@@ -4910,6 +6317,17 @@ function renderWordbook() {
   const item = list[wordbookIndex % list.length];
   markSeen(item);
   $("#wordbook-tag").textContent = item.tag || "TOEIC";
+  if (item.isGrammarPairCard) {
+    $("#wordbook-kind").textContent = "固定搭配对比";
+    $("#wordbook-word").textContent = item.word;
+    $("#wordbook-meaning").innerHTML = renderGrammarPairMeaning(item);
+    $("#wordbook-example").innerHTML = renderGrammarPairExamples(item);
+    $("#wordbook-token-translation").textContent = "点击例句中的单词查看翻译";
+    $("#wordbook-translation").innerHTML = renderGrammarPairTranslations(item);
+    $("#wordbook-phrase").textContent = `${item.word} + to do / doing`;
+    $("#wordbook-note").textContent = item.note || "TOEIC Part 5 固定搭配对比。";
+    return;
+  }
   $("#wordbook-kind").textContent = item.kind === "phrase" ? "短语/固定搭配" : "单词";
   $("#wordbook-word").textContent = item.kind === "phrase" ? item.phrase || item.word : item.word;
   $("#wordbook-meaning").textContent = item.meaning;
@@ -4922,7 +6340,7 @@ function renderWordbook() {
 
 function renderVocab() {
   const list = filteredVocab().filter(matchesTrainingKind);
-  $("#gold-count").textContent = `内置 ${generatedWords.length + generatedPhrases.length + grammarPhrases.length} 个，已导入 ${state.customVocab.length} 个`;
+  $("#gold-count").textContent = `内置 ${generatedWords.length + generatedPhrases.length + grammarPhrases.length + grammarPairEntries.length} 个，已导入 ${state.customVocab.length} 个`;
   $("#current-word-count").textContent = list.length;
   $("#word-known-count").textContent = state.known.length;
   $("#word-unknown-count").textContent = state.wordMistakes.length;
