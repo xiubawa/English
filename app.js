@@ -1694,7 +1694,8 @@ const grammarPairEntries = grammarPairGroups.flatMap((group) => group.variants.m
   note: `TOEIC Reading Part 5 易混搭配：${group.word} 的不同接法。`,
   tag: "Part 5 对比",
   category: "grammar",
-  kind: "phrase"
+  kind: "phrase",
+  groupWord: group.word
 })));
 
 const grammarPairEntryKeys = new Set(grammarPairEntries.map((item) => `${item.kind}:${item.word}`.toLowerCase()));
@@ -5868,6 +5869,7 @@ const $$ = (selector) => [...document.querySelectorAll(selector)];
 const today = () => new Date().toISOString().slice(0, 10);
 const shuffle = (items) => items.slice().sort(() => Math.random() - 0.5);
 const wordKey = (item) => `${item.kind || "word"}:${item.word}`;
+const grammarPairGroupKey = (groupWord) => `phrase:${groupWord}`;
 
 function persistState() {
   localStorage.setItem(storeKey, JSON.stringify(state));
@@ -6126,6 +6128,14 @@ function hasPendingMeaning(item) {
   return item.meaning === "待补充释义";
 }
 
+function isSeenForTraining(item, seen) {
+  if (seen.has(wordKey(item))) return true;
+  if (item.category === "grammar" && item.groupWord) {
+    return seen.has(grammarPairGroupKey(item.groupWord));
+  }
+  return false;
+}
+
 function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
 }
@@ -6227,13 +6237,8 @@ function filteredVocab() {
   const seen = new Set(state.seenWords);
   const source = allVocab().filter((item) => !hasPendingMeaning(item));
   if (vocabFilter === "wordMistakes") return state.wordMistakes.map((m) => normalizeEntry(m.item || { word: m.question, meaning: m.answer, phrase: m.question, example: m.explain, translation: "", category: "wordMistakes" }));
-  if (wordTrainingKind === "grammar" || vocabFilter === "grammar") return source.filter((item) => item.category === "grammar");
-  const seenItems = source.filter((item) => seen.has(wordKey(item)));
-  if (wordTrainingKind === "allKinds" && (vocabFilter === "all" || vocabFilter === "highfreq")) {
-    const fixedPhrases = source.filter((item) => item.category === "grammar");
-    const seenKeys = new Set(seenItems.map(wordKey));
-    return [...seenItems, ...fixedPhrases.filter((item) => !seenKeys.has(wordKey(item)))];
-  }
+  const seenItems = source.filter((item) => isSeenForTraining(item, seen));
+  if (wordTrainingKind === "grammar" || vocabFilter === "grammar") return seenItems.filter((item) => item.category === "grammar");
   let list = seenItems;
   if (vocabFilter === "all") return list;
   if (vocabFilter === "highfreq") return list;
