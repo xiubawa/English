@@ -405,7 +405,8 @@ h1 {
   padding: 42px;
 }
 
-.flashcard span {
+.flashcard > span,
+.training-content > span {
   width: max-content;
   padding: 6px 10px;
   border-radius: 999px;
@@ -431,19 +432,86 @@ blockquote {
   font-size: 20px;
 }
 
+.grammar-pair-row,
+.grammar-pair-example,
+.grammar-pair-translation {
+  display: block;
+  width: auto;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  margin-bottom: 12px;
+  line-height: 1.45;
+}
+
+.grammar-pair-section-title {
+  display: block;
+  width: auto;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.grammar-pair-row strong,
+.grammar-pair-example strong,
+.grammar-pair-translation strong {
+  color: var(--blue);
+  font-size: 17px;
+}
+
+.grammar-pair-row {
+  font-size: 20px;
+}
+
+.grammar-pair-row strong {
+  margin-right: 10px;
+}
+
+.grammar-pair-meaning {
+  display: inline;
+  color: var(--ink);
+  font-size: inherit;
+}
+
+.grammar-pair-example {
+  color: var(--muted);
+  font-size: 20px;
+}
+
+.grammar-pair-translation {
+  color: var(--ink);
+  font-size: 20px;
+}
+
+.grammar-pair-row:last-child,
+.grammar-pair-example:last-child,
+.grammar-pair-translation:last-child {
+  margin-bottom: 0;
+}
+
 .example-token {
+  display: inline;
+  width: auto;
   border: 0;
   min-height: auto;
   padding: 2px 3px;
   border-radius: 4px;
   background: transparent;
   color: inherit;
+  font: inherit;
   line-height: 1.6;
+  text-align: inherit;
+  vertical-align: baseline;
 }
 
 .example-token:hover {
-  background: #e5f0ec;
-  color: var(--green);
+  background: #eef2f7;
+  color: var(--blue);
 }
 
 .token-translation {

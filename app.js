@@ -6292,21 +6292,24 @@ function markSeen(item) {
 }
 
 function renderGrammarPairMeaning(item) {
-  return (item.variants || []).map((variant, index) => (
-    `<span class="grammar-pair-row"><strong>${index + 1}. ${escapeHtml(variant.phrase)}</strong><span>${escapeHtml(variant.meaning)}</span></span>`
+  const rows = (item.variants || []).map((variant, index) => (
+    `<span class="grammar-pair-row"><strong>${index + 1}. ${escapeHtml(variant.phrase)}</strong><span class="grammar-pair-meaning">${escapeHtml(variant.meaning)}</span></span>`
   )).join("");
+  return `<span class="grammar-pair-section-title">搭配对比</span>${rows}`;
 }
 
 function renderGrammarPairExamples(item) {
-  return (item.variants || []).map((variant) => (
-    `<span class="grammar-pair-example"><strong>${escapeHtml(variant.phrase)}</strong>${renderClickableExample(variant.example)}</span>`
+  const examples = (item.variants || []).map((variant) => (
+    `<span class="grammar-pair-example">${renderClickableExample(variant.example)}</span>`
   )).join("");
+  return `<span class="grammar-pair-section-title">例句</span>${examples}`;
 }
 
 function renderGrammarPairTranslations(item) {
-  return (item.variants || []).map((variant) => (
-    `<span class="grammar-pair-translation"><strong>${escapeHtml(variant.phrase)}</strong>${escapeHtml(variant.translation)}</span>`
+  const translations = (item.variants || []).map((variant) => (
+    `<span class="grammar-pair-translation">${escapeHtml(variant.translation)}</span>`
   )).join("");
+  return `<span class="grammar-pair-section-title">例句翻译</span>${translations}`;
 }
 
 function renderWordbook() {
@@ -6324,7 +6327,7 @@ function renderWordbook() {
     $("#wordbook-example").innerHTML = renderGrammarPairExamples(item);
     $("#wordbook-token-translation").textContent = "点击例句中的单词查看翻译";
     $("#wordbook-translation").innerHTML = renderGrammarPairTranslations(item);
-    $("#wordbook-phrase").textContent = `${item.word} + to do / doing`;
+    $("#wordbook-phrase").textContent = item.word;
     $("#wordbook-note").textContent = item.note || "TOEIC Part 5 固定搭配对比。";
     return;
   }
