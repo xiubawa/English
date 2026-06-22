@@ -1,0 +1,43 @@
+TOEIC 700 云端进度同步说明
+
+这个功能用 GitHub Gist 保存学习进度。
+网页程序仍然部署在 GitHub Pages，进度文件保存在你的 GitHub 账号里。
+
+一、创建 GitHub Token
+1. 打开 https://github.com/settings/personal-access-tokens/new
+2. Token name 填 TOEIC Progress Sync。
+3. Expiration 可以选 90 days、1 year，或按你自己的习惯选择。
+4. Permissions 里找到 Account permissions。
+5. 把 Gists 设置为 Read and write。
+6. 点击 Generate token。
+7. 复制生成的 token。
+
+注意：
+Token 像密码一样，不要发给别人。
+程序只会把 token 保存在当前浏览器的 localStorage 里。
+
+二、第一次使用
+1. 打开你的 TOEIC 网页。
+2. 在首页找到“云端进度”。
+3. 粘贴 GitHub Token。
+4. 勾选“自动上传”。
+5. 点击“创建云端档案”。
+6. 成功后会自动填入 Gist ID，并上传当前进度。
+
+三、换设备同步
+1. 在电脑上点击“上传进度”。
+2. 在 iPad 上打开同一个 TOEIC 网页。
+3. 填入同一个 GitHub Token。
+4. 填入同一个 Gist ID。
+5. 点击“恢复进度”。
+6. 勾选“自动上传”。
+
+四、平时怎么用
+同一设备：正常学习即可，浏览器本地会保存。
+跨设备：离开前点“上传进度”，另一台设备点“恢复进度”。
+开启自动上传后，做题、背词、记录成绩后会自动尝试上传。
+
+五、限制
+如果两个设备同时学习，后上传的进度会覆盖云端。
+如果 Token 过期，需要重新生成一个 Token 并保存设置。
+

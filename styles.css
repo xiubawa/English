@@ -303,6 +303,59 @@ h1 {
   color: var(--muted);
 }
 
+.cloud-sync-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.1fr) minmax(180px, 0.9fr) auto;
+  gap: 12px;
+  align-items: end;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.cloud-sync-card label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.cloud-sync-card .check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--ink);
+}
+
+.cloud-sync-card .check-row input {
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+}
+
+.cloud-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cloud-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+}
+
+.cloud-status.error {
+  color: var(--red);
+}
+
+.cloud-status.ok {
+  color: var(--green);
+}
+
 .timeline,
 .task-list {
   display: grid;
@@ -611,7 +664,8 @@ input {
   .metrics,
   .word-stats,
   .word-choice-grid,
-  .mock-grid {
+  .mock-grid,
+  .cloud-sync-card {
     grid-template-columns: 1fr;
   }
 

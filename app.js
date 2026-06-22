@@ -1,4 +1,6 @@
 ﻿const storeKey = "toeic700-offline-state";
+const cloudSyncKey = "toeic700-cloud-sync";
+const cloudFileName = "toeic700-progress.json";
 
 const phases = [
   ["第 1-2 周", "打基础", "熟悉题型，主攻 Part 1/2/5，建立商务词汇和核心语法。"],
@@ -4434,19 +4436,34 @@ const questions = {
   reading: [{ q: "What is the purpose of the notice?", passage: "Notice: The cafeteria will be closed for maintenance from June 18 to June 20.", options: ["To announce a temporary closure.", "To invite employees to a dinner.", "To introduce a new menu."], answer: 0, explain: "notice 说明餐厅临时关闭。" }]
 };
 
-let state = JSON.parse(localStorage.getItem(storeKey) || "{}");
-state.tasks ??= {};
-state.known ??= [];
-state.unknown ??= [];
-state.wordMistakes ??= [];
-state.seenWords ??= [];
-state.customVocab ??= [];
-state.mistakes ??= [];
-state.scores ??= [];
-state.studyDays ??= [];
-state.wordbookIndex ??= 0;
-state.wordbookFilter ??= "all";
-state.mistakes = state.mistakes.filter((m) => m.type !== "vocab");
+function readJsonStorage(key, fallback = {}) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function normalizeState(data) {
+  const next = data && typeof data === "object" ? data : {};
+  next.tasks = next.tasks && typeof next.tasks === "object" ? next.tasks : {};
+  next.known = Array.isArray(next.known) ? next.known : [];
+  next.unknown = Array.isArray(next.unknown) ? next.unknown : [];
+  next.wordMistakes = Array.isArray(next.wordMistakes) ? next.wordMistakes : [];
+  next.seenWords = Array.isArray(next.seenWords) ? next.seenWords : [];
+  next.customVocab = Array.isArray(next.customVocab) ? next.customVocab : [];
+  next.mistakes = Array.isArray(next.mistakes) ? next.mistakes.filter((m) => m.type !== "vocab") : [];
+  next.scores = Array.isArray(next.scores) ? next.scores : [];
+  next.studyDays = Array.isArray(next.studyDays) ? next.studyDays : [];
+  next.wordbookIndex = Number.isFinite(Number(next.wordbookIndex)) ? Number(next.wordbookIndex) : 0;
+  next.wordbookFilter = next.wordbookFilter || "all";
+  return next;
+}
+
+let state = normalizeState(readJsonStorage(storeKey, {}));
+let cloudSync = readJsonStorage(cloudSyncKey, {});
+cloudSync.auto ??= true;
 
 let vocabIndex = 0;
 let vocabFilter = "all";
@@ -4463,9 +4480,174 @@ let remainingSeconds = 120 * 60;
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const today = () => new Date().toISOString().slice(0, 10);
-const save = () => { localStorage.setItem(storeKey, JSON.stringify(state)); renderStats(); };
 const shuffle = (items) => items.slice().sort(() => Math.random() - 0.5);
 const wordKey = (item) => `${item.kind || "word"}:${item.word}`;
+
+function persistState() {
+  localStorage.setItem(storeKey, JSON.stringify(state));
+}
+
+function save() {
+  persistState();
+  renderStats();
+  queueCloudUpload();
+}
+
+let cloudUploadTimer = null;
+let isCloudSyncing = false;
+
+function persistCloudSync() {
+  localStorage.setItem(cloudSyncKey, JSON.stringify(cloudSync));
+}
+
+function hasCloudConfig() {
+  return Boolean((cloudSync.token || "").trim() && (cloudSync.gistId || "").trim());
+}
+
+function setCloudStatus(message, tone = "") {
+  const status = $("#cloud-status");
+  if (!status) return;
+  status.textContent = message;
+  status.className = `cloud-status ${tone}`.trim();
+}
+
+function updateCloudInputs() {
+  if (!$("#cloud-token")) return;
+  $("#cloud-token").value = cloudSync.token || "";
+  $("#cloud-gist-id").value = cloudSync.gistId || "";
+  $("#cloud-auto").checked = cloudSync.auto !== false;
+  const gist = cloudSync.gistId ? `Gist: ${cloudSync.gistId}` : "未创建云端档案";
+  const saved = cloudSync.lastSavedAt ? `，上次上传：${cloudSync.lastSavedAt}` : "";
+  setCloudStatus(`${gist}${saved}`, cloudSync.gistId ? "ok" : "");
+}
+
+function saveCloudSettingsFromInputs() {
+  cloudSync.token = ($("#cloud-token")?.value || "").trim();
+  cloudSync.gistId = ($("#cloud-gist-id")?.value || "").trim();
+  cloudSync.auto = Boolean($("#cloud-auto")?.checked);
+  persistCloudSync();
+  updateCloudInputs();
+}
+
+function cloudPayload() {
+  return {
+    app: "toeic-700-training",
+    version: 1,
+    updatedAt: new Date().toISOString(),
+    state
+  };
+}
+
+async function githubGistRequest(path, options = {}) {
+  const token = (cloudSync.token || "").trim();
+  if (!token) throw new Error("请先填写 GitHub Token。");
+  const response = await fetch(`https://api.github.com${path}`, {
+    ...options,
+    headers: {
+      Accept: "application/vnd.github+json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(options.headers || {})
+    }
+  });
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(text || `GitHub 请求失败：${response.status}`);
+  }
+  return response.status === 204 ? null : response.json();
+}
+
+async function createCloudSave() {
+  saveCloudSettingsFromInputs();
+  setCloudStatus("正在创建云端档案...");
+  try {
+    const gist = await githubGistRequest("/gists", {
+      method: "POST",
+      body: JSON.stringify({
+        description: "TOEIC 700 learning progress",
+        public: false,
+        files: {
+          [cloudFileName]: {
+            content: JSON.stringify(cloudPayload(), null, 2)
+          }
+        }
+      })
+    });
+    cloudSync.gistId = gist.id;
+    cloudSync.lastSavedAt = new Date().toLocaleString();
+    persistCloudSync();
+    updateCloudInputs();
+    setCloudStatus("云端档案已创建，并已上传当前进度。", "ok");
+  } catch (error) {
+    setCloudStatus(error.message || "创建失败。", "error");
+  }
+}
+
+async function uploadCloudSave(manual = true) {
+  if (!hasCloudConfig() || isCloudSyncing) {
+    if (manual && !hasCloudConfig()) setCloudStatus("请先填写 Token 和 Gist ID，或点击创建云端档案。", "error");
+    return;
+  }
+  isCloudSyncing = true;
+  if (manual) setCloudStatus("正在上传进度...");
+  try {
+    await githubGistRequest(`/gists/${encodeURIComponent(cloudSync.gistId)}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        files: {
+          [cloudFileName]: {
+            content: JSON.stringify(cloudPayload(), null, 2)
+          }
+        }
+      })
+    });
+    cloudSync.lastSavedAt = new Date().toLocaleString();
+    persistCloudSync();
+    setCloudStatus(`进度已上传：${cloudSync.lastSavedAt}`, "ok");
+  } catch (error) {
+    if (manual) setCloudStatus(error.message || "上传失败。", "error");
+  } finally {
+    isCloudSyncing = false;
+  }
+}
+
+async function downloadCloudSave() {
+  saveCloudSettingsFromInputs();
+  if (!hasCloudConfig()) {
+    setCloudStatus("请先填写 Token 和 Gist ID。", "error");
+    return;
+  }
+  if (!confirm("恢复云端进度会覆盖当前浏览器里的进度，确定继续吗？")) return;
+  setCloudStatus("正在恢复云端进度...");
+  try {
+    const gist = await githubGistRequest(`/gists/${encodeURIComponent(cloudSync.gistId)}`);
+    const file = gist.files?.[cloudFileName] || Object.values(gist.files || {}).find((item) => item.filename === cloudFileName);
+    if (!file?.content) throw new Error("云端档案里没有找到进度文件。");
+    const payload = JSON.parse(file.content);
+    state = normalizeState(payload.state || payload);
+    persistState();
+    wordbookFilter = state.wordbookFilter;
+    wordbookIndex = state.wordbookIndex;
+    $("#wordbook-filter").value = wordbookFilter;
+    renderDaily();
+    renderWordbook();
+    renderVocab();
+    renderQuestion();
+    renderStats();
+    setCloudStatus("云端进度已恢复。", "ok");
+  } catch (error) {
+    setCloudStatus(error.message || "恢复失败。", "error");
+  }
+}
+
+function queueCloudUpload() {
+  if (!hasCloudConfig() || cloudSync.auto === false) return;
+  clearTimeout(cloudUploadTimer);
+  cloudUploadTimer = setTimeout(() => {
+    uploadCloudSave(false);
+  }, 2500);
+}
 
 function speakEnglish(text) {
   if (!("speechSynthesis" in window)) return;
@@ -4484,7 +4666,8 @@ function speakEnglish(text) {
 function saveWordbookPosition() {
   state.wordbookIndex = wordbookIndex;
   state.wordbookFilter = wordbookFilter;
-  localStorage.setItem(storeKey, JSON.stringify(state));
+  persistState();
+  queueCloudUpload();
 }
 
 function normalizeEntry(item) {
@@ -4674,7 +4857,7 @@ function markSeen(item) {
   const key = wordKey(item);
   if (!state.seenWords.includes(key)) {
     state.seenWords.push(key);
-    localStorage.setItem(storeKey, JSON.stringify(state));
+    save();
   }
 }
 
@@ -4909,9 +5092,15 @@ $("#speak-question").addEventListener("click", () => { speakEnglish($("#question
 $("#start-mock").addEventListener("click", () => { clearInterval(timerId); remainingSeconds = 120 * 60; tick(); timerId = setInterval(tick, 1000); });
 $("#score-form").addEventListener("submit", (event) => { event.preventDefault(); const listen = Number($("#listen-score").value || 0); const read = Number($("#read-score").value || 0); if (!listen || !read) return; state.scores.push({ time: new Date().toLocaleString(), listen, read, total: listen + read }); $("#listen-score").value = ""; $("#read-score").value = ""; save(); });
 $("#clear-mistakes").addEventListener("click", () => { state.mistakes = []; save(); });
+$("#save-cloud-sync").addEventListener("click", () => { saveCloudSettingsFromInputs(); setCloudStatus("同步设置已保存。", "ok"); });
+$("#create-cloud-save").addEventListener("click", createCloudSave);
+$("#upload-cloud-save").addEventListener("click", () => { saveCloudSettingsFromInputs(); uploadCloudSave(true); });
+$("#download-cloud-save").addEventListener("click", downloadCloudSave);
+$("#cloud-auto").addEventListener("change", () => { saveCloudSettingsFromInputs(); if (cloudSync.auto) queueCloudUpload(); });
 
 renderTimeline();
 renderDaily();
+updateCloudInputs();
 $("#wordbook-filter").value = wordbookFilter;
 $("#vocab-filter").value = vocabFilter;
 $("#word-training-kind").value = wordTrainingKind;
