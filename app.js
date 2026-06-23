@@ -5949,6 +5949,9 @@ function normalizeState(data) {
   next.studyDays = Array.isArray(next.studyDays) ? next.studyDays : [];
   next.wordbookIndex = Number.isFinite(Number(next.wordbookIndex)) ? Number(next.wordbookIndex) : 0;
   next.wordbookFilter = next.wordbookFilter || "all";
+  next.wordbookLastKey = next.wordbookLastKey || "";
+  next.wordbookLastByFilter = next.wordbookLastByFilter && typeof next.wordbookLastByFilter === "object" ? next.wordbookLastByFilter : {};
+  if (next.wordbookLastKey && !next.wordbookLastByFilter[next.wordbookFilter]) next.wordbookLastByFilter[next.wordbookFilter] = next.wordbookLastKey;
   return next;
 }
 
@@ -5961,6 +5964,7 @@ let vocabFilter = "all";
 let wordbookFilter = state.wordbookFilter;
 let wordbookIndex = state.wordbookIndex;
 let wordbookSearch = "";
+let skipRememberWordbookItem = false;
 let wordTrainingMode = "enToCn";
 let wordTrainingKind = "word";
 let currentWordQuestion = null;
@@ -6208,6 +6212,32 @@ function saveWordbookPosition() {
   state.wordbookFilter = wordbookFilter;
   persistState();
   queueCloudUpload();
+}
+
+function rememberWordbookItem(item) {
+  if (!item) return;
+  const key = wordKey(item).toLowerCase();
+  const scope = wordbookScopeKey();
+  state.wordbookLastByFilter = state.wordbookLastByFilter || {};
+  if (state.wordbookLastByFilter[scope] === key) return;
+  state.wordbookLastByFilter[scope] = key;
+  state.wordbookLastKey = key;
+  persistState();
+  queueCloudUpload();
+}
+
+function wordbookScopeKey() {
+  return wordbookFilter || "all";
+}
+
+function wordbookScopeLabel() {
+  return $("#wordbook-filter")?.selectedOptions?.[0]?.textContent || "当前分类";
+}
+
+function findWordbookIndexByKey(list, key) {
+  const normalizedKey = String(key || "").toLowerCase();
+  if (!normalizedKey) return -1;
+  return list.findIndex((item) => wordKey(item).toLowerCase() === normalizedKey);
 }
 
 function normalizeEntry(item) {
@@ -6498,7 +6528,6 @@ function renderStats() {
   $("#seen-count").textContent = state.seenWords.length;
   $("#known-count").textContent = state.known.length;
   $("#word-mistake-dashboard-count").textContent = state.wordMistakes.length;
-  $("#custom-count").textContent = state.customVocab.length;
   $("#word-known-count").textContent = state.known.length;
   $("#word-unknown-count").textContent = state.wordMistakes.length;
   renderWordMistakes();
@@ -6547,6 +6576,7 @@ function renderWordbook() {
   const list = filteredWordbook();
   $("#wordbook-count").textContent = list.length;
   if (!list.length) {
+    skipRememberWordbookItem = false;
     $("#wordbook-tag").textContent = "检索";
     $("#wordbook-kind").textContent = wordbookSearch ? "没有匹配结果" : "单词本";
     $("#wordbook-word").textContent = wordbookSearch ? "没有找到" : "暂无词条";
@@ -6561,6 +6591,8 @@ function renderWordbook() {
   wordbookIndex = ((wordbookIndex % list.length) + list.length) % list.length;
   const item = list[wordbookIndex % list.length];
   markSeen(item);
+  if (!skipRememberWordbookItem) rememberWordbookItem(item);
+  skipRememberWordbookItem = false;
   $("#wordbook-tag").textContent = item.tag || "TOEIC";
   if (item.isGrammarPairCard) {
     $("#wordbook-kind").textContent = "固定搭配对比";
@@ -6585,7 +6617,6 @@ function renderWordbook() {
 
 function renderVocab() {
   const list = filteredVocab().filter(matchesTrainingKind);
-  $("#gold-count").textContent = `内置 ${generatedWords.length + generatedPhrases.length + grammarPhrases.length + grammarPairEntries.length} 个，已导入 ${state.customVocab.length} 个`;
   $("#current-word-count").textContent = list.length;
   $("#word-known-count").textContent = state.known.length;
   $("#word-unknown-count").textContent = state.wordMistakes.length;
@@ -6649,16 +6680,6 @@ function answerWordQuestion(index, button) {
     $("#word-feedback").textContent = `错了，已加入单词错题本。正确答案：${currentWordQuestion.answer}`;
   }
   save();
-}
-
-function parseGoldImport(text) {
-  return text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).map((line) => {
-    const parts = line.includes("\t") ? line.split("\t") : line.split(",");
-    const [word, meaning, example, translation, phrase, note] = parts.map((part) => (part || "").trim());
-    if (!word || !meaning) return null;
-    const kind = word.includes(" ") || (phrase && phrase.includes(" ")) ? "phrase" : "word";
-    return { word, meaning, phrase: phrase || word, example: example || `Please review ${word}.`, translation: translation || meaning, note: note || "来自手动导入。", tag: "我的词库", category: "gold", kind };
-  }).filter(Boolean);
 }
 
 function renderQuestion() {
@@ -6764,18 +6785,43 @@ document.addEventListener("change", (event) => {
     vocabIndex = 0;
     renderVocab();
   }
-  if (event.target.id === "wordbook-filter") { wordbookFilter = event.target.value; wordbookIndex = 0; saveWordbookPosition(); renderWordbook(); }
+  if (event.target.id === "wordbook-filter") { wordbookFilter = event.target.value; wordbookIndex = 0; skipRememberWordbookItem = true; saveWordbookPosition(); renderWordbook(); }
 });
 
 $("#wordbook-search").addEventListener("input", (event) => {
   wordbookSearch = event.target.value;
   wordbookIndex = 0;
+  skipRememberWordbookItem = true;
   renderWordbook();
 });
 
 $("#refresh-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex + 1) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#prev-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex - 1 + list.length) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#speak-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (!list.length) return; const item = list[wordbookIndex % list.length]; speakEnglish(`${item.phrase || item.word}. ${item.example || ""}`); });
+$("#return-wordbook-last").addEventListener("click", () => {
+  const scope = wordbookScopeKey();
+  const label = wordbookScopeLabel();
+  const key = state.wordbookLastByFilter?.[scope] || "";
+  if (!key) {
+    $("#wordbook-token-translation").textContent = `${label} 还没有记录上次看的单词。`;
+    return;
+  }
+  let list = filteredWordbook();
+  let index = findWordbookIndexByKey(list, key);
+  if (index < 0 && wordbookSearch.trim()) {
+    wordbookSearch = "";
+    $("#wordbook-search").value = "";
+    list = filteredWordbook();
+    index = findWordbookIndexByKey(list, key);
+  }
+  if (index < 0) {
+    $("#wordbook-token-translation").textContent = `${label} 上次看的词不在当前词库里。`;
+    return;
+  }
+  wordbookIndex = index;
+  saveWordbookPosition();
+  renderWordbook();
+});
 $("#vocab-filter").addEventListener("change", (event) => {
   vocabFilter = event.target.value;
   if (vocabFilter === "grammar") {
@@ -6789,9 +6835,6 @@ $("#vocab-filter").addEventListener("change", (event) => {
   renderVocab();
 });
 $("#speak-vocab").addEventListener("click", () => { if (!currentWordQuestion) return; speakEnglish(currentWordQuestion.prompt); });
-$("#toggle-import").addEventListener("click", () => { const box = $("#import-box"); const isCollapsed = box.classList.toggle("collapsed"); $("#toggle-import").textContent = isCollapsed ? "导入词库" : "收起导入"; $("#toggle-import").setAttribute("aria-expanded", String(!isCollapsed)); });
-$("#import-gold").addEventListener("click", () => { const imported = parseGoldImport($("#gold-import").value); const existing = new Set(state.customVocab.map((item) => item.word.toLowerCase())); imported.forEach((item) => { if (!existing.has(item.word.toLowerCase())) state.customVocab.push(item); }); $("#gold-import").value = ""; wordbookFilter = "all"; wordbookIndex = 0; saveWordbookPosition(); renderWordbook(); save(); });
-$("#clear-gold").addEventListener("click", () => { state.customVocab = []; renderWordbook(); renderVocab(); save(); });
 $("#practice-word-mistakes").addEventListener("click", () => { if (!state.wordMistakes.length) return; $("#vocab-filter").value = "wordMistakes"; vocabFilter = "wordMistakes"; vocabIndex = 0; renderVocab(); switchTab("vocab"); });
 $("#clear-word-mistakes").addEventListener("click", () => { state.wordMistakes = []; state.unknown = []; save(); });
 $("#save-cloud-sync").addEventListener("click", () => { saveCloudSettingsFromInputs(); setCloudStatus("同步设置已保存。", "ok"); });

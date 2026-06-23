@@ -45,10 +45,6 @@
             <span>单词错题</span>
             <strong id="word-mistake-dashboard-count">0</strong>
           </article>
-          <article>
-            <span>我的导入</span>
-            <strong id="custom-count">0</strong>
-          </article>
         </div>
 
         <section class="band cloud-sync">
@@ -112,7 +108,7 @@
             <button id="prev-wordbook">上一条</button>
             <button id="refresh-wordbook">下一条</button>
             <button id="speak-wordbook">朗读</button>
-            <button id="toggle-import" aria-expanded="false">导入词库</button>
+            <button id="return-wordbook-last">回到上次</button>
           </div>
         </header>
         <div class="wordbook-summary">
@@ -130,20 +126,6 @@
           <div class="word-meta">
             <strong id="wordbook-phrase">send an invoice</strong>
             <span id="wordbook-note">TOEIC 常见搭配。</span>
-          </div>
-        </div>
-        <div class="import-box collapsed" id="import-box">
-          <div>
-            <strong>导入自己的词库</strong>
-            <p>每行一个词，格式：单词,中文意思,英文例句,例句中文翻译,搭配/短语</p>
-          </div>
-          <textarea id="gold-import" rows="6" placeholder="例如：
-invoice,发票,Please send the invoice by Friday.,请在周五前发送发票。,send an invoice
-decide to do sth,决定做某事,The director decided to postpone the meeting.,主管决定推迟会议。,decide to do sth"></textarea>
-          <div class="actions">
-            <button class="primary" id="import-gold">导入到我的词库</button>
-            <button id="clear-gold">清空已导入</button>
-            <span id="gold-count">内置 0 个，已导入 0 个</span>
           </div>
         </div>
       </section>
