@@ -397,6 +397,21 @@ h1 {
   flex-wrap: wrap;
 }
 
+.wordbook-search {
+  min-height: 42px;
+  width: min(280px, 100%);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 0 14px;
+}
+
+.wordbook-search:focus {
+  outline: 2px solid rgba(49, 95, 159, 0.18);
+  border-color: var(--blue);
+}
+
 .flashcard {
   min-height: 360px;
   display: grid;

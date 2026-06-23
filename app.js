@@ -5512,6 +5512,95 @@ const phraseMeaningMap = {
   "work ethic": "职业道德", "x-ray": "X 光；X 光片"
 };
 
+const photoSupplementalMeaningMap = {
+  "abridged version": "删节版；简缩版",
+  "accommodation(s)": "住宿；便利设施",
+  "accordingly": "因此；相应地",
+  "after": "在...之后",
+  "after all": "毕竟；终究",
+  "afterward(s)": "之后；随后",
+  "ai": "人工智能",
+  "all sales are final": "商品售出概不退换",
+  "as": "作为；当...时；由于；像...一样",
+  "asking price": "要价；售价",
+  "assuming (that)": "假定；如果",
+  "aware": "意识到的；知道的",
+  "because": "因为",
+  "best belong": "最适合；最相称",
+  "(light) bulb": "灯泡",
+  "light bulb": "灯泡",
+  "can/could you do me a favor": "你能帮我一个忙吗？",
+  "car": "汽车",
+  "ceo (chief executive officer)": "首席执行官",
+  "(medical) checkup": "体检",
+  "medical checkup": "体检",
+  "circulation desk": "借还书服务台；流通服务台",
+  "clothes": "衣服",
+  "(clothes) dryer": "烘干机",
+  "clothes dryer": "烘干机",
+  "conservancy": "保护协会；保护管理",
+  "cook": "厨师；烹饪",
+  "cookie": "饼干",
+  "cooperate": "合作",
+  "cooperation": "合作",
+  "creature": "生物",
+  "cube": "立方体；小隔间",
+  "cv": "简历",
+  "dehumidifier": "除湿机",
+  "(food) dehydrator": "食品脱水机",
+  "food dehydrator": "食品脱水机",
+  "during": "在...期间",
+  "finding(s)": "调查结果；发现",
+  "findings": "调查结果；发现",
+  "fireplace": "壁炉",
+  "first-rate": "一流的",
+  "given": "鉴于；特定的；给定的",
+  "good": "好的；优质的",
+  "house": "房子；公司；容纳",
+  "id": "身份证件；识别",
+  "if": "如果；是否",
+  "inc.": "股份有限公司",
+  "inc": "股份有限公司",
+  "in-depth": "深入的；详细的",
+  "in-store": "店内的；在店内",
+  "interoffice": "办公室之间的；部门间的",
+  "it department": "IT 部门；信息技术部门",
+  "laptop (computer)": "笔记本电脑",
+  "laptop computer": "笔记本电脑",
+  "lawn": "草坪",
+  "leading": "主要的；领先的",
+  "leaflet": "传单；小册子",
+  "leak": "泄漏；泄露",
+  "lightbulb": "灯泡",
+  "ltd.": "有限公司",
+  "ltd": "有限公司",
+  "microwave (oven)": "微波炉",
+  "microwave oven": "微波炉",
+  "(musical) instrument": "乐器",
+  "musical instrument": "乐器",
+  "next to": "在...旁边；紧挨着",
+  "old-fashioned": "老式的；过时的",
+  "one-way": "单程的；单向的",
+  "owing to": "由于",
+  "pay off": "还清；取得成效",
+  "prop": "道具；支撑物",
+  "rsvp": "请回复；敬请赐复",
+  "sdgs": "可持续发展目标",
+  "since": "自从；因为",
+  "sofa": "沙发",
+  "soon": "很快；不久",
+  "sought-after": "受欢迎的；抢手的",
+  "stay tuned": "敬请关注",
+  "suv": "运动型多用途车",
+  "vacuum (cleaner)": "吸尘器",
+  "vacuum cleaner": "吸尘器",
+  "via": "通过；经由",
+  "welcome aboard": "欢迎加入",
+  "when": "当...时；何时",
+  "windowpane": "窗玻璃",
+  "windowsill": "窗台"
+};
+
 const photoSuffixRules = [
   [/ability$/, "能力；性质"], [/ibility$/, "能力；性质"], [/tion$/, "；行为/状态"], [/sion$/, "；行为/状态"],
   [/ment$/, "；结果/过程"], [/ness$/, "；性质/状态"], [/ity$/, "；性质/状态"], [/ance$/, "；状态/行为"],
@@ -5524,21 +5613,36 @@ function cleanPhotoWord(word) {
   return String(word || "").trim().replace(/^[(]+|[)]+$/g, "").replace(/[.!?]+$/g, "").toLowerCase();
 }
 
+function photoLookupKeys(word) {
+  const raw = String(word || "").trim().toLowerCase();
+  const noEndingPunctuation = raw.replace(/[.!?]+$/g, "");
+  const noParentheses = noEndingPunctuation.replace(/[()]/g, "").replace(/\s+/g, " ").trim();
+  return [...new Set([raw, noEndingPunctuation, cleanPhotoWord(word), noParentheses].filter(Boolean))];
+}
+
+function lookupPhotoMeaning(word) {
+  for (const key of photoLookupKeys(word)) {
+    const meaning = photoSupplementalMeaningMap[key] || phraseMeaningMap[key] || photoMeaningMap[key];
+    if (meaning) return meaning;
+  }
+  return "";
+}
+
 function titleCaseForExample(word) {
   return String(word || "").replace(/\b[a-z]/g, (char) => char.toUpperCase());
 }
 
 function phraseFromParts(word) {
   const parts = cleanPhotoWord(word).replace(/[()]/g, "").split(/[\s-]+/).filter(Boolean);
-  const translated = parts.map((part) => photoMeaningMap[part] || phraseMeaningMap[part]).filter(Boolean);
+  const translated = parts.map((part) => lookupPhotoMeaning(part)).filter(Boolean);
   if (translated.length >= Math.min(parts.length, 2)) return translated.join(" + ");
   return "";
 }
 
 function photoMeaningOf(word, kind) {
   const key = cleanPhotoWord(word);
-  if (phraseMeaningMap[key]) return phraseMeaningMap[key];
-  if (photoMeaningMap[key]) return photoMeaningMap[key];
+  const directMeaning = lookupPhotoMeaning(word);
+  if (directMeaning) return directMeaning;
   if (kind === "phrase") {
     const fromParts = phraseFromParts(word);
     if (fromParts) return fromParts;
@@ -5546,7 +5650,7 @@ function photoMeaningOf(word, kind) {
   for (const [pattern, label] of photoSuffixRules) {
     if (pattern.test(key)) {
       const stem = key.replace(pattern, "");
-      const stemMeaning = photoMeaningMap[stem] || photoMeaningMap[`${stem}e`] || photoMeaningMap[`${stem}y`];
+      const stemMeaning = lookupPhotoMeaning(stem) || lookupPhotoMeaning(`${stem}e`) || lookupPhotoMeaning(`${stem}y`);
       if (stemMeaning) return `${stemMeaning}${label}`;
     }
   }
@@ -5856,6 +5960,7 @@ let vocabIndex = 0;
 let vocabFilter = "all";
 let wordbookFilter = state.wordbookFilter;
 let wordbookIndex = state.wordbookIndex;
+let wordbookSearch = "";
 let wordTrainingMode = "enToCn";
 let wordTrainingKind = "word";
 let currentWordQuestion = null;
@@ -6150,6 +6255,14 @@ function renderClickableExample(example) {
 }
 
 const exampleWordTranslations = {
+  above: "在...上方；超过；高于", across: "穿过；遍及", again: "再次", another: "另一个", at: "在；于",
+  but: "但是", can: "能够；可以", could: "能够；可以；可能", each: "每个", every: "每个；所有的",
+  few: "少数；几个", first: "第一；首先", has: "有；已经", have: "有；已经", he: "他", her: "她的；她",
+  i: "我", it: "它", many: "许多", may: "可以；可能", not: "不", of: "...的；属于", our: "我们的",
+  over: "超过；在...上方", p: "下午（p.m. 的一部分）", m: "分钟/上午下午标记的一部分", please: "请",
+  she: "她", that: "那个；那；引导从句", their: "他们的", them: "他们；它们", they: "他们；它们",
+  this: "这个", us: "我们", we: "我们", will: "将要；会", would: "将会；愿意", you: "你；你们",
+  want: "想要；希望", wants: "想要；希望",
   about: "关于", access: "使用权；访问", accounting: "会计；财务", accurately: "准确地", added: "添加了", affected: "影响了",
   after: "在...之后", airport: "机场", all: "所有", allows: "允许", an: "一个", and: "和", answer: "回答", answering: "回答",
   appeared: "出现了", application: "申请；申请表", applied: "申请了", approval: "批准", approving: "批准", asked: "询问；要求",
@@ -6186,17 +6299,93 @@ const exampleWordTranslations = {
   without: "没有", work: "工作", working: "工作；合作", workshop: "工作坊", would: "会；将"
 };
 
+Object.assign(exampleWordTranslations, {
+  absence: "缺席", absent: "缺席的", accordance: "一致；按照", according: "根据", accustomed: "习惯的",
+  accuse: "指责", accused: "指责了", advantage: "优势；好处", afternoon: "下午", airline: "航空公司",
+  also: "也", announce: "宣布", ask: "询问；要求", attention: "注意力；关注", battery: "电池",
+  bear: "忍受；承担", becomes: "变成", been: "be 的过去分词", better: "更好的", between: "在...之间",
+  blame: "责备", blamed: "责备了", box: "盒子", boxes: "盒子", brighter: "更亮的", business: "商务；商业",
+  butter: "黄油", cabinet: "柜子；内阁", cancel: "取消", canceled: "取消了", cancellation: "取消",
+  cannot: "不能", caught: "抓住；撞见了", cease: "停止", ceased: "停止了", center: "中心", ceo: "首席执行官",
+  ceremony: "仪式", chef: "厨师", choose: "选择", clean: "清洁", cleaning: "清洁", clear: "清晰的；清除",
+  come: "来；发生", comes: "来；涉及", communication: "沟通", congratulate: "祝贺", congratulated: "祝贺了",
+  consultant: "顾问", continue: "继续", continued: "继续了", contrast: "对比；形成对比", contrasts: "对比；形成对比",
+  copier: "复印机", could: "能够；可以；可能", damage: "损坏", damaged: "损坏的", database: "数据库",
+  days: "天", decision: "决定", depend: "依赖；取决于", depends: "依赖；取决于", did: "做了",
+  difficulty: "困难", dinner: "晚餐", distinguish: "区分", distinguishes: "区分", dollars: "美元", dollar: "美元",
+  down: "向下；降低", drew: "吸引；画了", driver: "司机", drivers: "司机", either: "两者之一",
+  elevator: "电梯", enough: "足够的", error: "错误", errors: "错误", every: "每个；所有的", everything: "所有事情",
+  exchange: "交换；兑换", exchanged: "交换了；兑换了", factory: "工厂", fail: "失败；未能", failed: "失败了；未能",
+  fast: "快的", faster: "更快的", felt: "感觉到", fewer: "更少的", fifty: "五十", fill: "填写；装满",
+  filled: "装满的；填写了", finish: "完成", finished: "完成了", forced: "被迫的；迫使了", force: "迫使",
+  forbid: "禁止", forbids: "禁止", forget: "忘记", forgot: "忘记了", friday: "星期五", front: "前面的；前台",
+  gave: "给了", gate: "登机口；大门", got: "得到；使得", guard: "保安；守卫", hall: "大厅",
+  hard: "努力的；困难的", hate: "讨厌", hates: "讨厌", heard: "听见了", heavy: "重的；大量的",
+  help: "帮助", helps: "帮助", held: "举行了；持有", high: "高的；高点", higher: "更高的", home: "家；在家",
+  hour: "小时", hours: "小时", human: "人的；人类", idea: "想法", ideas: "想法", inside: "里面",
+  interested: "感兴趣的", key: "关键；钥匙", kim: "Kim（人名）", known: "已知的；著名的", laptop: "笔记本电脑",
+  laptops: "笔记本电脑", large: "大的", lead: "导致；引导", leader: "领导者", leaders: "领导者",
+  learn: "学习；得知", lesson: "课程", lessons: "课程", let: "让；允许", like: "喜欢；像", long: "长的；长时间",
+  look: "看；期待", looking: "寻找；看", love: "喜欢；热爱", low: "低的", lunch: "午餐", made: "制作了；使得",
+  main: "主要的", make: "制作；使得", makes: "使得；制作", making: "制作；使得", manual: "手册",
+  march: "三月；行进", meal: "餐；一顿饭", mean: "意思是；打算", means: "意味着；方法", meant: "意思是；本打算",
+  me: "我", member: "成员", members: "成员", menu: "菜单", mind: "介意；头脑", missing: "缺失的",
+  mistake: "错误", model: "型号；模型", monday: "星期一", money: "钱", month: "月", most: "最多；最",
+  mr: "先生", much: "很多；非常", must: "必须", name: "名字；命名", near: "靠近", necessary: "必要的",
+  need: "需要", needs: "需要", neither: "两者都不", network: "网络", next: "下一个；接下来",
+  nine: "九", no: "没有；不", noise: "噪音", nor: "也不", oil: "油", older: "更旧的；年龄更大的",
+  olive: "橄榄", open: "打开；开放", opposed: "反对的", out: "外面；完全", outdoor: "户外的", outside: "外面",
+  overseas: "海外的；海外地", overcharge: "多收费", overcharging: "多收费", owing: "由于；欠着",
+  parking: "停车", part: "部分；零件", parts: "零件；部分", pass: "通行证；通过", passes: "通行证；通过",
+  passenger: "乘客", passengers: "乘客", paid: "已付款的；支付了", people: "人们", percent: "百分比",
+  phone: "电话", plan: "计划", plans: "计划", possible: "可能的", positive: "积极的", printing: "打印",
+  program: "项目；程序", quick: "快的", quickly: "快速地", quiet: "安静的", rain: "雨", read: "阅读",
+  ready: "准备好的", real: "真实的", reason: "原因；理由", record: "记录；纪录", regard: "关于；看待",
+  regardless: "不管；无论", relation: "关系；关联", remember: "记得；记住", requests: "请求；要求",
+  request: "请求；要求", rule: "规则", rules: "规则", safety: "安全", same: "相同的", saw: "看见了",
+  second: "第二；秒", security: "安全；安保", seen: "被看见；看过", september: "九月", shake: "震动；摇动",
+  shaking: "震动", sharply: "急剧地", shirt: "衬衫", shift: "班次；转变", shifts: "班次；转变",
+  short: "短的；简短的", showed: "显示了；表现出", shown: "展示了；被显示", similar: "相似的",
+  size: "尺寸", slow: "慢的；减速", so: "所以；如此", sold: "售出", speak: "说话；发言",
+  speed: "速度", spite: "尽管；恶意", spent: "花费了", spend: "花费", stay: "停留；保持",
+  stood: "站立了", stop: "停止", stopped: "停止了", strange: "奇怪的", strong: "强的", submitting: "提交",
+  such: "这样的；如此", support: "支持；客服", system: "系统", tags: "标签", take: "拿；花费；利用",
+  taught: "教了", teach: "教", ten: "十", test: "测试", testing: "测试", thank: "感谢", thanked: "感谢了",
+  than: "比", there: "那里；有", thirty: "三十", three: "三", ticket: "票", tickets: "票",
+  today: "今天", tomorrow: "明天", too: "太；也", tour: "参观；旅行", traffic: "交通；访问量",
+  trainee: "实习生；受训者", train: "培训", trained: "培训了；训练有素的", trainer: "培训师",
+  trouble: "麻烦；困难", twice: "两次", twenty: "二十", two: "二；两个", under: "在...下面；处于",
+  unpaid: "未付款的", unused: "未使用的", unwilling: "不愿意的", use: "使用", visit: "拜访；参观",
+  visiting: "拜访；参观", wait: "等待", waiting: "等待", watch: "观看", watched: "观看了", week: "周；星期",
+  welcoming: "欢迎；迎接", went: "去；继续", within: "在...之内", wednesday: "星期三", writing: "书写；书面",
+  word: "单词；词语", careful: "小心的；仔细的", wrong: "错误的", year: "年", yesterday: "昨天", your: "你的；你们的"
+});
+
+function exampleWordCandidates(rawWord) {
+  const word = String(rawWord || "").toLowerCase().replace(/['’]s$/g, "").replace(/^[^a-z]+|[^a-z]+$/g, "");
+  const candidates = [word];
+  if (word.endsWith("ies") && word.length > 4) candidates.push(`${word.slice(0, -3)}y`);
+  if (word.endsWith("es") && word.length > 3) candidates.push(word.slice(0, -2));
+  if (word.endsWith("s") && word.length > 3) candidates.push(word.slice(0, -1));
+  if (word.endsWith("ied") && word.length > 4) candidates.push(`${word.slice(0, -3)}y`);
+  if (word.endsWith("ed") && word.length > 3) {
+    const stem = word.slice(0, -2);
+    candidates.push(stem);
+    candidates.push(word.slice(0, -1));
+    candidates.push(`${stem}e`);
+    if (/([a-z])\1$/.test(stem)) candidates.push(stem.slice(0, -1));
+  }
+  if (word.endsWith("ing") && word.length > 5) {
+    const stem = word.slice(0, -3);
+    candidates.push(stem);
+    candidates.push(`${stem}e`);
+    if (/([a-z])\1$/.test(stem)) candidates.push(stem.slice(0, -1));
+  }
+  return [...new Set(candidates.filter(Boolean))];
+}
+
 function lookupExampleWord(rawWord) {
-  const word = String(rawWord || "").toLowerCase();
-  const exact = allVocab().find((item) => item.kind === "word" && item.word.toLowerCase() === word && !hasPendingMeaning(item));
-  if (exact) return exact.meaning;
-  const singular = word.endsWith("s") ? word.slice(0, -1) : word;
-  const singularMatch = allVocab().find((item) => item.kind === "word" && item.word.toLowerCase() === singular && !hasPendingMeaning(item));
-  if (singularMatch) return singularMatch.meaning;
-  if (exampleWordTranslations[word]) return exampleWordTranslations[word];
-  if (exampleWordTranslations[singular]) return exampleWordTranslations[singular];
-  if (word.endsWith("ed") && exampleWordTranslations[word.slice(0, -2)]) return exampleWordTranslations[word.slice(0, -2)];
-  if (word.endsWith("ing") && exampleWordTranslations[word.slice(0, -3)]) return exampleWordTranslations[word.slice(0, -3)];
+  const candidates = exampleWordCandidates(rawWord);
   const common = {
     the: "定冠词：这个/那个",
     a: "不定冠词：一个",
@@ -6220,17 +6409,54 @@ function lookupExampleWord(rawWord) {
     are: "是",
     be: "是/成为"
   };
-  return common[word] || "暂无该词翻译";
+  const vocabWords = allVocab().filter((item) => item.kind === "word" && !hasPendingMeaning(item));
+  for (const word of candidates) {
+    if (exampleWordTranslations[word]) return exampleWordTranslations[word];
+    if (common[word]) return common[word];
+    const photoMeaning = lookupPhotoMeaning(word);
+    if (photoMeaning) return photoMeaning;
+    const match = vocabWords.find((item) => item.word.toLowerCase() === word);
+    if (match) return match.meaning;
+  }
+  return "暂无该词翻译";
 }
 
 function filteredWordbook() {
-  const list = dedupeVocab([
+  let list = dedupeVocab([
     ...allVocab().filter((item) => !grammarPairEntryKeys.has(wordKey(item).toLowerCase())),
     ...grammarPairCards
   ]);
-  if (wordbookFilter === "all") return list;
-  if (wordbookFilter === "word" || wordbookFilter === "phrase") return list.filter((item) => item.kind === wordbookFilter);
-  return list.filter((item) => item.category === wordbookFilter);
+  if (wordbookFilter === "word" || wordbookFilter === "phrase") list = list.filter((item) => item.kind === wordbookFilter);
+  if (wordbookFilter !== "all" && wordbookFilter !== "word" && wordbookFilter !== "phrase") list = list.filter((item) => item.category === wordbookFilter);
+  return list.filter(matchesWordbookSearch);
+}
+
+function wordbookSearchText(item) {
+  const variants = (item.variants || []).flatMap((variant) => [
+    variant.pattern,
+    variant.meaning,
+    variant.example,
+    variant.translation
+  ]);
+  return [
+    item.word,
+    item.phrase,
+    item.meaning,
+    item.example,
+    item.translation,
+    item.note,
+    item.tag,
+    item.category,
+    item.kind,
+    ...variants
+  ].filter(Boolean).join(" ").toLowerCase();
+}
+
+function matchesWordbookSearch(item) {
+  const query = wordbookSearch.trim().toLowerCase();
+  if (!query) return true;
+  const text = wordbookSearchText(item);
+  return text.includes(query) || query.split(/\s+/).filter(Boolean).every((part) => text.includes(part));
 }
 
 function filteredVocab() {
@@ -6320,7 +6546,18 @@ function renderGrammarPairTranslations(item) {
 function renderWordbook() {
   const list = filteredWordbook();
   $("#wordbook-count").textContent = list.length;
-  if (!list.length) return;
+  if (!list.length) {
+    $("#wordbook-tag").textContent = "检索";
+    $("#wordbook-kind").textContent = wordbookSearch ? "没有匹配结果" : "单词本";
+    $("#wordbook-word").textContent = wordbookSearch ? "没有找到" : "暂无词条";
+    $("#wordbook-meaning").textContent = wordbookSearch ? `换一个关键词试试：${wordbookSearch}` : "";
+    $("#wordbook-example").textContent = "";
+    $("#wordbook-token-translation").textContent = "";
+    $("#wordbook-translation").textContent = "";
+    $("#wordbook-phrase").textContent = "";
+    $("#wordbook-note").textContent = "";
+    return;
+  }
   wordbookIndex = ((wordbookIndex % list.length) + list.length) % list.length;
   const item = list[wordbookIndex % list.length];
   markSeen(item);
@@ -6529,6 +6766,13 @@ document.addEventListener("change", (event) => {
   }
   if (event.target.id === "wordbook-filter") { wordbookFilter = event.target.value; wordbookIndex = 0; saveWordbookPosition(); renderWordbook(); }
 });
+
+$("#wordbook-search").addEventListener("input", (event) => {
+  wordbookSearch = event.target.value;
+  wordbookIndex = 0;
+  renderWordbook();
+});
+
 $("#refresh-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex + 1) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#prev-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex - 1 + list.length) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#speak-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (!list.length) return; const item = list[wordbookIndex % list.length]; speakEnglish(`${item.phrase || item.word}. ${item.example || ""}`); });
@@ -6558,6 +6802,7 @@ $("#cloud-auto").addEventListener("change", () => { saveCloudSettingsFromInputs(
 
 renderTimeline();
 updateCloudInputs();
+$("#wordbook-search").value = wordbookSearch;
 $("#wordbook-filter").value = wordbookFilter;
 $("#vocab-filter").value = vocabFilter;
 $("#word-training-kind").value = wordTrainingKind;
