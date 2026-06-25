@@ -6632,6 +6632,10 @@ function markSeen(item) {
   }
 }
 
+function shouldMarkWordbookSeen() {
+  return !wordbookSearch.trim();
+}
+
 function renderGrammarPairMeaning(item) {
   const rows = (item.variants || []).map((variant, index) => (
     `<span class="grammar-pair-row"><strong>${index + 1}. ${escapeHtml(variant.phrase)}</strong><span class="grammar-pair-meaning">${escapeHtml(variant.meaning)}</span></span>`
@@ -6672,7 +6676,7 @@ function renderWordbook() {
   }
   wordbookIndex = ((wordbookIndex % list.length) + list.length) % list.length;
   const item = list[wordbookIndex % list.length];
-  markSeen(item);
+  if (shouldMarkWordbookSeen()) markSeen(item);
   if (!skipRememberWordbookItem) rememberWordbookItem(item);
   skipRememberWordbookItem = false;
   $("#wordbook-tag").textContent = item.tag || "TOEIC";
