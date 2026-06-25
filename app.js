@@ -5848,10 +5848,23 @@ function photoPhraseExampleOf(word, meaning, index) {
 function photoWordRole(word, meaning) {
   const key = cleanPhotoWord(word);
   if (photoFunctionWordPosMap[key]) return photoFunctionWordPosMap[key];
+  if (isPersonOrJobNoun(key, meaning)) return "noun";
   if (key.endsWith("ly") && !["assembly", "delivery", "family", "faculty", "facility", "jewelry", "supply"].includes(key)) return "adverb";
   if (photoAdjectiveWords.has(key) || /(able|ible|al|ant|ary|ed|ent|ful|ic|ical|ive|less|ous|y)$/.test(key)) return "adjective";
   if (photoVerbWords.has(key)) return "verb";
   return "noun";
+}
+
+const photoPersonNouns = new Set(`
+accountant advertiser applicant arborist archaeologist architect artisan assistant attendant attendee auditor author banker beekeeper beginner biologist botanist carpenter cashier caterer chairperson chemist choreographer citizen clerk client colleague composer conductor coordinator courier coworker curator customer delegate dentist director editor educator electrician employee employer entrepreneur farmer facilitator florist founder geologist governor graduate guest historian host importer inspector investor janitor journalist lawyer librarian manager mason mayor meteorologist moderator mover novelist nurse optician owner participant patron pediatrician pedestrian peer pharmacist photographer physician plumber potter producer professor proprietor provider publicist publisher recruiter registrant reporter representative retailer reviewer scientist sculptor speaker spokesperson subscriber supervisor supplier supporter surgeon surveyor tailor technician tenant tourist trainer translator treasurer trustee vendor veterinarian visitor volunteer welder writer
+`.trim().split(/\s+/));
+
+function isPersonOrJobNoun(word, meaning = "") {
+  const key = cleanPhotoWord(word);
+  const text = String(meaning || "");
+  if (photoPersonNouns.has(key)) return true;
+  if (/(会计|人员|员工|职员|文员|助理|经理|主管|董事|顾问|客户|顾客|供应商|商人|记者|编辑|作者|作家|教师|教授|医生|护士|药剂师|律师|工程师|建筑师|科学家|技师|技术员|司机|游客|访客|主持人|演讲者|发言人|代表|雇主|雇员|申请人|候选人|参与者|会员|老板|所有者|租客|居民|农民|工人|摄影师|艺术家|裁缝|木匠|牙医|兽医|电工|会计师|出纳|收银员|厨师|顾客|同事|同行|人$|者$|员$|师$|商$|客$|主$|官$|长$|家$|生$)/.test(text)) return true;
+  return /(er|or|ist|ian|ant|ee|eer)$/.test(key) && !/(important|significant|distant|pleasant|recent|current|different|excellent|frequent|urgent|independent|convenient|sufficient|efficient|confident|apparent|transparent|vacant|valid|vibrant|relevant|reluctant|resistant|instant|constant)$/.test(key);
 }
 
 const photoFunctionWordPosMap = {
@@ -5948,6 +5961,17 @@ function photoWordExampleOf(word, meaning, index) {
       [`The team will ${word} the request after reviewing the budget.`, `团队会在审查预算后${cn}这个请求。`],
       [`The supervisor asked us to ${word} the document carefully.`, `主管要求我们仔细${cn}这份文件。`],
       [`The company hopes to ${word} the service next month.`, `公司希望下个月${cn}这项服务。`]
+    ];
+    const [example, translation] = templates[index % templates.length];
+    return { example, translation, phrase: word };
+  }
+  if (isPersonOrJobNoun(word, meaning)) {
+    const templates = [
+      [`The ${word} reviewed the invoice before the meeting.`, `${cn}在会议前审查了发票。`],
+      [`The manager asked the ${word} to prepare a brief report.`, `经理要求${cn}准备一份简短报告。`],
+      [`The ${word} answered questions from the client.`, `${cn}回答了客户的问题。`],
+      [`The company contacted the ${word} about the new schedule.`, `公司就新的日程联系了${cn}。`],
+      [`The ${word} joined the team for the afternoon session.`, `${cn}参加了团队下午的会议。`]
     ];
     const [example, translation] = templates[index % templates.length];
     return { example, translation, phrase: word };
