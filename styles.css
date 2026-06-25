@@ -563,6 +563,18 @@ blockquote {
   font-weight: 700;
 }
 
+.wordbook-pos {
+  width: max-content;
+  margin: -8px 0 0;
+  padding: 6px 10px;
+  border: 1px solid #cfe2db;
+  border-radius: 999px;
+  background: #f1f7f4;
+  color: var(--green);
+  font-size: 16px;
+  font-weight: 700;
+}
+
 .word-choice-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(180px, 1fr));

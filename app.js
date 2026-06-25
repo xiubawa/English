@@ -243,7 +243,8 @@ const generatedWords = terms.map((t, index) => {
     note: `TOEIC 高频单词：${t.word}。`,
     tag: t.tag,
     category: t.category,
-    kind: "word"
+    kind: "word",
+    pos: t.word.includes(" ") ? "名词短语" : "名词"
   };
 });
 
@@ -284,7 +285,8 @@ const generatedPhrases = terms.flatMap((t, termIndex) => phraseTemplates.map(([v
     note: `TOEIC 常见搭配：${verb} + ${t.word}。`,
     tag: "TOEIC 搭配",
     category: t.category,
-    kind: "phrase"
+    kind: "phrase",
+    pos: "动词短语"
   };
 }));
 
@@ -324,7 +326,8 @@ const grammarPhrases = [
   note: "TOEIC Reading Part 5 固定搭配。",
   tag: "Part 5 搭配",
   category: "grammar",
-  kind: "phrase"
+  kind: "phrase",
+  pos: "动词短语/固定搭配"
 }));
 
 const grammarPairGroups = [
@@ -1695,6 +1698,7 @@ const grammarPairEntries = grammarPairGroups.flatMap((group) => group.variants.m
   tag: "Part 5 对比",
   category: "grammar",
   kind: "phrase",
+  pos: "动词短语/固定搭配",
   groupWord: group.word
 })));
 
@@ -1711,6 +1715,7 @@ const grammarPairCards = grammarPairGroups.map((group) => ({
   tag: "Part 5 对比",
   category: "grammar",
   kind: "phrase",
+  pos: "固定搭配对比",
   isGrammarPairCard: true
 }));
 
@@ -5842,10 +5847,70 @@ function photoPhraseExampleOf(word, meaning, index) {
 
 function photoWordRole(word, meaning) {
   const key = cleanPhotoWord(word);
+  if (photoFunctionWordPosMap[key]) return photoFunctionWordPosMap[key];
   if (key.endsWith("ly") && !["assembly", "delivery", "family", "faculty", "facility", "jewelry", "supply"].includes(key)) return "adverb";
   if (photoAdjectiveWords.has(key) || /(able|ible|al|ant|ary|ed|ent|ful|ic|ical|ive|less|ous|y)$/.test(key)) return "adjective";
   if (photoVerbWords.has(key)) return "verb";
   return "noun";
+}
+
+const photoFunctionWordPosMap = {
+  a: "determiner", an: "determiner", the: "determiner", all: "determiner", another: "determiner", any: "determiner",
+  each: "determiner", every: "determiner", few: "determiner", many: "determiner", most: "determiner", much: "determiner",
+  no: "determiner", several: "determiner", some: "determiner", this: "determiner", that: "determiner",
+  he: "pronoun", her: "pronoun", i: "pronoun", it: "pronoun", me: "pronoun", she: "pronoun", them: "pronoun",
+  they: "pronoun", us: "pronoun", we: "pronoun", you: "pronoun",
+  above: "preposition", across: "preposition", after: "preposition", against: "preposition", along: "preposition",
+  among: "preposition", at: "preposition", before: "preposition", behind: "preposition", between: "preposition",
+  by: "preposition", during: "preposition", for: "preposition", from: "preposition", in: "preposition",
+  into: "preposition", near: "preposition", of: "preposition", on: "preposition", over: "preposition",
+  through: "preposition", to: "preposition", toward: "preposition", under: "preposition", via: "preposition",
+  within: "preposition", without: "preposition",
+  although: "conjunction", and: "conjunction", as: "conjunction", because: "conjunction", but: "conjunction",
+  if: "conjunction", nor: "conjunction", once: "conjunction", or: "conjunction", since: "conjunction",
+  than: "conjunction", though: "conjunction", unless: "conjunction", until: "conjunction", when: "conjunction",
+  whenever: "conjunction", whereas: "conjunction", whether: "conjunction", while: "conjunction",
+  am: "beVerb", are: "beVerb", be: "beVerb", been: "beVerb", being: "beVerb", is: "beVerb", was: "beVerb", were: "beVerb",
+  did: "auxiliary", do: "auxiliary", does: "auxiliary", done: "auxiliary", had: "auxiliary", has: "auxiliary", have: "auxiliary",
+  please: "interjection",
+  again: "adverb", almost: "adverb", also: "adverb", always: "adverb", away: "adverb", down: "adverb",
+  either: "adverb", enough: "adverb", even: "adverb", here: "adverb", however: "adverb", just: "adverb",
+  never: "adverb", not: "adverb", now: "adverb", only: "adverb", out: "adverb", rather: "adverb",
+  so: "adverb", soon: "adverb", still: "adverb", then: "adverb", there: "adverb", too: "adverb",
+  can: "modal", could: "modal", may: "modal", might: "modal", must: "modal", should: "modal", will: "modal", would: "modal"
+};
+
+const photoRoleLabels = {
+  noun: "名词",
+  verb: "动词",
+  adjective: "形容词",
+  adverb: "副词",
+  preposition: "介词",
+  conjunction: "连词",
+  determiner: "限定词",
+  pronoun: "代词",
+  modal: "情态动词",
+  auxiliary: "助动词",
+  beVerb: "be 动词",
+  interjection: "感叹词/礼貌用语"
+};
+
+function phrasePartOfSpeech(word) {
+  const key = cleanPhotoWord(word);
+  if (/^(a|an|the)\s+/.test(key) || photoNounPhraseEndings.test(key)) return "名词短语";
+  if (/^(be|can|could|have|has|make|take|used|need|report|sign|turn|give|get|go|run|reach)\b/.test(key)) return "动词短语";
+  if (/^(above|according|along|as|at|because|before|by|due|for|in|instead|on|out|owing|regardless|within)\b/.test(key)) return "介词/连接短语";
+  return "短语/固定搭配";
+}
+
+function partOfSpeechOf(item) {
+  if (!item) return "";
+  if (item.pos) return item.pos;
+  if (item.isGrammarPairCard) return "固定搭配对比";
+  const word = item.phrase || item.word || "";
+  if (item.kind === "phrase" || /\s|[/.!?]/.test(word)) return phrasePartOfSpeech(word);
+  const role = photoWordRole(word, item.meaning);
+  return photoRoleLabels[role] || "名词";
 }
 
 function photoWordExampleOf(word, meaning, index) {
@@ -5917,6 +5982,7 @@ const photoIndexWords = photoIndexRaw.trim().split(/\n+/).map((raw) => raw.trim(
     tag: "照片词库",
     category: "photo",
     kind,
+    pos: kind === "phrase" ? phrasePartOfSpeech(word) : (photoRoleLabels[photoWordRole(word, meaning)] || "名词"),
     sourceOrder: index
   };
 });
@@ -6414,41 +6480,55 @@ function exampleWordCandidates(rawWord) {
   return [...new Set(candidates.filter(Boolean))];
 }
 
-function lookupExampleWord(rawWord) {
+const exampleCommonTranslations = {
+  the: "定冠词：这个/那个",
+  a: "不定冠词：一个",
+  an: "不定冠词：一个",
+  to: "介词/不定式标记",
+  by: "介词：在...之前/通过",
+  for: "介词：为了/给",
+  with: "介词：和/带有",
+  before: "在...之前",
+  after: "在...之后",
+  during: "在...期间",
+  about: "关于",
+  from: "来自/从",
+  in: "在...里面/在...期间",
+  on: "在...上/关于",
+  and: "和",
+  or: "或者",
+  was: "be 动词过去式",
+  were: "be 动词过去式",
+  is: "是",
+  are: "是",
+  be: "是/成为"
+};
+
+function exampleWordPartOfSpeech(word, matchedItem, meaning, candidates = []) {
+  if (matchedItem) return partOfSpeechOf(matchedItem);
+  for (const candidate of candidates) {
+    if (candidate !== word && photoVerbWords.has(cleanPhotoWord(candidate))) return "动词";
+  }
+  const role = photoWordRole(word, meaning || lookupPhotoMeaning(word));
+  return photoRoleLabels[role] || "名词";
+}
+
+function lookupExampleWordInfo(rawWord) {
   const candidates = exampleWordCandidates(rawWord);
-  const common = {
-    the: "定冠词：这个/那个",
-    a: "不定冠词：一个",
-    an: "不定冠词：一个",
-    to: "介词/不定式标记",
-    by: "介词：在...之前/通过",
-    for: "介词：为了/给",
-    with: "介词：和/带有",
-    before: "在...之前",
-    after: "在...之后",
-    during: "在...期间",
-    about: "关于",
-    from: "来自/从",
-    in: "在...里面/在...期间",
-    on: "在...上/关于",
-    and: "和",
-    or: "或者",
-    was: "be 动词过去式",
-    were: "be 动词过去式",
-    is: "是",
-    are: "是",
-    be: "是/成为"
-  };
   const vocabWords = allVocab().filter((item) => item.kind === "word" && !hasPendingMeaning(item));
   for (const word of candidates) {
-    if (exampleWordTranslations[word]) return exampleWordTranslations[word];
-    if (common[word]) return common[word];
-    const photoMeaning = lookupPhotoMeaning(word);
-    if (photoMeaning) return photoMeaning;
     const match = vocabWords.find((item) => item.word.toLowerCase() === word);
-    if (match) return match.meaning;
+    const knownMeaning = exampleWordTranslations[word] || exampleCommonTranslations[word];
+    if (knownMeaning) return { word, meaning: knownMeaning, pos: exampleWordPartOfSpeech(word, match, knownMeaning, candidates) };
+    const photoMeaning = lookupPhotoMeaning(word);
+    if (photoMeaning) return { word, meaning: photoMeaning, pos: exampleWordPartOfSpeech(word, match, photoMeaning, candidates) };
+    if (match) return { word, meaning: match.meaning, pos: partOfSpeechOf(match) };
   }
-  return "暂无该词翻译";
+  return { word: candidates[0] || String(rawWord || "").toLowerCase(), meaning: "暂无该词翻译", pos: "未知词性" };
+}
+
+function lookupExampleWord(rawWord) {
+  return lookupExampleWordInfo(rawWord).meaning;
 }
 
 function filteredWordbook() {
@@ -6478,6 +6558,7 @@ function wordbookSearchText(item) {
     item.tag,
     item.category,
     item.kind,
+    partOfSpeechOf(item),
     ...variants
   ].filter(Boolean).join(" ").toLowerCase();
 }
@@ -6580,6 +6661,7 @@ function renderWordbook() {
     $("#wordbook-tag").textContent = "检索";
     $("#wordbook-kind").textContent = wordbookSearch ? "没有匹配结果" : "单词本";
     $("#wordbook-word").textContent = wordbookSearch ? "没有找到" : "暂无词条";
+    $("#wordbook-pos").textContent = "";
     $("#wordbook-meaning").textContent = wordbookSearch ? `换一个关键词试试：${wordbookSearch}` : "";
     $("#wordbook-example").textContent = "";
     $("#wordbook-token-translation").textContent = "";
@@ -6597,9 +6679,10 @@ function renderWordbook() {
   if (item.isGrammarPairCard) {
     $("#wordbook-kind").textContent = "固定搭配对比";
     $("#wordbook-word").textContent = item.word;
+    $("#wordbook-pos").textContent = `词性：${partOfSpeechOf(item)}`;
     $("#wordbook-meaning").innerHTML = renderGrammarPairMeaning(item);
     $("#wordbook-example").innerHTML = renderGrammarPairExamples(item);
-    $("#wordbook-token-translation").textContent = "点击例句中的单词查看翻译";
+    $("#wordbook-token-translation").textContent = "点击例句中的单词查看翻译和词性";
     $("#wordbook-translation").innerHTML = renderGrammarPairTranslations(item);
     $("#wordbook-phrase").textContent = item.word;
     $("#wordbook-note").textContent = item.note || "TOEIC Part 5 固定搭配对比。";
@@ -6607,9 +6690,10 @@ function renderWordbook() {
   }
   $("#wordbook-kind").textContent = item.kind === "phrase" ? "短语/固定搭配" : "单词";
   $("#wordbook-word").textContent = item.kind === "phrase" ? item.phrase || item.word : item.word;
+  $("#wordbook-pos").textContent = `词性：${partOfSpeechOf(item)}`;
   $("#wordbook-meaning").textContent = item.meaning;
   $("#wordbook-example").innerHTML = renderClickableExample(item.example || "");
-  $("#wordbook-token-translation").textContent = "点击例句中的单词查看翻译";
+  $("#wordbook-token-translation").textContent = "点击例句中的单词查看翻译和词性";
   $("#wordbook-translation").textContent = item.translation || "";
   $("#wordbook-phrase").textContent = item.phrase || item.word;
   $("#wordbook-note").textContent = item.note || "TOEIC 常见搭配。";
@@ -6733,7 +6817,8 @@ document.addEventListener("click", (event) => {
   if (exampleWord) {
     event.stopPropagation();
     const word = exampleWord.dataset.exampleWord;
-    $("#wordbook-token-translation").textContent = `${word}: ${lookupExampleWord(word)}`;
+    const info = lookupExampleWordInfo(word);
+    $("#wordbook-token-translation").textContent = `${word}（词性：${info.pos}）：${info.meaning}`;
     speakEnglish(word);
     return;
   }
