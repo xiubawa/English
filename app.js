@@ -9636,6 +9636,22 @@ function renderVocab() {
   $("#word-options").innerHTML = currentWordQuestion.options.map((option, index) => `<button class="word-option" data-word-option="${index}">${String.fromCharCode(65 + index)}. ${option}</button>`).join("");
 }
 
+function randomizeVocabQuestion() {
+  const list = filteredVocab().filter(matchesTrainingKind);
+  if (!list.length) {
+    renderVocab();
+    return;
+  }
+  if (list.length === 1) {
+    vocabIndex = 0;
+  } else {
+    let nextIndex = vocabIndex;
+    while (nextIndex === vocabIndex) nextIndex = Math.floor(Math.random() * list.length);
+    vocabIndex = nextIndex;
+  }
+  renderVocab();
+}
+
 function buildWordQuestion(item, list) {
   const englishText = item.kind === "phrase" ? item.phrase || item.word : item.word;
   const chineseText = trainingMeaning(item);
@@ -9833,6 +9849,7 @@ $("#vocab-filter").addEventListener("change", (event) => {
   vocabIndex = 0;
   renderVocab();
 });
+$("#random-vocab").addEventListener("click", randomizeVocabQuestion);
 $("#speak-vocab").addEventListener("click", () => { if (!currentWordQuestion) return; speakEnglish(currentWordQuestion.prompt); });
 $("#practice-word-mistakes").addEventListener("click", () => { if (!state.wordMistakes.length) return; $("#vocab-filter").value = "wordMistakes"; vocabFilter = "wordMistakes"; vocabIndex = 0; renderVocab(); switchTab("vocab"); });
 $("#clear-word-mistakes").addEventListener("click", () => { state.wordMistakes = []; state.unknown = []; save(); });
