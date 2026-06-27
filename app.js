@@ -8937,6 +8937,8 @@ let skipRememberWordbookItem = false;
 let wordTrainingMode = "enToCn";
 let wordTrainingKind = "word";
 let currentWordQuestion = null;
+let vocabShuffleOrder = [];
+let vocabShuffleSignature = "";
 let currentType = "listening";
 let questionIndex = 0;
 let timerId = null;
@@ -9515,6 +9517,52 @@ function trainingMeaning(item) {
   return item.category === "grammar" ? meaning.replace(/（[^）]*）/g, "").replace(/\([^)]*\)/g, "").trim() : meaning;
 }
 
+function trainingList() {
+  return filteredVocab().filter(matchesTrainingKind);
+}
+
+function trainingListSignature(list) {
+  return list.map(wordKey).join("|");
+}
+
+function isVocabShuffleActive(list) {
+  return vocabShuffleOrder.length === list.length && vocabShuffleSignature === trainingListSignature(list);
+}
+
+function resetVocabShuffle() {
+  vocabShuffleOrder = [];
+  vocabShuffleSignature = "";
+}
+
+function currentTrainingItem(list) {
+  if (isVocabShuffleActive(list)) {
+    const orderIndex = vocabShuffleOrder[vocabIndex % list.length] ?? 0;
+    return list[orderIndex % list.length];
+  }
+  return list[vocabIndex % list.length];
+}
+
+function shuffleVocabOrder(list = trainingList()) {
+  vocabShuffleSignature = trainingListSignature(list);
+  vocabShuffleOrder = shuffle(list.map((_, index) => index));
+  vocabIndex = 0;
+}
+
+function advanceVocabQuestion() {
+  const list = trainingList();
+  if (!list.length) {
+    renderVocab();
+    return;
+  }
+  if (isVocabShuffleActive(list)) {
+    vocabIndex += 1;
+    if (vocabIndex >= list.length) shuffleVocabOrder(list);
+  } else {
+    vocabIndex = (vocabIndex + 1) % list.length;
+  }
+  renderVocab();
+}
+
 function renderStats() {
   $("#seen-count").textContent = state.seenWords.length;
   $("#known-count").textContent = state.known.length;
@@ -9614,7 +9662,7 @@ function renderWordbook() {
 }
 
 function renderVocab() {
-  const list = filteredVocab().filter(matchesTrainingKind);
+  const list = trainingList();
   $("#current-word-count").textContent = list.length;
   $("#word-known-count").textContent = state.known.length;
   $("#word-unknown-count").textContent = state.wordMistakes.length;
@@ -9627,7 +9675,7 @@ function renderVocab() {
     $("#word-feedback").textContent = "";
     return;
   }
-  currentWordQuestion = buildWordQuestion(list[vocabIndex % list.length], list);
+  currentWordQuestion = buildWordQuestion(currentTrainingItem(list), list);
   $("#vocab-tag").textContent = currentWordQuestion.item.tag;
   $("#word-question-type").textContent = currentWordQuestion.label;
   $("#vocab-word").textContent = currentWordQuestion.prompt;
@@ -9637,19 +9685,14 @@ function renderVocab() {
 }
 
 function randomizeVocabQuestion() {
-  const list = filteredVocab().filter(matchesTrainingKind);
+  const list = trainingList();
   if (!list.length) {
     renderVocab();
     return;
   }
-  if (list.length === 1) {
-    vocabIndex = 0;
-  } else {
-    let nextIndex = vocabIndex;
-    while (nextIndex === vocabIndex) nextIndex = Math.floor(Math.random() * list.length);
-    vocabIndex = nextIndex;
-  }
+  shuffleVocabOrder(list);
   renderVocab();
+  $("#word-feedback").textContent = `已打乱 ${list.length} 道题，下一题会按随机顺序继续。`;
 }
 
 function buildWordQuestion(item, list) {
@@ -9765,11 +9808,7 @@ document.addEventListener("click", (event) => {
   if (removeWordMistake) { state.wordMistakes.splice(Number(removeWordMistake.dataset.removeWordMistake), 1); save(); }
   const trainingNextZone = event.target.closest("#training-next-zone");
   if (trainingNextZone) {
-    const list = filteredVocab().filter(matchesTrainingKind);
-    if (list.length) {
-      vocabIndex = (vocabIndex + 1) % list.length;
-      renderVocab();
-    }
+    advanceVocabQuestion();
   }
   const wordbookCard = event.target.closest("#wordbook-card");
   if (wordbookCard) {
@@ -9787,7 +9826,7 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("change", (event) => {
-  if (event.target.id === "word-training-mode") { wordTrainingMode = event.target.value; renderVocab(); }
+  if (event.target.id === "word-training-mode") { wordTrainingMode = event.target.value; resetVocabShuffle(); renderVocab(); }
   if (event.target.id === "word-training-kind") {
     wordTrainingKind = event.target.value;
     if (wordTrainingKind === "grammar") {
@@ -9798,6 +9837,7 @@ document.addEventListener("change", (event) => {
       $("#vocab-filter").value = "all";
     }
     vocabIndex = 0;
+    resetVocabShuffle();
     renderVocab();
   }
   if (event.target.id === "wordbook-filter") { wordbookFilter = event.target.value; wordbookIndex = 0; skipRememberWordbookItem = true; saveWordbookPosition(); renderWordbook(); }
@@ -9847,11 +9887,12 @@ $("#vocab-filter").addEventListener("change", (event) => {
     $("#word-training-kind").value = "allKinds";
   }
   vocabIndex = 0;
+  resetVocabShuffle();
   renderVocab();
 });
 $("#random-vocab").addEventListener("click", randomizeVocabQuestion);
 $("#speak-vocab").addEventListener("click", () => { if (!currentWordQuestion) return; speakEnglish(currentWordQuestion.prompt); });
-$("#practice-word-mistakes").addEventListener("click", () => { if (!state.wordMistakes.length) return; $("#vocab-filter").value = "wordMistakes"; vocabFilter = "wordMistakes"; vocabIndex = 0; renderVocab(); switchTab("vocab"); });
+$("#practice-word-mistakes").addEventListener("click", () => { if (!state.wordMistakes.length) return; $("#vocab-filter").value = "wordMistakes"; vocabFilter = "wordMistakes"; vocabIndex = 0; resetVocabShuffle(); renderVocab(); switchTab("vocab"); });
 $("#clear-word-mistakes").addEventListener("click", () => { state.wordMistakes = []; state.unknown = []; save(); });
 $("#save-cloud-sync").addEventListener("click", () => { saveCloudSettingsFromInputs(); setCloudStatus("同步设置已保存。", "ok"); });
 $("#create-cloud-save").addEventListener("click", connectCloudSave);
