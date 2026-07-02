@@ -281,6 +281,18 @@ h1 {
   min-width: 0;
 }
 
+.vocab-sequence {
+  width: max-content;
+  margin: -8px 0 0;
+  padding: 6px 10px;
+  border: 1px solid #d8e6e0;
+  border-radius: 999px;
+  background: #f1f7f4;
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .training-next-zone {
   width: 100%;
   min-height: 100%;
@@ -451,6 +463,10 @@ h1 {
 
 .flashcard p {
   font-size: 26px;
+}
+
+.flashcard .vocab-sequence {
+  font-size: 14px;
 }
 
 blockquote {

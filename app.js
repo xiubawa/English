@@ -8665,7 +8665,18 @@ const photoSpecialExamples = {
 const photoSpecialWordExamples = {
   abandon: ["The company decided to abandon the project after costs increased.", "成本增加后，公司决定放弃这个项目。"],
   able: ["The team was able to finish the report before noon.", "团队能够在中午前完成报告。"],
+  accurate: ["Please make sure the figures are accurate before sending the invoice.", "请在发送发票前确保数字准确。"],
+  advanced: ["The office installed advanced software to process orders faster.", "办公室安装了先进的软件，以便更快处理订单。"],
+  affordable: ["The hotel offers affordable rooms near the convention center.", "这家酒店在会议中心附近提供价格实惠的房间。"],
+  ambitious: ["She set an ambitious sales target for the new quarter.", "她为新季度设定了一个有抱负的销售目标。"],
+  appropriate: ["Please choose an appropriate venue for the client meeting.", "请为客户会议选择一个合适的场地。"],
   available: ["The meeting room is available after 3 p.m.", "会议室下午三点后可用。"],
+  convenient: ["The hotel is convenient for business travelers because it is near the station.", "这家酒店靠近车站，对商务旅客很方便。"],
+  detailed: ["The client asked for a detailed estimate before approving the repair.", "客户在批准维修前要求一份详细的估价。"],
+  efficient: ["The new checkout system is efficient during busy hours.", "新的结账系统在繁忙时段很高效。"],
+  flexible: ["The manager offered a flexible schedule during the training week.", "经理在培训周提供了灵活的日程安排。"],
+  reliable: ["We chose a reliable supplier for the monthly shipment.", "我们为每月发货选择了一家可靠的供应商。"],
+  urgent: ["The client sent an urgent request about the missing invoice.", "客户就丢失的发票发送了一项紧急请求。"],
   deadline: ["The team worked late to meet the deadline.", "团队加班以赶上截止日期。"],
   eligible: ["Full-time employees are eligible for the training program.", "全职员工有资格参加培训项目。"],
   invoice: ["Please send the invoice to the accounting department.", "请把发票发送给会计部门。"],
@@ -8675,8 +8686,216 @@ const photoSpecialWordExamples = {
   proposal: ["The client accepted the proposal after a short discussion.", "客户经过简短讨论后接受了提案。"],
   reservation: ["The hotel confirmed the reservation by email.", "酒店通过电子邮件确认了预订。"],
   shipment: ["The shipment arrived at the warehouse this morning.", "货物今天上午到达仓库。"],
-  equipment: ["The technician inspected the equipment before the demonstration.", "技术员在演示前检查了设备。"]
+  equipment: ["The technician inspected the equipment before the demonstration.", "技术员在演示前检查了设备。"],
+  about: ["The supervisor asked about the new schedule.", "主管询问了新的日程。"],
+  after: ["Please review the invoice after the meeting.", "请在会议后审查发票。"],
+  although: ["Although the deadline was tight, the team finished the report.", "虽然截止日期很紧，团队还是完成了报告。"],
+  alternatively: ["Alternatively, we can send the revised proposal by email.", "或者，我们可以通过电子邮件发送修改后的提案。"],
+  "as": ["As the order was urgent, the warehouse shipped it today.", "由于订单很急，仓库今天发货了。"],
+  because: ["The client called because the delivery was late.", "客户打电话是因为配送延迟了。"],
+  before: ["The assistant checked the figures before sending the report.", "助理在发送报告前核对了数字。"],
+  despite: ["Despite the bad weather, the shipment arrived on time.", "尽管天气不好，货物还是准时到了。"],
+  during: ["The manager answered questions during the training session.", "经理在培训期间回答了问题。"],
+  except: ["Everyone attended the meeting except the regional manager.", "除了区域经理以外，所有人都参加了会议。"],
+  however: ["The price is high; however, the product is reliable.", "价格很高；然而，这个产品很可靠。"],
+  if: ["Please contact me if you need the updated schedule.", "如果你需要更新后的日程，请联系我。"],
+  since: ["Since the room is full, we will use the conference hall.", "由于房间已满，我们将使用会议厅。"],
+  than: ["This delivery arrived earlier than expected.", "这次配送比预期更早到达。"],
+  though: ["The plan is simple, though it will take time.", "这个计划很简单，不过会花时间。"],
+  unless: ["The order will ship tomorrow unless the client changes it.", "除非客户更改订单，否则订单明天发货。"],
+  until: ["The office will remain open until 7 p.m.", "办公室将营业到晚上七点。"],
+  via: ["Please send the contract via email.", "请通过电子邮件发送合同。"],
+  when: ["Please call me when the package arrives.", "包裹到达时请给我打电话。"],
+  whenever: ["Employees can ask for help whenever they need it.", "员工需要帮助时可以随时提出。"],
+  whereas: ["Online sales increased, whereas store traffic declined.", "线上销售增加了，而门店客流量下降了。"],
+  whether: ["The manager asked whether the shipment had arrived.", "经理询问货物是否已经到达。"],
+  while: ["Please review the report while I prepare the slides.", "我准备幻灯片时，请你审查报告。"],
+  accordingly: ["The delivery date changed; accordingly, we updated the schedule.", "交货日期变了，因此我们更新了日程。"],
+  additionally: ["The hotel offers free breakfast; additionally, guests can use the shuttle.", "酒店提供免费早餐；此外，客人还可以使用班车。"],
+  consequently: ["The invoice was late; consequently, payment was delayed.", "发票迟到了，因此付款被延迟。"],
+  conversely: ["Online orders increased; conversely, in-store sales decreased.", "线上订单增加了；相反，店内销售下降了。"],
+  furthermore: ["The product is affordable; furthermore, it is easy to maintain.", "这个产品价格合理；此外，它也容易维护。"],
+  meanwhile: ["The manager reviewed the budget; meanwhile, the team prepared the report.", "经理审查预算；与此同时，团队准备报告。"],
+  nevertheless: ["The deadline was tight; nevertheless, the team completed the project.", "截止日期很紧；尽管如此，团队还是完成了项目。"],
+  otherwise: ["Please confirm the order today; otherwise, delivery may be delayed.", "请今天确认订单；否则配送可能会延迟。"],
+  similarly: ["The first branch extended its hours; similarly, the second branch stayed open later.", "第一家分店延长了营业时间；同样，第二家分店也晚些关门。"],
+  therefore: ["The order was damaged; therefore, we requested a refund.", "订单受损了，因此我们要求退款。"],
+  thereby: ["The new system reduces errors, thereby saving time.", "新系统减少错误，从而节省时间。"],
+  thus: ["The report was incomplete; thus, the manager requested revisions.", "报告不完整，因此经理要求修改。"],
+  instead: ["The client did not call; instead, she sent an email.", "客户没有打电话，而是发了一封邮件。"],
+  currently: ["The team is currently reviewing the budget.", "团队目前正在审查预算。"],
+  recently: ["The company recently updated its refund policy.", "公司最近更新了退款政策。"],
+  previously: ["The client previously requested a larger meeting room.", "客户之前要求过一间更大的会议室。"],
+  initially: ["The manager initially planned to hold the meeting online.", "经理最初计划在线上开会。"],
+  finally: ["The team finally approved the revised proposal.", "团队最终批准了修改后的提案。"],
+  eventually: ["The shipment eventually arrived at the warehouse.", "货物最终到达了仓库。"],
+  formerly: ["The building was formerly used as a training center.", "这栋楼以前被用作培训中心。"],
+  shortly: ["The meeting will begin shortly.", "会议很快就会开始。"],
+  temporarily: ["The store is temporarily closed for repairs.", "这家店因维修暂时关闭。"],
+  lately: ["The company has received more online orders lately.", "公司最近收到了更多线上订单。"],
+  approximately: ["The trip takes approximately two hours.", "这段行程大约需要两个小时。"],
+  financially: ["The new plan is financially realistic for the company.", "新计划对公司来说在财务上是现实可行的。"],
+  locally: ["The restaurant buys vegetables locally.", "这家餐厅在本地采购蔬菜。"],
+  mainly: ["The report mainly focuses on customer feedback.", "这份报告主要关注客户反馈。"],
+  barely: ["The team barely finished the report before the deadline.", "团队勉强在截止日期前完成了报告。"],
+  hardly: ["The old printer hardly works during busy hours.", "那台旧打印机在繁忙时段几乎不能用。"],
+  differently: ["The two branches handled the request differently.", "两家分店以不同方式处理了这个请求。"]
 };
+
+const photoFrequencyAdverbs = new Set(`
+annually daily frequently generally normally occasionally quarterly rarely regularly usually yearly
+`.trim().split(/\s+/));
+
+const photoDegreeAdverbs = new Set(`
+absolutely completely entirely exceptionally extremely fairly greatly highly immensely largely mostly nearly particularly quite rather relatively significantly simply slightly substantially totally very
+`.trim().split(/\s+/));
+
+function photoAdverbExampleOf(word, meaning, index) {
+  const key = cleanPhotoWord(word);
+  if (photoFrequencyAdverbs.has(key)) {
+    const cn = firstMeaning(meaning);
+    const templates = [
+      [`The team ${word} reviews the training schedule.`, `团队${cn}审查培训日程。`],
+      [`The manager ${word} checks the monthly sales report.`, `经理${cn}检查月度销售报告。`],
+      [`The office ${word} updates its customer records.`, `办公室${cn}更新客户记录。`]
+    ];
+    const [example, translation] = templates[index % templates.length];
+    return { example, translation, phrase: word };
+  }
+  if (photoDegreeAdverbs.has(key)) {
+    const cn = firstMeaning(meaning);
+    const templates = [
+      [`The new software is ${word} useful for daily work.`, `这款新软件对日常工作${cn}有用。`],
+      [`The revised schedule is ${word} clear to the whole team.`, `修改后的日程对整个团队来说${cn}清楚。`],
+      [`The training session was ${word} helpful for new employees.`, `这次培训对新员工来说${cn}有帮助。`]
+    ];
+    const [example, translation] = templates[index % templates.length];
+    return { example, translation, phrase: word };
+  }
+  const cn = firstMeaning(meaning);
+  const templates = [
+    [`The assistant checked the figures ${word} before sending the report.`, `助理在发送报告前${cn}核对了数字。`],
+    [`The manager explained the policy ${word} during orientation.`, `经理在入职培训中${cn}解释了政策。`],
+    [`The team updated the schedule ${word} after the meeting.`, `团队在会议后${cn}更新了日程。`],
+    [`The technician inspected the equipment ${word} before the demonstration.`, `技术员在演示前${cn}检查了设备。`]
+  ];
+  const [example, translation] = templates[index % templates.length];
+  return { example, translation, phrase: word };
+}
+
+const photoGoalAdjectives = new Set(`
+achievable ambitious attainable challenging demanding realistic strategic
+`.trim().split(/\s+/));
+
+const photoInformationAdjectives = new Set(`
+accurate clear complete comprehensive correct detailed exact factual final informative precise specific
+`.trim().split(/\s+/));
+
+const photoPriceAdjectives = new Set(`
+affordable complimentary costly expensive free inexpensive profitable reasonable
+`.trim().split(/\s+/));
+
+const photoRoomAdjectives = new Set(`
+comfortable cozy empty spacious vacant
+`.trim().split(/\s+/));
+
+const photoPeopleAdjectives = new Set(`
+capable confident dependable experienced professional qualified reliable responsible skilled
+`.trim().split(/\s+/));
+
+const photoTimeAdjectives = new Set(`
+current immediate latest ongoing previous recent temporary timely upcoming urgent
+`.trim().split(/\s+/));
+
+const photoWorkAreaAdjectives = new Set(`
+administrative commercial corporate departmental editorial educational environmental financial industrial legal local medical municipal official regional residential technical
+`.trim().split(/\s+/));
+
+const photoFeelingAdjectives = new Set(`
+concerned confused delighted disappointed excited frustrated interested pleased reluctant satisfied surprised thrilled worried
+`.trim().split(/\s+/));
+
+const photoConditionAdjectives = new Set(`
+damaged defective durable fragile missing sturdy waterproof worn
+`.trim().split(/\s+/));
+
+function photoAdjectiveExampleOf(word, meaning, index) {
+  const key = cleanPhotoWord(word);
+  const cn = firstMeaning(meaning);
+  const article = /^[aeiou]/i.test(word) ? "an" : "a";
+  const meaningText = String(meaning || "");
+  if (photoGoalAdjectives.has(key) || /(有抱负|雄心|可实现|可达到|挑战|战略|现实|目标)/.test(meaningText)) {
+    return { example: `The team set ${article} ${word} sales target for the new quarter.`, translation: `团队为新季度设定了一个${cn}销售目标。`, phrase: word };
+  }
+  if (photoInformationAdjectives.has(key) || /(准确|精确|正确|详细|具体|清楚|完整|全面|最终|信息)/.test(meaningText)) {
+    return { example: `Please make sure the report is ${word} before you send it.`, translation: `请在发送前确保报告${cn}。`, phrase: word };
+  }
+  if (photoPriceAdjectives.has(key) || /(便宜|昂贵|免费|合理|盈利|利润|负担)/.test(meaningText)) {
+    return { example: `The supplier offered ${article} ${word} price for the bulk order.`, translation: `供应商为大宗订单提供了一个${cn}价格。`, phrase: word };
+  }
+  if (photoRoomAdjectives.has(key) || /(宽敞|舒适|空的|空置|温馨)/.test(meaningText)) {
+    return { example: `The hotel arranged ${article} ${word} room for the visiting staff.`, translation: `酒店为来访员工安排了一间${cn}房间。`, phrase: word };
+  }
+  if (photoPeopleAdjectives.has(key) || /(可靠|负责|合格|熟练|专业|有经验|能干|自信)/.test(meaningText)) {
+    return { example: `We need ${article} ${word} assistant for the afternoon event.`, translation: `下午的活动需要一名${cn}助理。`, phrase: word };
+  }
+  if (photoTimeAdjectives.has(key) || /(当前|最近|以前|临时|及时|紧急|即将|最新)/.test(meaningText)) {
+    return { example: `The manager reviewed the ${word} schedule before the meeting.`, translation: `经理在会议前查看了${cn}日程。`, phrase: word };
+  }
+  if (photoWorkAreaAdjectives.has(key) || /(行政|商业|公司|部门|编辑|教育|环境|财务|工业|法律|本地|医疗|市政|官方|地区|住宅|技术)/.test(meaningText)) {
+    return { example: `The ${word} team handled the request this morning.`, translation: `${cn}团队今天上午处理了这项请求。`, phrase: word };
+  }
+  if (photoFeelingAdjectives.has(key) || /(满意|失望|高兴|困惑|担心|兴奋|犹豫|惊讶|感兴趣|沮丧)/.test(meaningText)) {
+    return { example: `The customer was ${word} with the service at the front desk.`, translation: `客户对前台服务感到${cn}。`, phrase: word };
+  }
+  if (photoConditionAdjectives.has(key) || /(损坏|有缺陷|耐用|脆弱|缺失|结实|防水|磨损)/.test(meaningText)) {
+    return { example: `The warehouse returned the ${word} item to the supplier.`, translation: `仓库把这个${cn}物品退还给了供应商。`, phrase: word };
+  }
+  const templates = [
+    [`The team chose ${article} ${word} option after comparing several proposals.`, `团队比较几个方案后选择了一个${cn}选项。`],
+    [`The manager gave ${article} ${word} explanation during the briefing.`, `经理在简报中给出了一个${cn}说明。`],
+    [`The new procedure made the checkout process ${word}.`, `新流程让结账过程变得${cn}。`],
+    [`The client requested ${article} ${word} estimate before approving the order.`, `客户在批准订单前要求一个${cn}估价。`],
+    [`The team prepared ${article} ${word} plan for the product launch.`, `团队为产品发布准备了一个${cn}计划。`]
+  ];
+  const [example, translation] = templates[index % templates.length];
+  return { example, translation, phrase: word };
+}
+
+const photoIntransitiveVerbExamples = {
+  arrive: ["The train will arrive at the station at 9 a.m.", "火车将在上午九点到达车站。"],
+  occur: ["The error occurred during the payment process.", "错误发生在付款过程中。"],
+  happen: ["The delay happened because of heavy traffic.", "延误是因为交通拥堵发生的。"],
+  remain: ["The office will remain open until 7 p.m.", "办公室将营业到晚上七点。"],
+  exist: ["Several options exist for international shipping.", "国际运输有几种选择。"],
+  succeed: ["The campaign succeeded because the message was clear.", "这次活动成功了，因为信息很清楚。"],
+  emerge: ["A new issue emerged during the final inspection.", "最终检查期间出现了一个新问题。"],
+  decline: ["Sales declined after the price increase.", "价格上涨后销售额下降了。"],
+  increase: ["Online orders increased during the holiday season.", "假日季期间线上订单增加了。"]
+};
+
+function photoVerbExampleOf(word, meaning, index) {
+  const key = cleanPhotoWord(word);
+  if (photoIntransitiveVerbExamples[key]) {
+    const [example, translation] = photoIntransitiveVerbExamples[key];
+    return { example, translation, phrase: word };
+  }
+  const cn = firstMeaning(meaning);
+  const meaningText = String(meaning || "");
+  if (/(通知|告知|提醒)/.test(meaningText)) return { example: `Please ${word} the team about the schedule change.`, translation: `请${cn}团队日程有变。`, phrase: word };
+  if (/(确认|核实|验证)/.test(meaningText)) return { example: `Please ${word} the delivery date with the supplier.`, translation: `请和供应商${cn}交货日期。`, phrase: word };
+  if (/(安排|组织|准备)/.test(meaningText)) return { example: `The coordinator will ${word} a room for the workshop.`, translation: `协调员会为研讨会${cn}一间房。`, phrase: word };
+  if (/(审查|检查|调查)/.test(meaningText)) return { example: `The manager asked us to ${word} the report before Friday.`, translation: `经理要求我们在周五前${cn}报告。`, phrase: word };
+  if (/(减少|降低|增加|扩大|改善|提高)/.test(meaningText)) return { example: `The new system helped the team ${word} processing time.`, translation: `新系统帮助团队${cn}处理时间。`, phrase: word };
+  const templates = [
+    [`Please ${word} the form before you submit it.`, `提交前请${cn}这张表格。`],
+    [`The team will ${word} the request after reviewing the details.`, `团队会在审查细节后${cn}这个请求。`],
+    [`The manager asked us to ${word} the document by Friday.`, `经理要求我们在周五前${cn}这份文件。`],
+    [`The company plans to ${word} the service next month.`, `公司计划下个月${cn}这项服务。`]
+  ];
+  const [example, translation] = templates[index % templates.length];
+  return { example, translation, phrase: word };
+}
 
 function photoPhraseExampleOf(word, meaning, index) {
   const key = cleanPhotoWord(word);
@@ -8814,35 +9033,13 @@ function photoWordExampleOf(word, meaning, index) {
   const cn = firstMeaning(meaning);
   const role = photoWordRole(word, meaning);
   if (role === "adverb") {
-    const templates = [
-      [`The team responded ${word} to the client's request.`, `团队${cn}回复了客户请求。`],
-      [`The assistant checked the figures ${word} before sending the report.`, `助理在发送报告前${cn}核对了数字。`],
-      [`The package was delivered ${word} despite the bad weather.`, `尽管天气不好，包裹还是${cn}送达了。`],
-      [`The manager explained the policy ${word} during orientation.`, `经理在入职培训中${cn}解释了政策。`]
-    ];
-    const [example, translation] = templates[index % templates.length];
-    return { example, translation, phrase: word };
+    return photoAdverbExampleOf(word, meaning, index);
   }
   if (role === "adjective") {
-    const article = /^[aeiou]/i.test(word) ? "an" : "a";
-    const templates = [
-      [`The company introduced ${article} ${word} policy for new employees.`, `公司为新员工推出了一项${cn}政策。`],
-      [`The client asked for ${article} ${word} solution to the delivery problem.`, `客户要求一个${cn}配送问题的解决方案。`],
-      [`The report included ${word} information about customer demand.`, `报告包含了关于客户需求的${cn}信息。`],
-      [`The team followed ${article} ${word} procedure during the inspection.`, `团队在检查期间遵循了一套${cn}流程。`]
-    ];
-    const [example, translation] = templates[index % templates.length];
-    return { example, translation, phrase: word };
+    return photoAdjectiveExampleOf(word, meaning, index);
   }
   if (role === "verb") {
-    const templates = [
-      [`The manager decided to ${word} the plan before Friday.`, `经理决定在周五前${cn}这个计划。`],
-      [`The team will ${word} the request after reviewing the budget.`, `团队会在审查预算后${cn}这个请求。`],
-      [`The supervisor asked us to ${word} the document carefully.`, `主管要求我们仔细${cn}这份文件。`],
-      [`The company hopes to ${word} the service next month.`, `公司希望下个月${cn}这项服务。`]
-    ];
-    const [example, translation] = templates[index % templates.length];
-    return { example, translation, phrase: word };
+    return photoVerbExampleOf(word, meaning, index);
   }
   if (isPersonOrJobNoun(word, meaning)) {
     const templates = [
@@ -8856,12 +9053,12 @@ function photoWordExampleOf(word, meaning, index) {
     return { example, translation, phrase: word };
   }
   const templates = [
-    [`The manager asked about the ${word} during the meeting.`, `经理在会议期间询问了${cn}。`],
-    [`The report included details about the ${word}.`, `报告包含了关于${cn}的细节。`],
-    [`The team checked the ${word} before making a decision.`, `团队在做决定前检查了${cn}。`],
-    [`The client requested more information about the ${word}.`, `客户要求了解更多关于${cn}的信息。`],
-    [`The assistant added a note about the ${word} to the file.`, `助理在文件中添加了一条关于${cn}的备注。`],
-    [`The supervisor asked about the ${word} during the inspection.`, `主管在检查期间询问了${cn}。`]
+    [`Please keep a copy of the ${word} for your records.`, `请保留一份${cn}作为记录。`],
+    [`The ${word} was updated after the client meeting.`, `${cn}在客户会议后更新了。`],
+    [`We discussed the ${word} during the weekly briefing.`, `我们在每周简报会上讨论了${cn}。`],
+    [`The customer asked for more details about the ${word}.`, `客户要求了解更多关于${cn}的细节。`],
+    [`The assistant added the ${word} to the project file.`, `助理把${cn}添加到了项目文件中。`],
+    [`The supervisor reviewed the ${word} before the inspection.`, `主管在检查前审查了${cn}。`]
   ];
   const [example, translation] = templates[index % templates.length];
   return { example, translation, phrase: word };
@@ -9670,6 +9867,7 @@ function renderVocab() {
   $("#word-unknown-count").textContent = state.wordMistakes.length;
   if (!list.length) {
     $("#vocab-tag").textContent = "训练词库";
+    $("#vocab-sequence").textContent = "";
     $("#word-question-type").textContent = trainingKindTitle();
     $("#vocab-word").textContent = "还没有训练词";
     $("#vocab-meaning").textContent = wordTrainingKind === "phrase" ? "请先到单词本看过一些短语，再回来训练" : "请先到单词本看过一些词，再回来训练";
@@ -9679,6 +9877,7 @@ function renderVocab() {
   }
   currentWordQuestion = buildWordQuestion(currentTrainingItem(list), list);
   $("#vocab-tag").textContent = currentWordQuestion.item.tag;
+  $("#vocab-sequence").textContent = `题号 ${(vocabIndex % list.length) + 1} / ${list.length}`;
   $("#word-question-type").textContent = currentWordQuestion.label;
   $("#vocab-word").textContent = currentWordQuestion.prompt;
   $("#vocab-meaning").textContent = currentWordQuestion.hint;
