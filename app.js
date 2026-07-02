@@ -9621,6 +9621,7 @@ function renderWordbook() {
   if (!list.length) {
     skipRememberWordbookItem = false;
     $("#wordbook-tag").textContent = "检索";
+    $("#wordbook-sequence").textContent = "";
     $("#wordbook-kind").textContent = wordbookSearch ? "没有匹配结果" : "单词本";
     $("#wordbook-word").textContent = wordbookSearch ? "没有找到" : "暂无词条";
     $("#wordbook-pos").textContent = "";
@@ -9638,6 +9639,7 @@ function renderWordbook() {
   if (!skipRememberWordbookItem) rememberWordbookItem(item);
   skipRememberWordbookItem = false;
   $("#wordbook-tag").textContent = item.tag || "TOEIC";
+  $("#wordbook-sequence").textContent = `序号 ${wordbookIndex + 1} / ${list.length}`;
   if (item.isGrammarPairCard) {
     $("#wordbook-kind").textContent = "固定搭配对比";
     $("#wordbook-word").textContent = item.word;
