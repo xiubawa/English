@@ -9376,14 +9376,15 @@ function speakEnglish(text) {
 }
 
 function saveWordbookPosition() {
-  state.wordbookIndex = wordbookIndex;
+  if (isWordbookSearching() && state.wordbookFilter === wordbookFilter) return;
   state.wordbookFilter = wordbookFilter;
+  if (!isWordbookSearching()) state.wordbookIndex = wordbookIndex;
   persistState();
   queueCloudUpload();
 }
 
 function rememberWordbookItem(item) {
-  if (!item) return;
+  if (!item || isWordbookSearching()) return;
   const key = wordKey(item).toLowerCase();
   const scope = wordbookScopeKey();
   state.wordbookLastByFilter = state.wordbookLastByFilter || {};
@@ -9400,6 +9401,10 @@ function wordbookScopeKey() {
 
 function wordbookScopeLabel() {
   return $("#wordbook-filter")?.selectedOptions?.[0]?.textContent || "当前分类";
+}
+
+function isWordbookSearching() {
+  return Boolean(wordbookSearch.trim());
 }
 
 function findWordbookIndexByKey(list, key) {
@@ -9640,14 +9645,15 @@ function lookupExampleWord(rawWord) {
   return lookupExampleWordInfo(rawWord).meaning;
 }
 
-function filteredWordbook() {
+function filteredWordbook(options = {}) {
+  const includeSearch = options.includeSearch !== false;
   let list = dedupeVocab([
     ...allVocab().filter((item) => !grammarPairEntryKeys.has(wordKey(item).toLowerCase())),
     ...grammarPairCards
   ]);
   if (wordbookFilter === "word" || wordbookFilter === "phrase") list = list.filter((item) => item.kind === wordbookFilter);
   if (wordbookFilter !== "all" && wordbookFilter !== "word" && wordbookFilter !== "phrase") list = list.filter((item) => item.category === wordbookFilter);
-  return list.filter(matchesWordbookSearch);
+  return includeSearch ? list.filter(matchesWordbookSearch) : list;
 }
 
 function wordbookSearchText(item) {
@@ -9677,6 +9683,23 @@ function matchesWordbookSearch(item) {
   if (!query) return true;
   const text = wordbookSearchText(item);
   return text.includes(query) || query.split(/\s+/).filter(Boolean).every((part) => text.includes(part));
+}
+
+function latestSeenWordbookKeyForScope() {
+  const list = filteredWordbook({ includeSearch: false });
+  const keysInScope = new Set(list.map((item) => wordKey(item).toLowerCase()));
+  for (let index = state.seenWords.length - 1; index >= 0; index -= 1) {
+    const key = String(state.seenWords[index] || "").toLowerCase();
+    if (keysInScope.has(key)) return key;
+  }
+  return "";
+}
+
+function wordbookLastKeyForCurrentScope() {
+  const savedKey = String(state.wordbookLastByFilter?.[wordbookScopeKey()] || "").toLowerCase();
+  const seenKeys = new Set((state.seenWords || []).map((key) => String(key || "").toLowerCase()));
+  if (savedKey && seenKeys.has(savedKey)) return savedKey;
+  return latestSeenWordbookKeyForScope();
 }
 
 function filteredVocab() {
@@ -9833,7 +9856,7 @@ function renderWordbook() {
   wordbookIndex = ((wordbookIndex % list.length) + list.length) % list.length;
   const item = list[wordbookIndex % list.length];
   if (shouldMarkWordbookSeen()) markSeen(item);
-  if (!skipRememberWordbookItem) rememberWordbookItem(item);
+  if (!skipRememberWordbookItem && !isWordbookSearching()) rememberWordbookItem(item);
   skipRememberWordbookItem = false;
   $("#wordbook-tag").textContent = item.tag || "TOEIC";
   $("#wordbook-sequence").textContent = `序号 ${wordbookIndex + 1} / ${list.length}`;
@@ -10045,8 +10068,17 @@ document.addEventListener("change", (event) => {
 });
 
 $("#wordbook-search").addEventListener("input", (event) => {
+  const wasSearching = isWordbookSearching();
   wordbookSearch = event.target.value;
-  wordbookIndex = 0;
+  const nowSearching = isWordbookSearching();
+  if (wasSearching && !nowSearching) {
+    const list = filteredWordbook({ includeSearch: false });
+    const key = wordbookLastKeyForCurrentScope();
+    const index = findWordbookIndexByKey(list, key);
+    wordbookIndex = index >= 0 ? index : state.wordbookIndex || 0;
+  } else {
+    wordbookIndex = 0;
+  }
   skipRememberWordbookItem = true;
   renderWordbook();
 });
@@ -10055,21 +10087,18 @@ $("#refresh-wordbook").addEventListener("click", () => { const list = filteredWo
 $("#prev-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex - 1 + list.length) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#speak-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (!list.length) return; const item = list[wordbookIndex % list.length]; speakEnglish(`${item.phrase || item.word}. ${item.example || ""}`); });
 $("#return-wordbook-last").addEventListener("click", () => {
-  const scope = wordbookScopeKey();
   const label = wordbookScopeLabel();
-  const key = state.wordbookLastByFilter?.[scope] || "";
+  const key = wordbookLastKeyForCurrentScope();
   if (!key) {
     $("#wordbook-token-translation").textContent = `${label} 还没有记录上次看的单词。`;
     return;
   }
-  let list = filteredWordbook();
-  let index = findWordbookIndexByKey(list, key);
-  if (index < 0 && wordbookSearch.trim()) {
+  if (isWordbookSearching()) {
     wordbookSearch = "";
     $("#wordbook-search").value = "";
-    list = filteredWordbook();
-    index = findWordbookIndexByKey(list, key);
   }
+  let list = filteredWordbook({ includeSearch: false });
+  let index = findWordbookIndexByKey(list, key);
   if (index < 0) {
     $("#wordbook-token-translation").textContent = `${label} 上次看的词不在当前词库里。`;
     return;
