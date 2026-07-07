@@ -9945,6 +9945,19 @@ function addWordMistake(item) {
   }
 }
 
+function wordMistakeMatchesItem(mistake, item) {
+  if (!mistake || !item) return false;
+  const mistakeItem = normalizeEntry(mistake.item || { word: mistake.question, kind: item.kind });
+  return wordKey(mistakeItem).toLowerCase() === wordKey(item).toLowerCase()
+    || String(mistake.question || "").toLowerCase() === String(item.word || "").toLowerCase();
+}
+
+function removeWordMistakeForItem(item) {
+  const before = state.wordMistakes.length;
+  state.wordMistakes = state.wordMistakes.filter((mistake) => !wordMistakeMatchesItem(mistake, item));
+  return state.wordMistakes.length < before;
+}
+
 function answerWordQuestion(index, button) {
   if (!currentWordQuestion) return;
   const selected = currentWordQuestion.options[index];
@@ -9955,7 +9968,12 @@ function answerWordQuestion(index, button) {
   if (correctIndex >= 0) $$(".word-option")[correctIndex].classList.add("correct");
   if (isCorrect) {
     if (!state.known.includes(currentWordQuestion.item.word)) state.known.push(currentWordQuestion.item.word);
-    $("#word-feedback").textContent = "正确。这个词以后仍会重复出现。";
+    if (vocabFilter === "wordMistakes" && removeWordMistakeForItem(currentWordQuestion.item)) {
+      resetVocabShuffle();
+      $("#word-feedback").textContent = "正确，已从不熟单词移出。";
+    } else {
+      $("#word-feedback").textContent = "正确。这个词以后仍会重复出现。";
+    }
   } else {
     addWordMistake(currentWordQuestion.item);
     $("#word-feedback").textContent = `错了，已加入单词错题本。正确答案：${currentWordQuestion.answer}`;
