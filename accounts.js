@@ -5,7 +5,7 @@
   function readAccounts() {
     const raw = localStorage.getItem(registryKey);
     const saved = raw ? JSON.parse(raw) : [original];
-    if (!Array.isArray(saved) || !saved.some(a => a.id === "default")) throw new Error("账号列表无法读取");
+    if (!Array.isArray(saved) || saved.some(a => !a || typeof a.id !== "string" || typeof a.name !== "string")) throw new Error("账号列表无法读取");
     return saved;
   }
   const accounts = readAccounts();
@@ -23,6 +23,7 @@
   });
   const select = document.getElementById("account-select");
   const status = document.getElementById("account-status");
+  const deleteButton = document.getElementById("delete-local-accounts");
   for (const account of accounts) {
     const option = document.createElement("option");
     option.value = account.id;
@@ -30,6 +31,7 @@
     select.append(option);
   }
   select.value = active.id;
+  deleteButton.hidden = accounts.length === 0;
   if (isCloud) {
     const option = document.createElement("option");
     option.value = "cloud";
@@ -69,6 +71,24 @@
       switchAccount(id);
     } catch {
       status.textContent = "新增账号失败，请检查浏览器存储后重试。";
+    }
+  });
+  deleteButton.addEventListener("click", () => {
+    const latest = readAccounts();
+    if (!latest.length) { status.textContent = "没有可删除的本机账号。"; return; }
+    const names = latest.map(account => account.name).join("、");
+    if (!window.confirm(`确定删除本机账号“${names}”及其学习记录吗？\n\n云端账号和云端进度不会受影响。此操作无法从本机恢复。`)) return;
+    try {
+      for (const account of latest) {
+        const suffix = account.id === "default" ? "" : `:${account.id}`;
+        localStorage.removeItem(`toeic700-offline-state${suffix}`);
+        localStorage.removeItem(`toeic700-cloud-sync${suffix}`);
+      }
+      localStorage.setItem(registryKey, "[]");
+      localStorage.removeItem(activeKey);
+      window.location.reload();
+    } catch {
+      status.textContent = "删除未完成，本机记录未全部清理。";
     }
   });
 })();
