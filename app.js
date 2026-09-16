@@ -9129,6 +9129,7 @@ let vocabIndex = 0;
 let vocabFilter = "all";
 let wordbookFilter = state.wordbookFilter;
 let wordbookIndex = state.wordbookIndex;
+let currentWordbookItem = null;
 let wordbookSearch = "";
 let skipRememberWordbookItem = false;
 let wordTrainingMode = "enToCn";
@@ -9643,6 +9644,19 @@ function lookupExampleWordInfo(rawWord) {
   return { word: candidates[0] || String(rawWord || "").toLowerCase(), meaning: "暂无该词翻译", pos: "未知词性" };
 }
 
+function lookupContextualWordInfo(rawWord) {
+  const item = currentWordbookItem;
+  if (!item || item.kind !== "word") return null;
+  const token = String(rawWord || "").toLowerCase().replace(/[^a-z'-]/g, "");
+  const headword = String(item.word || "").toLowerCase();
+  if (!token || !headword) return null;
+  const matchesHeadword = token === headword
+    || token === `${headword}s`
+    || (headword.endsWith("y") && token === `${headword.slice(0, -1)}ies`);
+  if (!matchesHeadword) return null;
+  return { word: token, meaning: item.meaning, pos: partOfSpeechOf(item) };
+}
+
 function lookupExampleWord(rawWord) {
   return lookupExampleWordInfo(rawWord).meaning;
 }
@@ -9778,6 +9792,7 @@ function shuffleVocabOrder(list = trainingList()) {
 function advanceVocabQuestion() {
   const list = trainingList();
   if (!list.length) {
+    currentWordbookItem = null;
     renderVocab();
     return;
   }
@@ -9862,6 +9877,7 @@ function renderWordbook() {
   }
   wordbookIndex = ((wordbookIndex % list.length) + list.length) % list.length;
   const item = list[wordbookIndex % list.length];
+  currentWordbookItem = item;
   if (shouldMarkWordbookSeen()) markSeen(item);
   if (!skipRememberWordbookItem && !isWordbookSearching()) rememberWordbookItem(item);
   skipRememberWordbookItem = false;
@@ -10039,7 +10055,7 @@ document.addEventListener("click", (event) => {
   if (exampleWord) {
     event.stopPropagation();
     const word = exampleWord.dataset.exampleWord;
-    const info = lookupExampleWordInfo(word);
+    const info = lookupContextualWordInfo(word) || lookupExampleWordInfo(word);
     $("#wordbook-token-translation").textContent = `${word}（词性：${info.pos}）：${info.meaning}`;
     speakEnglish(word);
     return;
@@ -10193,3 +10209,4 @@ window.learningState = {
     if ($("#vocab").classList.contains("active")) { resetVocabShuffle(); renderVocab(); }
   }
 };
+
