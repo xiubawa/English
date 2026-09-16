@@ -11,8 +11,12 @@
   const accounts = readAccounts();
   const activeId = localStorage.getItem(activeKey) || "default";
   const active = accounts.find(a => a.id === activeId) || original;
-  const suffix = active.id === "default" ? "" : `:${active.id}`;
+  const cloudUser = localStorage.getItem("toeic700-cloud-active-user");
+  const isCloud = /^[0-9a-f-]{36}$/i.test(cloudUser || "");
+  const suffix = isCloud ? `:cloud:${cloudUser}` : (active.id === "default" ? "" : `:${active.id}`);
   window.learningAccount = Object.freeze({
+    isCloud,
+    userId: isCloud ? cloudUser : null,
     stateKey: `toeic700-offline-state${suffix}`,
     cloudKey: `toeic700-cloud-sync${suffix}`,
     cloudFile: active.id === "default" ? "toeic700-progress.json" : `toeic700-progress-${active.id}.json`
@@ -26,12 +30,21 @@
     select.append(option);
   }
   select.value = active.id;
+  if (isCloud) {
+    const option = document.createElement("option");
+    option.value = "cloud";
+    option.textContent = `${localStorage.getItem("toeic700-cloud-display-name") || "云端账号"}（自动同步）`;
+    select.append(option);
+    select.value = "cloud";
+  }
   function switchAccount(id) {
     try {
+      if (id === "cloud") return;
+      localStorage.removeItem("toeic700-cloud-active-user");
       localStorage.setItem(activeKey, id);
       window.location.reload();
     } catch {
-      select.value = active.id;
+      select.value = isCloud ? "cloud" : active.id;
       status.textContent = "无法保存账号，请检查浏览器是否允许本地存储。";
     }
   }

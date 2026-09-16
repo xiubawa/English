@@ -1,10 +1,10 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TOEIC 700 离线训练程序</title>
-    <link rel="stylesheet" href="./styles.css?v=accounts-20260916" />
+    <link rel="stylesheet" href="./styles.css?v=cloud-v1" />
   </head>
   <body>
     <aside class="sidebar">
@@ -19,12 +19,14 @@
         <label for="account-select">当前学习账号</label>
         <select id="account-select" aria-label="切换账号"></select>
         <button id="add-account" type="button">新增账号</button>
-        <p>每个账号的学习记录独立保存。</p>
+        <p>本机账号的学习记录独立保存。</p>
+        <a id="login-cloud-account" href="./account.html">登录 / 注册云端账号</a>
         <p id="account-status" role="status"></p>
       </section>
       <nav class="tabs" aria-label="主导航">
         <button class="tab active" data-tab="dashboard">总览</button>
         <button class="tab" data-tab="wordbook">单词本</button>
+        <button id="open-apparel-wordbook" type="button">服装·泳衣制造词库</button>
         <button class="tab" data-tab="vocab">单词训练</button>
         <button class="tab" data-tab="word-mistakes">单词错题</button>
       </nav>
@@ -54,6 +56,15 @@
           </article>
         </div>
 
+        <section class="band" id="cloud-account-tools" hidden>
+          <div class="section-title"><h2>账号自动同步</h2><p id="auto-sync-status" role="status">正在连接云端…</p></div>
+          <div class="cloud-actions"><button id="sync-now" type="button">立即同步</button><button id="cloud-signout" type="button">退出云端账号</button></div>
+          <details><summary>导入这台设备的旧学习记录</summary>
+            <p>选择本机账号，将它的学习进度合并到当前云端账号。原记录会保留。</p>
+            <select id="import-local-account" aria-label="要导入的本机账号"></select>
+            <button id="import-local-progress" type="button">导入学习记录</button>
+          </details>
+        </section>
         <section class="band cloud-sync">
           <div class="section-title">
             <h2>云端进度</h2>
@@ -101,6 +112,7 @@
             <input id="wordbook-search" class="wordbook-search" type="search" aria-label="单词检索" placeholder="检索单词/中文/例句">
             <select id="wordbook-filter" aria-label="单词本分类">
               <option value="all">全部</option>
+              <option value="apparel">服装·泳衣制造</option>
               <option value="word">只看单词</option>
               <option value="phrase">只看短语</option>
               <option value="grammar">固定搭配</option>
@@ -148,6 +160,7 @@
           <div class="actions">
             <select id="vocab-filter" aria-label="词汇分类">
               <option value="all">全部场景</option>
+              <option value="apparel">服装·泳衣制造</option>
               <option value="highfreq">1000+ 高频词库</option>
               <option value="office">办公室</option>
               <option value="meeting">会议</option>
@@ -217,7 +230,13 @@
       </section>
     </main>
 
-    <script src="./accounts.js?v=20260916"></script>
-    <script src="./app.js?v=accounts-20260916"></script>
+    <script src="./supabase-config.js?v=cloud-v1"></script>
+    <script src="./supabase-client-vendor.js?v=2.102.0"></script>
+    <script src="./cloud-client.js?v=cloud-v1"></script>
+    <script src="./cloud-sync-core.js?v=cloud-v1"></script>
+    <script src="./accounts.js?v=cloud-v1"></script>
+    <script src="./apparel-vocab.js?v=cloud-v1"></script>
+    <script src="./app.js?v=cloud-v1"></script>
+    <script src="./cloud-session.js?v=cloud-v1"></script>
   </body>
 </html>

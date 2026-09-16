@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习账号 · TOEIC 700</title><link rel="stylesheet" href="./styles.css?v=cloud-v1">
+<style>body{display:block}.auth-card{max-width:460px;margin:7vh auto;padding:28px;background:white;border:1px solid var(--line);border-radius:16px}.auth-card form{display:grid;gap:16px}.auth-card label{display:grid;gap:8px}.auth-card input{padding:12px;border:1px solid var(--line);border-radius:8px;min-width:0}.auth-card p{line-height:1.7}.auth-actions{display:flex;gap:12px;flex-wrap:wrap}.auth-card small{color:var(--muted)}#auth-status{min-height:28px}@media(max-width:500px){.auth-card{margin:20px 12px}}</style>
+</head><body><main class="auth-card">
+<a href="./">← 返回学习</a><h1>登录学习账号</h1>
+<p>在电脑、手机或 iPad 登录同一个账号，自动接续学习进度。</p>
+<form id="auth-form">
+<label>用户名<input id="username" autocomplete="username" required minlength="3" maxlength="32" pattern="[A-Za-z0-9_\-]{3,32}" placeholder="例如 0121"></label>
+<label>密码<input id="password" type="password" autocomplete="current-password" required minlength="12" maxlength="128" placeholder="至少 12 位"></label>
+<div class="auth-actions"><button class="primary" type="submit">登录</button><button id="register" type="button">注册新账号</button></div>
+<small>注册后请妥善保存用户名和密码。本版本不绑定邮箱，暂不支持自行找回密码。</small>
+</form><p id="auth-status" role="status" aria-live="polite"></p>
+</main>
+<script src="./supabase-config.js?v=cloud-v1"></script>
+<script src="./supabase-client-vendor.js?v=2.102.0"></script>
+<script src="./cloud-client.js?v=cloud-v1"></script>
+<script src="./auth-page.js?v=cloud-v1"></script>
+</body></html>

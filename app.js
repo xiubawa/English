@@ -1,4 +1,4 @@
-﻿const storeKey = window.learningAccount.stateKey;
+const storeKey = window.learningAccount.stateKey;
 const cloudSyncKey = window.learningAccount.cloudKey;
 const cloudFileName = window.learningAccount.cloudFile;
 
@@ -9150,6 +9150,7 @@ const grammarPairGroupKey = (groupWord) => `phrase:${groupWord}`;
 
 function persistState() {
   localStorage.setItem(storeKey, JSON.stringify(state));
+  window.dispatchEvent(new Event("learning-progress-changed"));
 }
 
 function save() {
@@ -9354,6 +9355,7 @@ async function downloadCloudSave(confirmFirst = true) {
 }
 
 function queueCloudUpload() {
+  if (window.learningAccount.isCloud) return;
   if (!hasCloudConfig() || cloudSync.auto === false) return;
   clearTimeout(cloudUploadTimer);
   cloudUploadTimer = setTimeout(() => {
@@ -9429,7 +9431,7 @@ function dedupeVocab(entries) {
 }
 
 function allVocab() {
-  return dedupeVocab([...state.customVocab, ...generatedWords, ...generatedPhrases, ...grammarPhrases, ...grammarPairEntries, ...photoIndexWords]);
+  return dedupeVocab([...state.customVocab, ...generatedWords, ...generatedPhrases, ...grammarPhrases, ...grammarPairEntries, ...photoIndexWords, ...(window.apparelVocab || [])]);
 }
 
 function hasPendingMeaning(item) {
@@ -9647,6 +9649,10 @@ function lookupExampleWord(rawWord) {
 
 function filteredWordbook(options = {}) {
   const includeSearch = options.includeSearch !== false;
+  if (wordbookFilter === "apparel") {
+    const entries = window.apparelVocab || [];
+    return includeSearch ? entries.filter(matchesWordbookSearch) : entries;
+  }
   let list = dedupeVocab([
     ...allVocab().filter((item) => !grammarPairEntryKeys.has(wordKey(item).toLowerCase())),
     ...grammarPairCards
@@ -9704,6 +9710,7 @@ function wordbookLastKeyForCurrentScope() {
 
 function filteredVocab() {
   const seen = new Set(state.seenWords);
+  if (vocabFilter === "apparel") return (window.apparelVocab || []).filter(item => isSeenForTraining(item, seen));
   const source = allVocab().filter((item) => !hasPendingMeaning(item));
   if (vocabFilter === "wordMistakes") return state.wordMistakes.map((m) => normalizeEntry(m.item || { word: m.question, meaning: m.answer, phrase: m.question, example: m.explain, translation: "", category: "wordMistakes" }));
   const seenItems = source.filter((item) => isSeenForTraining(item, seen));
@@ -10101,6 +10108,19 @@ $("#wordbook-search").addEventListener("input", (event) => {
   renderWordbook();
 });
 
+$("#open-apparel-wordbook").addEventListener("click", () => {
+  wordbookFilter = "apparel";
+  wordbookSearch = "";
+  $("#wordbook-search").value = "";
+  $("#wordbook-filter").value = "apparel";
+  const entries = filteredWordbook({ includeSearch: false });
+  const previous = findWordbookIndexByKey(entries, state.wordbookLastByFilter?.apparel);
+  wordbookIndex = previous >= 0 ? previous : 0;
+  skipRememberWordbookItem = true;
+  saveWordbookPosition();
+  switchTab("wordbook");
+});
+
 $("#refresh-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex + 1) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#prev-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (list.length) { wordbookIndex = (wordbookIndex - 1 + list.length) % list.length; saveWordbookPosition(); } renderWordbook(); });
 $("#speak-wordbook").addEventListener("click", () => { const list = filteredWordbook(); if (!list.length) return; const item = list[wordbookIndex % list.length]; speakEnglish(`${item.phrase || item.word}. ${item.example || ""}`); });
@@ -10157,3 +10177,19 @@ $("#word-training-kind").value = wordTrainingKind;
 $("#word-training-mode").value = wordTrainingMode;
 renderVocab();
 renderStats();
+
+// The cloud adapter has no access to passwords or legacy GitHub credentials.
+window.learningState = {
+  snapshot: () => JSON.parse(JSON.stringify(state)),
+  normalize: value => normalizeState(JSON.parse(JSON.stringify(value || {}))),
+  apply(value) {
+    state = normalizeState(JSON.parse(JSON.stringify(value)));
+    localStorage.setItem(storeKey, JSON.stringify(state));
+    wordbookFilter = state.wordbookFilter;
+    wordbookIndex = state.wordbookIndex;
+    $("#wordbook-filter").value = wordbookFilter;
+    renderStats();
+    if ($("#wordbook").classList.contains("active")) renderWordbook();
+    if ($("#vocab").classList.contains("active")) { resetVocabShuffle(); renderVocab(); }
+  }
+};
