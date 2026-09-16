@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TOEIC 700 离线训练程序</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=accounts-20260916" />
   </head>
   <body>
     <aside class="sidebar">
@@ -15,6 +15,13 @@
           <span>12 周离线训练</span>
         </div>
       </div>
+      <section class="account-panel" aria-label="学习账号">
+        <label for="account-select">当前学习账号</label>
+        <select id="account-select" aria-label="切换账号"></select>
+        <button id="add-account" type="button">新增账号</button>
+        <p>每个账号的学习记录独立保存。</p>
+        <p id="account-status" role="status"></p>
+      </section>
       <nav class="tabs" aria-label="主导航">
         <button class="tab active" data-tab="dashboard">总览</button>
         <button class="tab" data-tab="wordbook">单词本</button>
@@ -210,6 +217,7 @@
       </section>
     </main>
 
-    <script src="./app.js"></script>
+    <script src="./accounts.js?v=20260916"></script>
+    <script src="./app.js?v=accounts-20260916"></script>
   </body>
 </html>

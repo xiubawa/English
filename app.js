@@ -1,6 +1,6 @@
-﻿const storeKey = "toeic700-offline-state";
-const cloudSyncKey = "toeic700-cloud-sync";
-const cloudFileName = "toeic700-progress.json";
+﻿const storeKey = window.learningAccount.stateKey;
+const cloudSyncKey = window.learningAccount.cloudKey;
+const cloudFileName = window.learningAccount.cloudFile;
 
 const phases = [
   ["第 1-2 周", "打基础", "熟悉题型，主攻 Part 1/2/5，建立商务词汇和核心语法。"],
