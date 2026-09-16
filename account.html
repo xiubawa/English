@@ -8,7 +8,7 @@
 <p>在电脑、手机或 iPad 登录同一个账号，自动接续学习进度。</p>
 <form id="auth-form">
 <label>用户名<input id="username" autocomplete="username" required minlength="3" maxlength="32" pattern="[A-Za-z0-9_\-]{3,32}" placeholder="例如 0121"></label>
-<label>密码<input id="password" type="password" autocomplete="current-password" required minlength="12" maxlength="128" placeholder="至少 12 位"></label>
+<label>密码<input id="password" type="password" autocomplete="current-password" required placeholder="注册密码为 9～15 位"></label>
 <div class="auth-actions"><button class="primary" type="submit">登录</button><button id="register" type="button">注册新账号</button></div>
 <small>注册后请妥善保存用户名和密码。本版本不绑定邮箱，暂不支持自行找回密码。</small>
 </form><p id="auth-status" role="status" aria-live="polite"></p>
@@ -16,5 +16,5 @@
 <script src="./supabase-config.js?v=cloud-v1"></script>
 <script src="./supabase-client-vendor.js?v=2.102.0"></script>
 <script src="./cloud-client.js?v=cloud-v1"></script>
-<script src="./auth-page.js?v=cloud-v1"></script>
+<script src="./auth-page.js?v=password-9-15"></script>
 </body></html>

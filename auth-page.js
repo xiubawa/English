@@ -11,6 +11,9 @@
     try {
       const { name, email } = learningUsername(document.getElementById("username").value);
       const password = document.getElementById("password").value;
+      if (register && (Array.from(password).length < 9 || Array.from(password).length > 15)) {
+        throw new Error("注册密码需为 9～15 位（包含 9 位和 15 位）。");
+      }
       const client = createLearningCloudClient();
       const result = register
         ? await client.auth.signUp({ email, password, options: { data: { username: name } } })
