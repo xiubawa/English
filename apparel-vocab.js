@@ -128,6 +128,81 @@
 工作沟通|meet the deadline|按期完成；赶上截止日期|meet the shipping deadline|Can we meet the shipping deadline after this change?|做出这项修改后，我们还能按时出货吗？
 工作沟通|short shipment|短装；实际出货少于约定数量|report a short shipment|Please report the short shipment by size and color.|请按尺码和颜色报告短装数量。
 工作沟通|corrective action|纠正措施|a corrective action plan|Send a corrective action plan for the seam defects.|请针对接缝缺陷提交纠正措施计划。
+产品与部位|bodice|衣身；上身|a fitted bodice|The bodice needs more room at the bust.|衣身胸部需要增加一些空间。
+产品与部位|sleeve|袖子|a short sleeve|Please shorten the sleeve by one centimeter.|请将袖长缩短一厘米。
+产品与部位|cuff|袖口|a rib-knit cuff|The cuff must recover after stretching.|袖口拉伸后必须恢复原状。
+产品与部位|waistband|腰头；腰带|an elastic waistband|The waistband is too tight on size M.|M 码的腰头太紧。
+产品与部位|collar|领子|a rib collar|Keep the collar opening symmetrical.|保持领口对称。
+产品与部位|placket|门襟；开襟|a front placket|Add a snap to the front placket.|在前门襟加一颗按扣。
+产品与部位|yoke|过肩；育克|a back yoke|The back yoke is cut on the bias.|后过肩按斜纹方向裁剪。
+产品与部位|pocket bag|袋布|a pocket bag lining|Use the same lining for the pocket bag.|袋布使用相同的里布。
+产品与部位|pocket opening|袋口|pocket opening width|Check the pocket opening width on the sample.|检查样衣的袋口宽度。
+产品与部位|silicone gripper|硅胶防滑条|a silicone gripper at the hem|Add a silicone gripper to stop the hem from riding up.|加硅胶防滑条，防止下摆上卷。
+面辅料|cotton|棉；棉纤维|organic cotton jersey|The buyer requested organic cotton jersey.|买家要求使用有机棉针织布。
+面辅料|polyamide|聚酰胺；锦纶|recycled polyamide|Use recycled polyamide for the next lab dip.|下一次打色样使用再生锦纶。
+面辅料|rayon|人造丝；粘胶纤维|rayon blend|The rayon blend has a softer drape.|粘胶混纺面料的垂感更柔软。
+面辅料|jersey|针织汗布|stretch jersey|This style is made from stretch jersey.|这款产品使用弹力汗布。
+面辅料|rib knit|罗纹针织布|a rib-knit waistband|Use rib knit for the waistband.|腰头使用罗纹针织布。
+面辅料|interlock|双面针织布|cotton interlock|Cotton interlock gives the garment a stable shape.|棉双面布能让衣服保持稳定的形状。
+面辅料|woven fabric|梭织面料|a lightweight woven fabric|Choose a lightweight woven fabric for the cover-up.|罩衫选择轻薄梭织面料。
+面辅料|lace|蕾丝；花边|stretch lace|The stretch lace must not snag easily.|弹力蕾丝不能容易勾丝。
+面辅料|zipper|拉链|a concealed zipper|The concealed zipper is hard to pull.|隐形拉链很难拉动。
+面辅料|snap|按扣；四合扣|a snap closure|Check that every snap closes securely.|检查每颗按扣是否扣牢。
+面辅料|hook and eye|钩扣|a hook-and-eye closure|The hook and eye must be aligned.|钩扣必须对齐。
+面辅料|seam tape|接缝带；压胶带|seam tape application|Check the seam tape application around the neckline.|检查领口周围的接缝带贴合情况。
+面辅料|fusible interlining|粘合衬|fusible interlining for the waistband|Use fusible interlining to stabilize the waistband.|用粘合衬稳定腰头。
+面辅料|foam cup|海绵罩杯|removable foam cups|The style includes removable foam cups.|这款式配有可拆卸海绵罩杯。
+设计与打样|technical sketch|技术款式图|an annotated technical sketch|Mark the construction details on the technical sketch.|在技术款式图上标注结构细节。
+设计与打样|artwork|印花或图案稿|approved artwork|Use the approved artwork for the print strike-off.|印花试样使用已确认的图案稿。
+设计与打样|colorway|配色；颜色方案|three colorways|The buyer selected three colorways.|买家选定了三种配色。
+设计与打样|proto sample|初版样衣|a proto sample review|We will review the proto sample tomorrow.|我们明天评审初版样衣。
+设计与打样|salesman sample|销售样；展示样|a salesman sample set|Prepare a salesman sample set for the buyer.|为买家准备一套销售样。
+设计与打样|wear test|穿着测试|a wear test result|The wear test revealed an uncomfortable seam.|穿着测试发现有一条接缝不舒适。
+设计与打样|pattern correction|纸样修正|pattern correction notes|Please apply the pattern correction notes.|请落实纸样修正意见。
+设计与打样|drape|垂感；悬垂性|fabric drape|The buyer likes the soft drape of this fabric.|买家喜欢这款面料柔软的垂感。
+裁剪与缝制|sewing line|缝制生产线|a balanced sewing line|The factory is balancing the sewing line.|工厂正在平衡缝制生产线。
+裁剪与缝制|operation|工序|the next operation|Move the bundle to the next operation.|把这扎裁片移到下一道工序。
+裁剪与缝制|stitch per inch|每英寸针数；针距|ten stitches per inch|Set the machine to ten stitches per inch.|将机器设为每英寸十针。
+裁剪与缝制|SPI|每英寸针数缩写|the required SPI|Follow the required SPI in the sewing spec.|按缝制规格执行规定的针数。
+裁剪与缝制|machine gauge|机器针距|a narrow machine gauge|Use a narrow machine gauge for this seam.|这条缝使用窄针距。
+裁剪与缝制|needle size|针号|the correct needle size|Use the correct needle size for stretch fabric.|弹力面料使用正确针号。
+裁剪与缝制|presser foot|压脚|a Teflon presser foot|Use a Teflon presser foot on the coated fabric.|涂层面料使用特氟龙压脚。
+裁剪与缝制|thread breakage|断线|frequent thread breakage|Frequent thread breakage is slowing the line.|频繁断线正在拖慢生产线。
+裁剪与缝制|raw edge|毛边；散口边|finish the raw edge|Finish the raw edge before attaching the binding.|安装包边前先处理毛边。
+裁剪与缝制|clean finish|净边处理|a clean finish at the neckline|The neckline needs a cleaner finish.|领口需要更整洁的净边处理。
+裁剪与缝制|seam slippage|缝口滑移|a seam slippage test|Run a seam slippage test on the woven fabric.|对梭织面料进行缝口滑移测试。
+品质与测试|workmanship|工艺质量；做工|overall workmanship|The overall workmanship is below the approved sample.|整体做工低于已确认样品的水平。
+品质与测试|critical defect|严重缺陷|a critical defect|A critical defect requires immediate escalation.|严重缺陷需要立即升级处理。
+品质与测试|major defect|主要缺陷|a major defect rate|The major defect rate is above the limit.|主要缺陷率超过限值。
+品质与测试|minor defect|次要缺陷|a minor defect|This loose thread is a minor defect.|这根线头属于次要缺陷。
+品质与测试|measurement point|测量点|the measurement point diagram|Follow the measurement point diagram.|按测量点示意图执行。
+品质与测试|inspection report|检验报告|a final inspection report|Send the final inspection report today.|今天发送尾期检验报告。
+品质与测试|wash test|水洗测试|a wash test sample|Keep one garment for the wash test.|留一件衣服做水洗测试。
+品质与测试|dimensional stability|尺寸稳定性|dimensional stability after washing|The fabric failed the dimensional stability test.|面料未通过水洗后的尺寸稳定性测试。
+品质与测试|spirality|扭斜；斜纹变形|check spirality after washing|Check spirality after washing the jersey.|汗布水洗后检查扭斜。
+品质与测试|pH value|酸碱值；pH 值|the required pH value|The test report must show the required pH value.|检测报告必须显示规定的 pH 值。
+品质与测试|formaldehyde|甲醛|a formaldehyde test|The formaldehyde test result is acceptable.|甲醛测试结果合格。
+品质与测试|azo dyes|偶氮染料|an azo dyes test|The fabric must pass the azo dyes test.|面料必须通过偶氮染料测试。
+品质与测试|tensile strength|拉伸强力|a tensile strength test|The webbing needs a higher tensile strength.|织带需要更高的拉伸强力。
+品质与测试|tear strength|撕裂强力|tear strength of the fabric|Check the tear strength before bulk cutting.|大货裁剪前检查面料撕裂强力。
+采购与跟单|sample room|样衣间；样品室|the sample room schedule|Please check the sample room schedule.|请检查样品室排期。
+采购与跟单|production plan|生产计划|an updated production plan|Share the updated production plan with the buyer.|把更新后的生产计划分享给买家。
+采购与跟单|cut date|开裁日期|confirm the cut date|Confirm the cut date before booking the inspection.|预订验货前确认开裁日期。
+采购与跟单|ex-factory date|出厂日期|the ex-factory date|The ex-factory date has moved forward by two days.|出厂日期提前了两天。
+采购与跟单|overage|超额数量；多装数量|a two-percent overage|The supplier shipped a two-percent overage.|供应商多装了百分之二。
+采购与跟单|shortage|短缺；少装数量|a carton shortage|Report any carton shortage immediately.|发现箱数短缺要立即报告。
+包装与出货|gross weight|毛重|gross weight per carton|Record the gross weight per carton.|记录每箱毛重。
+包装与出货|net weight|净重|net weight of the goods|The net weight must match the shipping documents.|净重必须与出货文件一致。
+包装与出货|carton assortment|装箱配比|the approved carton assortment|Follow the approved carton assortment.|按已确认的装箱配比执行。
+包装与出货|shipping mark|运输唛头|the shipping mark|Print the shipping mark on two sides of the carton.|在纸箱两面印上运输唛头。
+包装与出货|ETD|预计离港日|the revised ETD|Please confirm the revised ETD.|请确认更新后的预计离港日。
+包装与出货|ETA|预计到港日|the estimated ETA|The estimated ETA is next Monday.|预计到港日是下周一。
+工作沟通|please clarify|请澄清|please clarify the comments|Please clarify the comments on the neckline.|请澄清关于领口的意见。
+工作沟通|for your confirmation|请确认|send for your confirmation|I am sending the updated artwork for your confirmation.|现发送更新后的图案稿，请确认。
+工作沟通|please take note|请注意|please take note of the change|Please take note of the change in fabric composition.|请注意面料成分的变化。
+工作沟通|according to the spec|按照规格|work according to the spec|The factory must work according to the spec.|工厂必须按照规格生产。
+工作沟通|pending approval|等待确认|pending buyer approval|Production is pending buyer approval.|生产正在等待买家确认。
+工作沟通|ready for shipment|可以出货|the goods are ready for shipment|The goods are ready for shipment after inspection.|验货后货物可以出货。
 `;
   const entries = rows.trim().split('\n').map((line, sourceOrder) => {
     const [topic, word, meaning, phrase, example, translation] = line.split('|');
@@ -138,3 +213,4 @@
   if (typeof module === 'object' && module.exports) module.exports = entries;
   else window.apparelVocab = entries;
 })();
+
