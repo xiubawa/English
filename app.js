@@ -10124,7 +10124,8 @@ $("#wordbook-search").addEventListener("input", (event) => {
   renderWordbook();
 });
 
-$("#open-apparel-wordbook").addEventListener("click", () => {
+const openApparelWordbook = $("#open-apparel-wordbook");
+if (openApparelWordbook) openApparelWordbook.addEventListener("click", () => {
   wordbookFilter = "apparel";
   wordbookSearch = "";
   $("#wordbook-search").value = "";
